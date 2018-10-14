@@ -13,8 +13,8 @@ public class PeaShooter extends Shooter {
 	}
 
 	@Override
-	public void resetCooldown() {
-		this.setCooldown(RECHARGE_TIME);
+	public void resetFireRate() {
+		this.setFireRate(RECHARGE_TIME);
 	}
 
 }
