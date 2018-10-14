@@ -36,6 +36,7 @@ public class PvZModel {
 		return false;
 	}
 	
+	@SuppressWarnings("unused")
 	private void buy() {
 		
 		System.out.println("Enter the plant you would like to purchase:");
@@ -79,7 +80,10 @@ public class PvZModel {
 			
 			break;
 			
-		default: break;
+		default: 
+			
+			System.out.println("Next turn!");
+			break;
 		
 		}
 		
@@ -100,16 +104,12 @@ public class PvZModel {
 			System.out.println("Sunpoints: " + sunpoints);
 			buy();
 			
-
-			entities.add(new Zombie(getInput()));
-
-			
 			for(Entity e : entities) {
 				if (e instanceof Moveable) ((Moveable) e).updatePosition();
-			}
-				
-			for(Entity e : entities) {
 				gameBoard.addEntity(e.getX(), e.getY(), e.getLabel());
+				
+				
+				
 			}
 			turnCounter++;
 			gameBoard.print();

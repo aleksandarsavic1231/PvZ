@@ -1,6 +1,6 @@
 import java.awt.Point;
 
-public class Sunflower extends Shooter {
+public class Sunflower extends Shooter implements Plant{
 
 	public static final int COST = 50;
 	
@@ -17,9 +17,12 @@ public class Sunflower extends Shooter {
 		this.setFireRate(RECHARGE_TIME);
 	}
 	
-	@Override
-	public void resetPlantCooldown() {
-		this.setPlantCooldown(SPAWN_COOLDOWN);
-	}
+	
+	
+	
+//	@Override
+//	public void resetPlantCooldown() {
+//		this.setPlantCooldown(SPAWN_COOLDOWN);
+//	}
 
 }
