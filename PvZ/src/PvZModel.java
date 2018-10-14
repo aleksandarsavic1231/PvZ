@@ -100,6 +100,9 @@ public class PvZModel {
 			System.out.println("Sunpoints: " + sunpoints);
 			buy();
 			
+
+			entities.add(new Zombie(getInput()));
+
 			
 			for(Entity e : entities) {
 				if (e instanceof Moveable) ((Moveable) e).updatePosition();
