@@ -8,6 +8,8 @@ public class PvZModel {
   	
 	private int sunpoints;
 	
+	private int turnCounter;
+	
 	private Board gameBoard;
 
 	private Scanner reader;
@@ -31,6 +33,31 @@ public class PvZModel {
 			if (e instanceof Zombie && e.getX() == -1) return true;
 		}
 		return false;
+	}
+	
+	private void buy() {
+		
+		System.out.println("Enter the plant you would like to purchase");
+		reader = new Scanner(System.in);
+		String input = reader.next();	
+		
+		switch(input) {
+		
+		case "Sunflower":
+			
+			
+			
+			
+		case "PeaShooter":
+			
+			
+			
+		
+		
+		}
+		
+		
+		
 	}
 	
 	private void gameLoop() {
