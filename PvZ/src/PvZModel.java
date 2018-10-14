@@ -8,7 +8,7 @@ public class PvZModel {
   	
 	private int sunpoints;
 	
-	private int turnCounter;
+	public int turnCounter;
 	
 	private Board gameBoard;
 
@@ -18,6 +18,7 @@ public class PvZModel {
 		 entities = new ArrayList<Entity>();
 		 sunpoints = 50;
 		 gameBoard = new GameBoard();
+		 turnCounter = 0;
 	}	
 	
 	private Point getInput() {
@@ -37,22 +38,48 @@ public class PvZModel {
 	
 	private void buy() {
 		
-		System.out.println("Enter the plant you would like to purchase");
+		System.out.println("Enter the plant you would like to purchase:");
 		reader = new Scanner(System.in);
-		String input = reader.next();	
+		String input = reader.next().toLowerCase();	
 		
 		switch(input) {
 		
-		case "Sunflower":
+		case "sunflower":
+			
+			if(sunpoints >= Sunflower.COST && Sunflower.RECHARGE_TIME == 0) {
+				
+				sunpoints -= Sunflower.COST;
+				System.out.println("You just purchased a Sunflower!");
+				entities.add(new Sunflower(getInput()));
+			}
+			
+			else {
+				
+				System.out.println("You do not have enough sunpoints to purchase this!");
+			}
 			
 			
+			break;
 			
+		case "peashooter":
 			
-		case "PeaShooter":
+			if(sunpoints > PeaShooter.COST && PeaShooter.RECHARGE_TIME == 0) {
+				
+
+				sunpoints -= PeaShooter.COST;
+				System.out.println("You just purchased a PeaShooter!");
+				entities.add(new PeaShooter(getInput()));			
+			}
 			
+			else {
+				
+				System.out.println("You do not have enough sunpoints to purchase this!");
+				
+			}
 			
+			break;
 			
-		
+		default: break;
 		
 		}
 		
@@ -71,7 +98,8 @@ public class PvZModel {
 			gameBoard.clear();
 
 			System.out.println("Sunpoints: " + sunpoints);
-			///entities.add(new Zombie(getInput()));
+			buy();
+			
 			
 			for(Entity e : entities) {
 				if (e instanceof Moveable) ((Moveable) e).updatePosition();
@@ -80,7 +108,7 @@ public class PvZModel {
 			for(Entity e : entities) {
 				gameBoard.addEntity(e.getX(), e.getY(), e.getLabel());
 			}
-			
+			turnCounter++;
 			gameBoard.print();
 		}
 		// TODO: NEED TO CLOSE READER
