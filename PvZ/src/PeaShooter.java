@@ -11,7 +11,7 @@ public class PeaShooter extends Shooter {
 	public PeaShooter(Point position) {
 		super(position, '^', 100);
 	}
-
+	//edited fireRate
 	@Override
 	public void resetFireRate() {
 		this.setFireRate(RECHARGE_TIME);
