@@ -71,7 +71,7 @@ public class PvZModel {
 			gameBoard.clear();
 
 			System.out.println("Sunpoints: " + sunpoints);
-			///entities.add(new Zombie(getInput()));
+			entities.add(new Zombie(getInput()));
 			
 			for(Entity e : entities) {
 				if (e instanceof Moveable) ((Moveable) e).updatePosition();
