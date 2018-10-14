@@ -3,6 +3,7 @@ import java.awt.Point;
 public abstract class Shooter extends Alive {
 	
 	private int fireRate;
+	private int plantCooldown;
 	
 	public Shooter(Point position, char label, int health) {
 		super(position, label, health);
@@ -17,6 +18,10 @@ public abstract class Shooter extends Alive {
 		return this.fireRate = fireRate;
 	}
 	
+	public int setPlantCooldown(int plantCooldown) {
+		return this.plantCooldown = plantCooldown;
+	}
+	
 	public boolean isReady() {
 		if (fireRate == 0) {
 			resetFireRate();
@@ -26,6 +31,15 @@ public abstract class Shooter extends Alive {
 		return false;
 	}
 	
+	public boolean canPlant() {
+		if (plantCooldown == 0) {
+			resetPlantCooldown();
+			return true;
+		}
+		this.plantCooldown--;
+		return false;
+	}
 	abstract public void resetFireRate();
 
+	abstract public void resetPlantCooldown();
 }

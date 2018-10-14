@@ -8,6 +8,8 @@ public class PeaShooter extends Shooter {
 	
 	public static final int DAMAGE = 2;
 
+	public static final int SPAWN_COOLDOWN = 3;
+	
 	public PeaShooter(Point position) {
 		super(position, '^', 100);
 	}
@@ -15,6 +17,11 @@ public class PeaShooter extends Shooter {
 	@Override
 	public void resetFireRate() {
 		this.setFireRate(RECHARGE_TIME);
+	}
+	
+	@Override
+	public void resetPlantCooldown() {
+		this.setPlantCooldown(SPAWN_COOLDOWN);
 	}
 
 }
