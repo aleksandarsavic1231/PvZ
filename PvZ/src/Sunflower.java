@@ -1,6 +1,6 @@
 import java.awt.Point;
 
-public class Sunflower extends Shooter implements Plant{
+public class Sunflower extends Shooter {
 	
 	/**
 	 * Sun points required to buy Sunflower
@@ -33,8 +33,7 @@ public class Sunflower extends Shooter implements Plant{
 		this.setFireRate(RECHARGE_TIME);
 	}	
 	
-	@Override
-	public boolean isDeployable(int gameCounter) {
+	public static boolean isDeployable(int gameCounter) {
 		if (gameCounter % SPAWN_COOLDOWN == 0) {
 			isDeployable = true;
 		} 
