@@ -1,30 +1,48 @@
 import java.awt.Point;
 
-public class PeaShooter extends Shooter implements Plant{
+public class PeaShooter extends Shooter implements Plant {
 	
+	/**
+	 * Sun points required to buy PeaShooter
+	 */
 	public static final int COST = 100;
 	
+	/**
+	 * Recharge time required to fire new bullet.
+	 */
 	public static final int RECHARGE_TIME = 2;
 	
+	/**
+	 * Damaged cause by PeaShooter bullet
+	 */
 	public static final int DAMAGE = 2;
 
+	/**
+	 * Cooldown time required to spawn new PeaShooter
+	 */
 	public static final int SPAWN_COOLDOWN = 3;
+	
+	/**
+	 * Can new PeaShooter be deployed
+	 */
+	public static boolean isDeployable;
 	
 	public PeaShooter(Point position) {
 		super(position, '^', 100);
+		isDeployable = false;
 	}
-	//edited fireRate
+
 	@Override
 	public void resetFireRate() {
 		this.setFireRate(RECHARGE_TIME);
 	}
 	
-	
-	
-	
-//	@Override
-//	public void resetPlantCooldown() {
-//		this.setPlantCooldown(SPAWN_COOLDOWN);
-//	}
+	@Override
+	public boolean isDeployable(int gameCounter) {
+		if (gameCounter % SPAWN_COOLDOWN == 0) {
+			isDeployable = true;
+		} 
+		return isDeployable;
+	}
 
 }
