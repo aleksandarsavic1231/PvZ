@@ -137,7 +137,7 @@ public class PvZModel {
 		
 			for(Entity e : entities) {
 				gameBoard.addEntity(e);
-				// Update location entity if instance of Moveable 
+				// Update location of entity if instance of Moveable 
 				if (e instanceof Moveable) ((Moveable) e).updatePosition();
 			}
 			

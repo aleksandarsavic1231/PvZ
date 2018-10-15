@@ -24,8 +24,7 @@ public class GameBoard implements Board {
 
 	@Override
 	public void print () {
-		/* TODO: If more than one zombie is standing on tile   
-	    replace char with # indicating the # of zombies on tile */
+
 		for (int j = 0; j < COLUMNS; j++) 
 			System.out.print(Character.toString((char) (j + 65)) + " ");
 		System.out.println();
@@ -38,10 +37,15 @@ public class GameBoard implements Board {
 	
 	@Override
 	public void addEntity(Entity e) {
+		// TODO: Throw exception if out of bounds
 		int i = e.getX();
 		int j = e.getY(); 
-		// TODO: Throw exception if out of bounds
-		if (j < ROWS && i < COLUMNS) tiles[j][i] = e.getLabel();
+		char c = tiles[j][i];
+		if (j < ROWS && i < COLUMNS) {
+			if (50 <= c && c <= 57) tiles[j][i]++;
+			else if ((e instanceof Zombie) && c != ' ') tiles[j][i] = 50;
+			else tiles[j][i] = e.getLabel();
+		}
 	}
 	
 }
