@@ -13,7 +13,7 @@ public class PvZModel {
 	/**
 	 * Game balance.
 	 */
-	private int sunpoints;
+	private int sunPoints;
 	
 	/**
 	 * Current game iteration.
@@ -25,15 +25,20 @@ public class PvZModel {
 	private Scanner reader;
 	
 	/**
-	 * The period which sun points are automatically rewarded to balance.
+	 * The period which sun points are automatically rewarded to balance (welfare)
 	 */
 	public static final int PAYMENT_PERIOD = 4;
 	
-	public static final int INITIAL_BALANCE = 50;
+	/**
+	 * The sun points automatically deposited every payment period
+	 */
+	public static final int WELFARE = 25;
+	
+	public static final int INITIAL_BALANCE = 500;
 	
 	public PvZModel() {
 		 entities = new ArrayList<Entity>();
-		 sunpoints = INITIAL_BALANCE; 
+		 sunPoints = INITIAL_BALANCE; 
 		 gameBoard = new GameBoard();
 		 gameCounter = 0;
 	}	
@@ -75,19 +80,19 @@ public class PvZModel {
 		Sunflower.isDeployable(gameCounter);
 		PeaShooter.isDeployable(gameCounter);
 		// Check if user has sufficient balance to make purchase
-		System.out.println("Sunpoints: " + sunpoints);
-		if (sunpoints < Sunflower.COST && sunpoints < PeaShooter.COST) {
+		System.out.println("sunPoints: " + sunPoints);
+		if (sunPoints < Sunflower.COST && sunPoints < PeaShooter.COST) {
 			System.out.println("Insuffient sunpoint balance.");
 			sleepOneSecond();
 			return;
 		}
 		// Print available items to purchase 
 		System.out.println("Items available for purcahse:");
-		if (sunpoints >= Sunflower.COST && Sunflower.isDeployable) {
+		if (sunPoints >= Sunflower.COST && Sunflower.isDeployable) {
 			System.out.println("<Sunflower : " + Sunflower.COST + ">");
 
 		}
-		if (sunpoints >= PeaShooter.COST && PeaShooter.isDeployable) {
+		if (sunPoints >= PeaShooter.COST && PeaShooter.isDeployable) {
 			System.out.println("<PeaShooter : " + PeaShooter.COST + ">");
 		} 
 		// Read from standard out
@@ -95,15 +100,15 @@ public class PvZModel {
 		String input = reader.next().toUpperCase();
 		switch(input) {
 			case "SUNFLOWER":	
-				if (sunpoints >= Sunflower.COST && Sunflower.isDeployable) {
-					sunpoints -= Sunflower.COST;
+				if (sunPoints >= Sunflower.COST && Sunflower.isDeployable) {
+					sunPoints -= Sunflower.COST;
 					entities.add(new Sunflower(getLocation("Sunflower")));	
 					PeaShooter.isDeployable = false;
 				}
 				break;
 			case "PEASHOOTER":
-				if (sunpoints >= PeaShooter.COST && PeaShooter.isDeployable) {
-					sunpoints -= PeaShooter.COST;
+				if (sunPoints >= PeaShooter.COST && PeaShooter.isDeployable) {
+					sunPoints -= PeaShooter.COST;
 					entities.add(new PeaShooter(getLocation("Peashooter")));
 					PeaShooter.isDeployable = false;
 				} 									
@@ -123,6 +128,10 @@ public class PvZModel {
 	
 	private boolean isCollision(Moveable m) {
 		for (Entity e : entities) {
+			// Check if next move by entity is same as Moveable
+			// Ensure entity is not the same class as Moveable 
+			// This would occur when two entities are on top of each other
+			// Next position would be the same so we can ignore
 			if (e.getClass() != m.getClass() && m.nextPosition().getX() == e.getX() && m.nextPosition().getY() == e.getY()) {
 				return true;
 			}
@@ -132,8 +141,6 @@ public class PvZModel {
 	
 	private void gameLoop() {
 		// Order of priority
-		// TODO: Add collision detection
-		// TODO: Add bullets 
 		// TODO: Entities take damage
 		// TODO: Player can not add plant on plant
 		// TODO: Spawn zombies at random intervals 
@@ -145,19 +152,34 @@ public class PvZModel {
 		spawnZombies(5); 
 		while (!isGameOver()) {
 			gameBoard.clear();
+			// Get next move
 			buyPlant();
-		
+			
+			ArrayList<Bullet> newBullets = new ArrayList<Bullet>();
 			for(Entity e : entities) {
 				gameBoard.addEntity(e);
+				// Can entity shoot
+				if (e instanceof Shooter && ((Shooter) e).canShoot())  {
+					if (e instanceof PeaShooter) {
+						// Instantiate new bullet with location in front of PeaShooter
+						newBullets.add(new Bullet(new Point(e.getX() + 1, e.getY()), PeaShooter.DAMAGE));
+					} else if (e instanceof Sunflower) {
+						// Increase sun points
+						sunPoints += Sun.WORTH;
+					}
+				}
 				// Update location of entity if instance of Moveable 
 				if (e instanceof Moveable && !isCollision((Moveable) e)) ((Moveable) e).updatePosition();
 			}
+			// Add new bullets to entity list
+			entities.addAll(newBullets);
 			
 			gameBoard.print();
-			
 			gameCounter++;
+			
+			// Add automatic welfare
 			if (gameCounter % PAYMENT_PERIOD == 0) {
-				sunpoints += 25;
+				sunPoints += WELFARE;
 			}
 		}
 		System.out.println("Game is over!");
