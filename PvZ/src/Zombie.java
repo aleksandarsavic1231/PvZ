@@ -18,8 +18,14 @@ public class Zombie extends Alive implements Moveable {
 
 	@Override
 	public void updatePosition() {
-		getPoint().move(getX() - VELOCITY, getY());
+		getPoint().setLocation(nextPosition());
 	}
+
+	@Override
+	public Point nextPosition() {
+		return new Point(getX() - VELOCITY, getY());
+	}	
+
 
 }
 

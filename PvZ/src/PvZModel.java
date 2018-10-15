@@ -121,6 +121,15 @@ public class PvZModel {
 		}
 	}
 	
+	private boolean isCollision(Moveable m) {
+		for (Entity e : entities) {
+			if (e.getClass() != m.getClass() && m.nextPosition().getX() == e.getX() && m.nextPosition().getY() == e.getY()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private void gameLoop() {
 		// Order of priority
 		// TODO: Add collision detection
@@ -130,6 +139,7 @@ public class PvZModel {
 		// TODO: Spawn zombies at random intervals 
 		// TODO: Make multiple rounds
 		// TODO: Check if the round is over
+		// TODO: Change entity label to static 
 		// TODO: Add test, update UML diagram, update README.md
 		gameBoard.print();
 		spawnZombies(5); 
@@ -140,7 +150,7 @@ public class PvZModel {
 			for(Entity e : entities) {
 				gameBoard.addEntity(e);
 				// Update location of entity if instance of Moveable 
-				if (e instanceof Moveable) ((Moveable) e).updatePosition();
+				if (e instanceof Moveable && !isCollision((Moveable) e)) ((Moveable) e).updatePosition();
 			}
 			
 			gameBoard.print();

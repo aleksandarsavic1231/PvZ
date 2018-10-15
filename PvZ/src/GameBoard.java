@@ -24,7 +24,6 @@ public class GameBoard implements Board {
 
 	@Override
 	public void print () {
-
 		for (int j = 0; j < COLUMNS; j++) 
 			System.out.print(Character.toString((char) (j + 65)) + " ");
 		System.out.println();
