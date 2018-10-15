@@ -17,7 +17,7 @@ public class PvZModel {
 	/**
 	 * Current game iteration.
 	 */
-	public int turnCounter;
+	public int gameCounter;
 
 	private Board gameBoard;
 
@@ -30,13 +30,13 @@ public class PvZModel {
 	
 	public PvZModel() {
 		 entities = new ArrayList<Entity>();
-		 sunpoints = 50; // Starting balance
+		 sunpoints = 500; // Starting balance
 		 gameBoard = new GameBoard();
-		 turnCounter = 0;
+		 gameCounter = 0;
 	}	
 	
 	private Point getLocation(String entity) {
-		System.out.println("Enter a location to spawn" + entity + ": ");
+		System.out.println("Enter a location to spawn " + entity + ": ");
 		// Read from standard out 
 		reader = new Scanner(System.in);
 		String input = reader.next();
@@ -45,50 +45,74 @@ public class PvZModel {
 	}
 	
 	private boolean isGameOver() {
+		// TODO: Make functional method to iterate over entities
 		for(Entity e : entities) {
 			if (e instanceof Zombie && e.getX() == -1) return true;
 		}
 		return false;
 	}
 	
+	private void sleepOneSecond() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	private void buyPlant() {
-		// TODO: Fix tight coupling between plant name and cost
-		// TODO: Maybe make this method functional 
+		// Order of priority
+		// TODO: Ask again if user enters invalid input (also need option to not buy anything)
+		// TODO: Fix tight coupling between plant name, cost, and isDeployable
+		// TODO: Make this method functional 
 		// TODO: Decide whether a player can buy multiple plants each game iteration
+		// Update isDeployable
+		Sunflower.isDeployable(gameCounter);
+		PeaShooter.isDeployable(gameCounter);
 		// Check if user has sufficient balance to make purchase
 		System.out.println("Sunpoints: " + sunpoints);
 		if (sunpoints < Sunflower.COST && sunpoints < PeaShooter.COST) {
 			System.out.println("Insuffient sunpoint balance.");
+			sleepOneSecond();
 			return;
 		}
 		// Print available items to purchase 
 		System.out.println("Items available for purcahse:");
-		if (sunpoints < Sunflower.COST) {
-			System.out.println("< Sunflower : " + Sunflower.COST + " >");
+		if (sunpoints >= Sunflower.COST && Sunflower.isDeployable) {
+			System.out.println("<Sunflower : " + Sunflower.COST + ">");
+
 		}
-		if (sunpoints < PeaShooter.COST) {
-			System.out.println("< PeaShooter : " + Sunflower.COST + " >");
+		if (sunpoints >= PeaShooter.COST && PeaShooter.isDeployable) {
+			System.out.println("<PeaShooter : " + PeaShooter.COST + ">");
 		} 
 		// Read from standard out
 		reader = new Scanner(System.in);
 		String input = reader.next().toUpperCase();
 		switch(input) {
 			case "SUNFLOWER":	
-				if (sunpoints < Sunflower.COST) {
+				if (sunpoints >= Sunflower.COST && Sunflower.isDeployable) {
 					sunpoints -= Sunflower.COST;
 					entities.add(new Sunflower(getLocation("Sunflower")));	
+					PeaShooter.isDeployable = false;
 				}
 				break;
 			case "PEASHOOTER":
-				if (sunpoints < PeaShooter.COST) {
+				if (sunpoints >= PeaShooter.COST && PeaShooter.isDeployable) {
 					sunpoints -= PeaShooter.COST;
 					entities.add(new PeaShooter(getLocation("Peashooter")));
+					PeaShooter.isDeployable = false;
 				} 									
+				break;
+			default:
+				System.out.println("Invalid input || Insuffient funds || No plants deployable");
+				sleepOneSecond();
 				break;
 		}
 	}
 	
 	private void gameLoop() {
+		// Order of priority
 		// TODO: Fix location bug
 		// TODO: Spawn zombies 
 		// TODO: Spawn bullets 
@@ -103,10 +127,10 @@ public class PvZModel {
 				gameBoard.addEntity(e.getX(), e.getY(), e.getLabel());
 			}
 			
-			turnCounter++;
+			gameCounter++;
 			gameBoard.print();
 			
-			if (turnCounter % PAYMENT_PERIOD == 0) {
+			if (gameCounter % PAYMENT_PERIOD == 0) {
 				sunpoints += 25;
 			}
 		}

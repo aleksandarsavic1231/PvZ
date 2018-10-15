@@ -37,11 +37,10 @@ public class PeaShooter extends Shooter {
 		this.setFireRate(RECHARGE_TIME);
 	}
 	
-	public static boolean isDeployable(int gameCounter) {
+	public static void isDeployable(int gameCounter) {
 		if (gameCounter % SPAWN_COOLDOWN == 0) {
 			isDeployable = true;
 		} 
-		return isDeployable;
 	}
 
 }
