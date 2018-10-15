@@ -12,32 +12,32 @@ public class GameBoard implements Board {
 	}
 	
 	private void iterateBoard(Tile tile) {
-		for (int j = 0 ; j < ROWS ; j++){
-			for (int i = 0 ; i < COLUMNS ; i++){
+		for (int i = 0 ; i < ROWS ; i++){
+			for (int j = 0 ; j < COLUMNS ; j++){
 				tile.update(i, j);
 			}
 		}	 
 	}
 	
 	@Override
-	public void clear () {iterateBoard((i, j) -> tiles[j][i] = ' '); }
+	public void clear () {iterateBoard((i, j) -> tiles[i][j] = ' '); }
 
 	@Override
 	public void print () {
-		for (int i = 0; i < COLUMNS; i++) 
-			System.out.print(Character.toString((char) (i + 65)) + " ");
+		for (int j = 0; j < COLUMNS; j++) 
+			System.out.print(Character.toString((char) (j + 65)) + " ");
 		System.out.println();
-		
 		iterateBoard((i, j) -> {
-			System.out.print(Character.toString(tiles[j][i]));
+			System.out.print(Character.toString(tiles[i][j]));
 		    System.out.print(" ");
-		    if (i == COLUMNS - 1) System.out.println(j);
+		    if (j == COLUMNS - 1) System.out.println(i);
 		});
 	}
 	
 	@Override
 	public void addEntity(int i, int j, char c) {
-		if (i < ROWS && j < COLUMNS) tiles[i][j] = c;
+		System.out.println(i + ", " + j);
+		if (i < ROWS && j < COLUMNS) tiles[j][i] = c;
 	}
 	
 }

@@ -28,9 +28,11 @@ public class PvZModel {
 	 */
 	public static final int PAYMENT_PERIOD = 4;
 	
+	public static final int INITIAL_BALANCE = 50;
+	
 	public PvZModel() {
 		 entities = new ArrayList<Entity>();
-		 sunpoints = 500; // Starting balance
+		 sunpoints = INITIAL_BALANCE; 
 		 gameBoard = new GameBoard();
 		 gameCounter = 0;
 	}	
@@ -40,7 +42,8 @@ public class PvZModel {
 		// Read from standard out 
 		reader = new Scanner(System.in);
 		String input = reader.next();
-		Point location = new Point(Character.getNumericValue(input.charAt(1)), input.charAt(0) - 65);
+		// TODO: Fix tight coupling of game board 
+		Point location = new Point(input.charAt(0) - 65, Character.getNumericValue(input.charAt(1)));
 		return location;
 	}
 	
@@ -113,28 +116,31 @@ public class PvZModel {
 	
 	private void gameLoop() {
 		// Order of priority
-		// TODO: Fix location bug
 		// TODO: Spawn zombies 
 		// TODO: Spawn bullets 
-		// TODO: Instances of moveable need to update position
 		// TODO: Check if the round is over
 		gameBoard.print();
+		entities.add(new Zombie(new Point(3, 3))); // Temporary 
 		while (!isGameOver()) {
 			gameBoard.clear();
 			buyPlant();
-			
+		
 			for(Entity e : entities) {
 				gameBoard.addEntity(e.getX(), e.getY(), e.getLabel());
+				// Update location entity if instance of Moveable 
+				if (e instanceof Moveable) ((Moveable) e).updatePosition();
 			}
 			
-			gameCounter++;
 			gameBoard.print();
 			
+			gameCounter++;
 			if (gameCounter % PAYMENT_PERIOD == 0) {
 				sunpoints += 25;
 			}
 		}
+		System.out.println("Game is over!");
 		// TODO: Need to close reader
+		// https://goo.gl/jJzzG3
 	}
 	
 	public static void main(String args[]) {
