@@ -4,6 +4,6 @@ public interface Board {
 
 	public void print();
 		
-	public void addEntity(int i, int j, char c);
+	public void addEntity(Entity e);
 
 }

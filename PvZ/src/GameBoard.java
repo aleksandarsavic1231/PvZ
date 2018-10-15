@@ -37,8 +37,11 @@ public class GameBoard implements Board {
 	}
 	
 	@Override
-	public void addEntity(int i, int j, char c) {
-		if (j < ROWS && i < COLUMNS) tiles[j][i] = c;
+	public void addEntity(Entity e) {
+		int i = e.getX();
+		int j = e.getY(); 
+		// TODO: Throw exception if out of bounds
+		if (j < ROWS && i < COLUMNS) tiles[j][i] = e.getLabel();
 	}
 	
 }

@@ -117,12 +117,13 @@ public class PvZModel {
 	
 	private void spawnZombies(int n) {
 		for (int i = 0; i < n; i ++) {
-			entities.add(new Zombie(new Point(GameBoard.COLUMNS, new Random().nextInt(GameBoard.ROWS))));
+			entities.add(new Zombie(new Point(GameBoard.COLUMNS - 1, new Random().nextInt(GameBoard.ROWS))));
 		}
 	}
 	
 	private void gameLoop() {
 		// Order of priority
+		// TODO: Player can not add plant on plant
 		// TODO: Add collision detection
 		// TODO: Spawn bullets 
 		// TODO: Entities take damage
@@ -135,7 +136,7 @@ public class PvZModel {
 			buyPlant();
 		
 			for(Entity e : entities) {
-				gameBoard.addEntity(e.getX(), e.getY(), e.getLabel());
+				gameBoard.addEntity(e);
 				// Update location entity if instance of Moveable 
 				if (e instanceof Moveable) ((Moveable) e).updatePosition();
 			}
