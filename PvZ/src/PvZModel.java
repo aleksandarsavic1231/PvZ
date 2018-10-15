@@ -1,5 +1,5 @@
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -8,7 +8,7 @@ public class PvZModel {
 	/**
 	 * Spawned entities. 
 	 */
-	private ArrayList<Entity> entities;
+	private LinkedList<Entity> entities;
   	
 	/**
 	 * Game balance.
@@ -37,7 +37,7 @@ public class PvZModel {
 	public static final int INITIAL_BALANCE = 500;
 	
 	public PvZModel() {
-		 entities = new ArrayList<Entity>();
+		 entities = new LinkedList<Entity>();
 		 sunPoints = INITIAL_BALANCE; 
 		 gameBoard = new GameBoard();
 		 gameCounter = 0;
@@ -127,27 +127,52 @@ public class PvZModel {
 	}
 	
 	private boolean isCollision(Moveable m) {
+		/**
+		 * TODO: Bullet does damage if on top of zombie
+		 * TODO: Refractor
+		 */
+		LinkedList<Entity> nowDead = new LinkedList<Entity>();
+		boolean isCollision = false;
 		for (Entity e : entities) {
 			// Check if next move by entity is same as Moveable
 			// Ensure entity is not the same class as Moveable 
 			// This would occur when two entities are on top of each other
 			// Next position would be the same so we can ignore
 			if (e.getClass() != m.getClass() && m.nextPosition().getX() == e.getX() && m.nextPosition().getY() == e.getY()) {
-				return true;
+				// Need to make sure bullets do not hurt other plants
+				// Need to make it so zombies do damage to plants 
+				// Need to remove entities if dead
+				if (e instanceof Zombie && m.getClass() == Bullet.class) {
+					System.out.println("Bullet hit zombie");
+					((Zombie) e).setHealth(((Bullet) m).getDamage());
+					nowDead.add((Entity) m);
+					if (((Zombie) e).getHealth() <= 0) {
+						System.out.println("Zombie died");
+						nowDead.add(e);
+					}
+				} else if (e instanceof PeaShooter || e instanceof Sunflower && m.getClass() == Zombie.class) {
+					System.out.println("Zombie hit plant");
+					((Alive) e).setHealth(Zombie.DAMAGE);
+					if (((Alive) e).getHealth() <= 0) {
+						System.out.println("Plant died");
+						nowDead.add(e);
+					}
+				}
+				isCollision = true;
 			}
 		}
-		return false;
+		entities.removeAll(nowDead);
+		return isCollision;
 	}
-	
+
 	private void gameLoop() {
 		// Order of priority
-		// TODO: Entities take damage
 		// TODO: Player can not add plant on plant
 		// TODO: Spawn zombies at random intervals 
 		// TODO: Make multiple rounds
-		// TODO: Check if the round is over
 		// TODO: Change entity label to static 
-		// TODO: Add test, update UML diagram, update README.md
+		// TODO: Clean code and add Java doc comments
+		// TODO: Add tests, update UML diagram, update README.md
 		gameBoard.print();
 		spawnZombies(5); 
 		while (!isGameOver()) {
@@ -155,7 +180,7 @@ public class PvZModel {
 			// Get next move
 			buyPlant();
 			
-			ArrayList<Bullet> newBullets = new ArrayList<Bullet>();
+			LinkedList<Bullet> newBullets = new LinkedList<Bullet>();
 			for(Entity e : entities) {
 				gameBoard.addEntity(e);
 				// Can entity shoot
@@ -173,7 +198,7 @@ public class PvZModel {
 			}
 			// Add new bullets to entity list
 			entities.addAll(newBullets);
-			
+	
 			gameBoard.print();
 			gameCounter++;
 			
@@ -182,7 +207,9 @@ public class PvZModel {
 				sunPoints += WELFARE;
 			}
 		}
-		System.out.println("Game is over!");
+		if (isGameOver()) {
+			System.out.println("Game over");
+		} 
 		// TODO: Need to close reader
 		// https://goo.gl/jJzzG3
 	}

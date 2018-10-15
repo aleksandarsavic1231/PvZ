@@ -24,7 +24,7 @@ public class Sunflower extends Shooter {
 
 	
 	public Sunflower(Point position) {
-		super(position, '$', 100);
+		super(position, '$', 8);
 		isDeployable = false;
 	}
 

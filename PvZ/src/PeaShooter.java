@@ -28,7 +28,7 @@ public class PeaShooter extends Shooter {
 	public static boolean isDeployable;
 	
 	public PeaShooter(Point position) {
-		super(position, '^', 100);
+		super(position, '^', 5);
 		isDeployable = false;
 	}
 

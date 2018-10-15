@@ -14,7 +14,7 @@ public class Alive extends Entity {
 	}
 	
 	public void setHealth(int health) {
-		this.health = health;
+		this.health -= health;
 	}
 	
 }
