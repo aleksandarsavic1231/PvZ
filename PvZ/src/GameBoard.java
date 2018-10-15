@@ -24,6 +24,8 @@ public class GameBoard implements Board {
 
 	@Override
 	public void print () {
+		/* TODO: If more than one zombie is standing on tile   
+	    replace char with # indicating the # of zombies on tile */
 		for (int j = 0; j < COLUMNS; j++) 
 			System.out.print(Character.toString((char) (j + 65)) + " ");
 		System.out.println();
@@ -36,8 +38,7 @@ public class GameBoard implements Board {
 	
 	@Override
 	public void addEntity(int i, int j, char c) {
-		System.out.println(i + ", " + j);
-		if (i < ROWS && j < COLUMNS) tiles[j][i] = c;
+		if (j < ROWS && i < COLUMNS) tiles[j][i] = c;
 	}
 	
 }

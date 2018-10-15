@@ -1,5 +1,6 @@
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class PvZModel {
@@ -114,13 +115,21 @@ public class PvZModel {
 		}
 	}
 	
+	private void spawnZombies(int n) {
+		for (int i = 0; i < n; i ++) {
+			entities.add(new Zombie(new Point(GameBoard.COLUMNS, new Random().nextInt(GameBoard.ROWS))));
+		}
+	}
+	
 	private void gameLoop() {
 		// Order of priority
-		// TODO: Spawn zombies 
+		// TODO: Add collision detection
 		// TODO: Spawn bullets 
+		// TODO: Entities take damage
 		// TODO: Check if the round is over
+		// TODO: Make multiple rounds
 		gameBoard.print();
-		entities.add(new Zombie(new Point(3, 3))); // Temporary 
+		spawnZombies(5); 
 		while (!isGameOver()) {
 			gameBoard.clear();
 			buyPlant();
