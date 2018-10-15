@@ -123,12 +123,14 @@ public class PvZModel {
 	
 	private void gameLoop() {
 		// Order of priority
-		// TODO: Player can not add plant on plant
 		// TODO: Add collision detection
-		// TODO: Spawn bullets 
+		// TODO: Add bullets 
 		// TODO: Entities take damage
-		// TODO: Check if the round is over
+		// TODO: Player can not add plant on plant
+		// TODO: Spawn zombies at random intervals 
 		// TODO: Make multiple rounds
+		// TODO: Check if the round is over
+		// TODO: Add test, update UML diagram, update README.md
 		gameBoard.print();
 		spawnZombies(5); 
 		while (!isGameOver()) {

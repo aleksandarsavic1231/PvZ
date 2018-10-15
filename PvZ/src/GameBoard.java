@@ -38,6 +38,7 @@ public class GameBoard implements Board {
 	@Override
 	public void addEntity(Entity e) {
 		// TODO: Throw exception if out of bounds
+		// TODO: Loosen coupling 
 		int i = e.getX();
 		int j = e.getY(); 
 		char c = tiles[j][i];
