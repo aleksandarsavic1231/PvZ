@@ -34,7 +34,7 @@ public class PvZModel {
 	 */
 	public static final int WELFARE = 25;
 	
-	public static final int INITIAL_BALANCE = 500;
+	public static final int INITIAL_BALANCE = 100;
 	
 	public PvZModel() {
 		 entities = new LinkedList<Entity>();
@@ -80,7 +80,7 @@ public class PvZModel {
 		Sunflower.isDeployable(gameCounter);
 		PeaShooter.isDeployable(gameCounter);
 		// Check if user has sufficient balance to make purchase
-		System.out.println("sunPoints: " + sunPoints);
+		System.out.println("Sun points: " + sunPoints);
 		if (sunPoints < Sunflower.COST && sunPoints < PeaShooter.COST) {
 			System.out.println("Insuffient sunpoint balance.");
 			sleepOneSecond();
@@ -122,7 +122,7 @@ public class PvZModel {
 	
 	private void spawnZombies(int n) {
 		for (int i = 0; i < n; i ++) {
-			entities.add(new Zombie(new Point(GameBoard.COLUMNS - 1, new Random().nextInt(GameBoard.ROWS))));
+			entities.add(new Zombie(new Point(GameBoard.COLUMNS - 1, 0)));
 		}
 	}
 	
@@ -150,6 +150,8 @@ public class PvZModel {
 						System.out.println("Zombie died");
 						nowDead.add(e);
 					}
+					// Bullet can only do damage once
+					break;
 				} else if (e instanceof PeaShooter || e instanceof Sunflower && m.getClass() == Zombie.class) {
 					System.out.println("Zombie hit plant");
 					((Alive) e).setHealth(Zombie.DAMAGE);
@@ -167,6 +169,7 @@ public class PvZModel {
 
 	private void gameLoop() {
 		// Order of priority
+		// TDOO: Collision detection is buggy
 		// TODO: Player can not add plant on plant
 		// TODO: Spawn zombies at random intervals 
 		// TODO: Make multiple rounds
@@ -208,7 +211,7 @@ public class PvZModel {
 			}
 		}
 		if (isGameOver()) {
-			System.out.println("Game over");
+			System.out.println("Game over!");
 		} 
 		// TODO: Need to close reader
 		// https://goo.gl/jJzzG3
