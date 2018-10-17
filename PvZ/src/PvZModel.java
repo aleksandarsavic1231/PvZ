@@ -1,5 +1,6 @@
 import java.awt.Point;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -45,12 +46,10 @@ public class PvZModel {
 	
 	private Point getLocation(String entity) {
 		System.out.println("Enter a location to spawn " + entity + ": ");
-		// Read from standard out 
 		reader = new Scanner(System.in);
 		String input = reader.next();
 		// TODO: Fix tight coupling of game board 
-		Point location = new Point(input.charAt(0) - 65, Character.getNumericValue(input.charAt(1)));
-		return location;
+		return new Point(input.charAt(0) - 65, Character.getNumericValue(input.charAt(1)));
 	}
 	
 	private boolean isGameOver() {
@@ -70,7 +69,7 @@ public class PvZModel {
 		}
 	}
 
-	private void buyPlant() {
+	private void nextMove() {
 		// Order of priority
 		// TODO: Ask again if user enters invalid input (also need option to not buy anything)
 		// TODO: Fix tight coupling between plant name, cost, and isDeployable
@@ -127,92 +126,78 @@ public class PvZModel {
 	}
 	
 	private boolean isCollision(Moveable m) {
-		/**
-		 * TODO: Bullet does damage if on top of zombie
-		 * TODO: Refractor
-		 */
-		LinkedList<Entity> nowDead = new LinkedList<Entity>();
+		// TODO: Make functional
 		boolean isCollision = false;
-		for (Entity e : entities) {
-			// Check if next move by entity is same as Moveable
-			// Ensure entity is not the same class as Moveable 
-			// This would occur when two entities are on top of each other
-			// Next position would be the same so we can ignore
-			if (e.getClass() != m.getClass() && m.nextPosition().getX() == e.getX() && m.nextPosition().getY() == e.getY()) {
-				// Need to make sure bullets do not hurt other plants
-				// Need to make it so zombies do damage to plants 
-				// Need to remove entities if dead
-				if (e instanceof Zombie && m.getClass() == Bullet.class) {
-					System.out.println("Bullet hit zombie");
+		for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
+			// Ensure the current position of Entity is not the next move of Moveable
+			// Ignore if Entity and Moveable are instances of Zombie
+			// (Zombies are the only instance that may share the same location)
+			Entity e = iter.next();
+			boolean isZombie = e instanceof Zombie;
+			if ((!isZombie || !(m instanceof Zombie)) 
+					&& e.getX()  == m.nextPosition().getX()
+					&& e.getY()  == m.nextPosition().getY()) {
+				// Zombie hit by bullet
+				if (isZombie && m instanceof Bullet) 
 					((Zombie) e).setHealth(((Bullet) m).getDamage());
-					nowDead.add((Entity) m);
-					if (((Zombie) e).getHealth() <= 0) {
-						System.out.println("Zombie died");
-						nowDead.add(e);
-					}
-					// Bullet can only do damage once
-					break;
-				} else if (e instanceof PeaShooter || e instanceof Sunflower && m.getClass() == Zombie.class) {
-					System.out.println("Zombie hit plant");
-					((Alive) e).setHealth(Zombie.DAMAGE);
-					if (((Alive) e).getHealth() <= 0) {
-						System.out.println("Plant died");
-						nowDead.add(e);
-					}
-				}
+				// Zombie collided with plant 
+				if ((e instanceof PeaShooter || e instanceof Sunflower) && m instanceof Zombie) 
+					((Alive) e).setHealth(Zombie.DAMAGE);				
 				isCollision = true;
 			}
 		}
-		entities.removeAll(nowDead);
 		return isCollision;
 	}
 
 	private void gameLoop() {
-		// Order of priority
-		// TDOO: Collision detection is buggy
-		// TODO: Player can not add plant on plant
+		// TODO: Zombies do not move after being hit
+		// TODO: Player can not add plant on top of plant
 		// TODO: Spawn zombies at random intervals 
 		// TODO: Make multiple rounds
 		// TODO: Change entity label to static 
-		// TODO: Clean code and add Java doc comments
+		// TODO: Add Java doc comments
 		// TODO: Add tests, update UML diagram, update README.md
 		gameBoard.print();
-		spawnZombies(5); 
+		spawnZombies(1); 
 		while (!isGameOver()) {
 			gameBoard.clear();
-			// Get next move
-			buyPlant();
-			
-			LinkedList<Bullet> newBullets = new LinkedList<Bullet>();
-			for(Entity e : entities) {
+			nextMove();
+			for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
+				Entity e = iter.next();
+				// Add entity to current game board
 				gameBoard.addEntity(e);
-				// Can entity shoot
+				// Check if Shooter can fire 
 				if (e instanceof Shooter && ((Shooter) e).canShoot())  {
+					// Instantiate new bullet if Entity is instance of PeaShooter
 					if (e instanceof PeaShooter) {
-						// Instantiate new bullet with location in front of PeaShooter
-						newBullets.add(new Bullet(new Point(e.getX() + 1, e.getY()), PeaShooter.DAMAGE));
-					} else if (e instanceof Sunflower) {
-						// Increase sun points
-						sunPoints += Sun.WORTH;
+						iter.add(new Bullet(new Point(e.getX() + 1, e.getY()), PeaShooter.DAMAGE));
+					}
+					// Increase sun points if Entity is instance of Sunflower
+					if (e instanceof Sunflower) {
+						sunPoints += Sun.REWARD;
 					}
 				}
 				// Update location of entity if instance of Moveable 
-				if (e instanceof Moveable && !isCollision((Moveable) e)) ((Moveable) e).updatePosition();
+				if (e instanceof Moveable) {
+					if (!isCollision((Moveable) e)) {			
+						((Moveable) e).updatePosition();
+					} else if (e instanceof Bullet) {
+						// Delete bullet on impact
+						iter.remove();
+					} 
+				}
+				// Check for dead entities
+				if (e instanceof Alive && ((Alive) e).getHealth() <= 0) {
+					System.out.println(e.getClass() + " has died!");
+					iter.remove();
+				}
 			}
-			// Add new bullets to entity list
-			entities.addAll(newBullets);
-	
 			gameBoard.print();
 			gameCounter++;
-			
-			// Add automatic welfare
-			if (gameCounter % PAYMENT_PERIOD == 0) {
-				sunPoints += WELFARE;
-			}
+			// Add automatic welfare if payment period has elapsed 
+			if (gameCounter % PAYMENT_PERIOD == 0) sunPoints += WELFARE;
 		}
-		if (isGameOver()) {
-			System.out.println("Game over!");
-		} 
+		if (isGameOver()) System.out.println("Game over!");
 		// TODO: Need to close reader
 		// https://goo.gl/jJzzG3
 	}

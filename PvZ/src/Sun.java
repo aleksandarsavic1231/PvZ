@@ -1,5 +1,5 @@
 public class Sun {
 	
-	public static final int WORTH = 25;
+	public static final int REWARD = 25;
 
 }
