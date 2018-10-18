@@ -176,7 +176,6 @@ public class PvZModel {
 	private void gameLoop() {
 		// TODO: Spawn zombies at random intervals 
 		// TODO: Make multiple rounds
-		// TODO: Change entity label to static 
 		// TODO: Add Java doc comments
 		// TODO: Add tests, update UML diagram, update README.md
 		gameBoard.print();
