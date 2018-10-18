@@ -8,6 +8,6 @@ public interface Moveable {
 	
 	public boolean isLocked();
 	
-	public void setLocked(boolean locked);
+	public void unlock();
 
 }

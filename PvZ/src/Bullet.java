@@ -21,6 +21,7 @@ public class Bullet extends Entity implements Moveable {
 	@Override
 	public void updatePosition() {
 		getPoint().setLocation(nextPosition());
+		locked = true;
 	}
 
 	@Override
@@ -34,8 +35,8 @@ public class Bullet extends Entity implements Moveable {
 	}
 
 	@Override
-	public void setLocked(boolean locked) {
-		this.locked = locked;
+	public void unlock() {
+		this.locked = false;
 	}
 
 }

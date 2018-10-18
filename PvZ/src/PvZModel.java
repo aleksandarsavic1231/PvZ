@@ -145,7 +145,6 @@ public class PvZModel {
 					// Lock Zombie from moving again during current game iteration
 					if (!((Zombie) e).isLocked()) {
 						((Zombie) e).updatePosition();
-						((Zombie) e).setLocked(true);
 					}
 					break;
 				}
@@ -174,7 +173,7 @@ public class PvZModel {
 			for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
 				Entity e = iter.next();
 				// Unlock Moveable entity
-				if (e instanceof Moveable) ((Moveable) e).setLocked(false);
+				if (e instanceof Moveable) ((Moveable) e).unlock();
 				// Add entity to current game board
 				gameBoard.addEntity(e);
 				// Check if Shooter can fire 
@@ -194,7 +193,6 @@ public class PvZModel {
 						// Lock Moveable entity from moving again during current game iteration
 						if (!((Moveable) e).isLocked()) {
 							((Moveable) e).updatePosition();
-							((Moveable) e).setLocked(true);
 						}
 					} else if (e instanceof Bullet) {
 						// Remove bullet on impact
