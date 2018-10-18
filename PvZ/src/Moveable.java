@@ -5,5 +5,9 @@ public interface Moveable {
 	public Point nextPosition();
 	
 	public void updatePosition();
+	
+	public boolean isLocked();
+	
+	public void setLocked(boolean locked);
 
 }

@@ -126,31 +126,40 @@ public class PvZModel {
 	}
 	
 	private boolean isCollision(Moveable m) {
-		// TODO: Make functional
+		// TODO: Refractor / make functional
 		boolean isCollision = false;
 		for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
 			// Ensure the current position of Entity is not the next move of Moveable
 			// Ignore if Entity and Moveable are instances of Zombie
-			// (Zombies are the only instance that may share the same location)
+			// (Zombies may share next position)
 			Entity e = iter.next();
 			boolean isZombie = e instanceof Zombie;
-			if ((!isZombie || !(m instanceof Zombie)) 
-					&& e.getX()  == m.nextPosition().getX()
-					&& e.getY()  == m.nextPosition().getY()) {
-				// Zombie hit by bullet
-				if (isZombie && m instanceof Bullet) 
-					((Zombie) e).setHealth(((Bullet) m).getDamage());
-				// Zombie collided with plant 
-				if ((e instanceof PeaShooter || e instanceof Sunflower) && m instanceof Zombie) 
-					((Alive) e).setHealth(Zombie.DAMAGE);				
+			if ((!(isZombie && (m instanceof Zombie)) 
+					&& e.getX() == m.nextPosition().getX() 
+					&& e.getY() == m.nextPosition().getY())) {
 				isCollision = true;
+				// Zombie hit by bullet
+				if (isZombie && m instanceof Bullet) {
+					((Zombie) e).setHealth(((Bullet) m).getDamage());
+					// Zombie should update position regardless of being hit by bullet
+					// Lock Zombie from moving again during current game iteration
+					if (!((Zombie) e).isLocked()) {
+						((Zombie) e).updatePosition();
+						((Zombie) e).setLocked(true);
+					}
+					break;
+				}
+				// Zombie collided with plant 
+				if ((e instanceof PeaShooter || e instanceof Sunflower) && m instanceof Zombie) {
+					((Alive) e).setHealth(Zombie.DAMAGE);				
+					break;
+				}
 			}
 		}
 		return isCollision;
 	}
 
 	private void gameLoop() {
-		// TODO: Zombies do not move after being hit
 		// TODO: Player can not add plant on top of plant
 		// TODO: Spawn zombies at random intervals 
 		// TODO: Make multiple rounds
@@ -164,6 +173,8 @@ public class PvZModel {
 			nextMove();
 			for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
 				Entity e = iter.next();
+				// Unlock Moveable entity
+				if (e instanceof Moveable) ((Moveable) e).setLocked(false);
 				// Add entity to current game board
 				gameBoard.addEntity(e);
 				// Check if Shooter can fire 
@@ -177,18 +188,22 @@ public class PvZModel {
 						sunPoints += Sun.REWARD;
 					}
 				}
-				// Update location of entity if instance of Moveable 
+				// Update location of entity if instance of Moveable	
 				if (e instanceof Moveable) {
-					if (!isCollision((Moveable) e)) {			
-						((Moveable) e).updatePosition();
+					if (!isCollision((Moveable) e)) {	
+						// Lock Moveable entity from moving again during current game iteration
+						if (!((Moveable) e).isLocked()) {
+							((Moveable) e).updatePosition();
+							((Moveable) e).setLocked(true);
+						}
 					} else if (e instanceof Bullet) {
-						// Delete bullet on impact
+						// Remove bullet on impact
 						iter.remove();
-					} 
+					}
 				}
 				// Check for dead entities
 				if (e instanceof Alive && ((Alive) e).getHealth() <= 0) {
-					System.out.println(e.getClass() + " has died!");
+					System.out.println(e.getClass().getName() + " has died!");
 					iter.remove();
 				}
 			}

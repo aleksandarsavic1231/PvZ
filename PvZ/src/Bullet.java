@@ -6,9 +6,12 @@ public class Bullet extends Entity implements Moveable {
 	
 	public static final int VELOCITY = 1;
 	
+	private boolean locked;
+	
 	public Bullet(Point position, int damage) {
 		super(position, '>');
 		this.damage = damage;
+		this.locked = false;
 	}
 
 	public int getDamage() {
@@ -23,6 +26,16 @@ public class Bullet extends Entity implements Moveable {
 	@Override
 	public Point nextPosition() {
 		return new Point(getX() + VELOCITY, getY());
-	}	
+	}
+
+	@Override
+	public boolean isLocked() {
+		return locked;
+	}
+
+	@Override
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+	}
 
 }

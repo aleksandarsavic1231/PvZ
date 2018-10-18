@@ -11,9 +11,12 @@ public class Zombie extends Alive implements Moveable {
 	 * Velocity of Zombie
 	 */
 	public static final int VELOCITY = 1;
+	
+	private boolean locked;
 
 	public Zombie(Point position) {
 		super(position, '<', 5);
+		locked = false;
 	}
 
 	@Override
@@ -25,7 +28,16 @@ public class Zombie extends Alive implements Moveable {
 	public Point nextPosition() {
 		return new Point(getX() - VELOCITY, getY());
 	}	
+	
+	@Override
+	public boolean isLocked() {
+		return locked;
+	}
 
+	@Override
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+	}	
 
 }
 
