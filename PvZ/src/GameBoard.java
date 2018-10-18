@@ -1,3 +1,5 @@
+import java.awt.Point;
+
 public class GameBoard implements Board {
 	
 	public static final int ROWS = 5;
@@ -11,10 +13,10 @@ public class GameBoard implements Board {
 		clear();
 	}
 	
-	private void iterateBoard(Tile tile) {
+	private void iterateBoard(Tile t) {
 		for (int i = 0 ; i < ROWS ; i++){
 			for (int j = 0 ; j < COLUMNS ; j++){
-				tile.update(i, j);
+				t.update(i, j);
 			}
 		}	 
 	}
@@ -32,6 +34,12 @@ public class GameBoard implements Board {
 		    System.out.print(" ");
 		    if (j == COLUMNS - 1) System.out.println(i);
 		});
+	}
+	
+	@Override
+	public boolean isTaken(Point p) {
+		if (tiles[p.x][p.y] == ' ') return true;
+		return false;
 	}
 	
 	@Override

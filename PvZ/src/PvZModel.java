@@ -60,6 +60,14 @@ public class PvZModel {
 		return false;
 	}
 	
+	private boolean isRoundOver() {
+		// TODO: Make functional method to iterate over entities
+		for(Entity e : entities) {
+			if (e instanceof Zombie) return false;
+		}
+		return true;
+	}
+	
 	private void sleepOneSecond() {
 		try {
 			Thread.sleep(1000);
@@ -70,53 +78,44 @@ public class PvZModel {
 	}
 
 	private void nextMove() {
-		// Order of priority
-		// TODO: Ask again if user enters invalid input (also need option to not buy anything)
-		// TODO: Fix tight coupling between plant name, cost, and isDeployable
-		// TODO: Make this method functional 
-		// TODO: Decide whether a player can buy multiple plants each game iteration
+		// TODO: Make functional 
 		// Update isDeployable
 		Sunflower.isDeployable(gameCounter);
-		PeaShooter.isDeployable(gameCounter);
-		// Check if user has sufficient balance to make purchase
+		PeaShooter.isDeployable(gameCounter);	
 		System.out.println("Sun points: " + sunPoints);
-		if (sunPoints < Sunflower.COST && sunPoints < PeaShooter.COST) {
-			System.out.println("Insuffient sunpoint balance.");
-			sleepOneSecond();
-			return;
+		// Check for purchasable items
+		boolean isSunflowerPurchasable = sunPoints >= Sunflower.COST && Sunflower.isDeployable;
+		boolean isPeaShooterPurchasable = sunPoints >= PeaShooter.COST && PeaShooter.isDeployable;
+		if (!(isSunflowerPurchasable && isPeaShooterPurchasable)) {
+			System.out.println("No store items deployable.");
+		} else {
+			// Print available items to purchase 
+			System.out.println("Items available for purcahse:");
+			String sunflowerName = Sunflower.class.getName();
+			if (isSunflowerPurchasable) {
+				System.out.println("<" + sunflowerName + " : " + Sunflower.COST + " Sun points>");
+			}
+			String peaShooterName = PeaShooter.class.getName();
+			if (isPeaShooterPurchasable) {
+				System.out.println("<" + peaShooterName + " : " + PeaShooter.COST + " Sun points>");
+			} 
+			// Read from standard out
+			reader = new Scanner(System.in);
+			String input = reader.next().toUpperCase();
+			if (isSunflowerPurchasable && sunflowerName.toUpperCase().equals(input)) {
+				sunPoints -= Sunflower.COST;
+				entities.add(new Sunflower(getLocation(sunflowerName)));	
+				Sunflower.isDeployable = false;
+			} else if (isPeaShooterPurchasable && peaShooterName.toUpperCase().equals(input)) {
+				sunPoints -= PeaShooter.COST;
+				entities.add(new PeaShooter(getLocation(peaShooterName)));
+				PeaShooter.isDeployable = false;
+			} else {
+				System.err.println("Invalid input!");
+				nextMove();
+			}
 		}
-		// Print available items to purchase 
-		System.out.println("Items available for purcahse:");
-		if (sunPoints >= Sunflower.COST && Sunflower.isDeployable) {
-			System.out.println("<Sunflower : " + Sunflower.COST + ">");
-
-		}
-		if (sunPoints >= PeaShooter.COST && PeaShooter.isDeployable) {
-			System.out.println("<PeaShooter : " + PeaShooter.COST + ">");
-		} 
-		// Read from standard out
-		reader = new Scanner(System.in);
-		String input = reader.next().toUpperCase();
-		switch(input) {
-			case "SUNFLOWER":	
-				if (sunPoints >= Sunflower.COST && Sunflower.isDeployable) {
-					sunPoints -= Sunflower.COST;
-					entities.add(new Sunflower(getLocation("Sunflower")));	
-					PeaShooter.isDeployable = false;
-				}
-				break;
-			case "PEASHOOTER":
-				if (sunPoints >= PeaShooter.COST && PeaShooter.isDeployable) {
-					sunPoints -= PeaShooter.COST;
-					entities.add(new PeaShooter(getLocation("Peashooter")));
-					PeaShooter.isDeployable = false;
-				} 									
-				break;
-			default:
-				System.out.println("Invalid input || Insuffient funds || No plants deployable");
-				sleepOneSecond();
-				break;
-		}
+		sleepOneSecond();
 	}
 	
 	private void spawnZombies(int n) {
@@ -126,7 +125,7 @@ public class PvZModel {
 	}
 	
 	private boolean isCollision(Moveable m) {
-		// TODO: Refractor / make functional
+		// TODO: Make functional 
 		boolean isCollision = false;
 		for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
 			// Ensure the current position of Entity is not the next move of Moveable
@@ -135,14 +134,16 @@ public class PvZModel {
 			Entity e = iter.next();
 			boolean isZombie = e instanceof Zombie;
 			if ((!(isZombie && (m instanceof Zombie)) 
-					&& e.getX() == m.nextPosition().getX() 
-					&& e.getY() == m.nextPosition().getY())) {
+					&& ((e.getX() == m.nextPosition().getX() && e.getY() == m.nextPosition().getY()) 
+					|| (e.getX() == m.nextPosition().getX() && e.getY() == m.nextPosition().getY())))) {
 				isCollision = true;
 				// Zombie hit by bullet
 				if (isZombie && m instanceof Bullet) {
 					((Zombie) e).setHealth(((Bullet) m).getDamage());
 					// Zombie should update position regardless of being hit by bullet 
-					((Zombie) e).updatePosition();
+					if (isCollision((Moveable) e)) {
+						((Zombie) e).updatePosition();
+					}
 					break;
 				}
 				// Zombie collided with plant 
@@ -163,8 +164,10 @@ public class PvZModel {
 		// TODO: Add Java doc comments
 		// TODO: Add tests, update UML diagram, update README.md
 		gameBoard.print();
-		spawnZombies(1); 
-		while (!isGameOver()) {
+		spawnZombies(1);
+		boolean isRoundOver = false;
+		gameLoop:
+		while (!isRoundOver && !isGameOver()) {
 			gameBoard.clear();
 			nextMove();
 			for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
@@ -196,8 +199,12 @@ public class PvZModel {
 				}
 				// Check for dead entities
 				if (e instanceof Alive && ((Alive) e).getHealth() <= 0) {
-					System.out.println(e.getClass().getName() + " has died!");
+					System.err.println(e.getClass().getName() + " has died.");
 					iter.remove();
+					if (isRoundOver()) { 
+						isRoundOver = true;
+						break gameLoop;
+					}
 				}
 			}
 			gameBoard.print();
@@ -205,7 +212,10 @@ public class PvZModel {
 			// Add automatic welfare if payment period has elapsed 
 			if (gameCounter % PAYMENT_PERIOD == 0) sunPoints += WELFARE;
 		}
-		if (isGameOver()) System.out.println("Game over!");
+		
+		if (isRoundOver()) System.err.println("You beat the round."); 
+		if (isGameOver()) System.err.println("Game over.");
+		
 		// TODO: Need to close reader
 		// https://goo.gl/jJzzG3
 	}

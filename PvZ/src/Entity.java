@@ -2,25 +2,25 @@ import java.awt.Point;
 
 public class Entity {
 	
-	private Point position;
+	private Point p;
 	
 	private char label;
 	
-	public Entity(Point position, char label) {
-		this.position = position;
+	public Entity(Point p, char label) {
+		this.p = p;
 		this.label = label;
 	}
 
 	public int getX() {
-		return (int) position.getX();
+		return p.x;
 	}
 	
 	public int getY() {
-		return (int) position.getY();
+		return p.y;
 	}
 	
 	public Point getPoint() {
-		return position;
+		return p;
 	}
 	
 	public char getLabel() {
