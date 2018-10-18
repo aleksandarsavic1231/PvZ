@@ -1,5 +1,3 @@
-import java.awt.Point;
-
 public class GameBoard implements Board {
 	
 	public static final int ROWS = 5;
@@ -37,12 +35,6 @@ public class GameBoard implements Board {
 	}
 	
 	@Override
-	public boolean isTaken(Point p) {
-		if (tiles[p.x][p.y] == ' ') return true;
-		return false;
-	}
-	
-	@Override
 	public void addEntity(Entity e) {
 		// TODO: Throw exception if out of bounds
 		// TODO: Loosen coupling 
@@ -54,6 +46,11 @@ public class GameBoard implements Board {
 			else if ((e instanceof Zombie) && c != ' ') tiles[j][i] = 50;
 			else tiles[j][i] = e.getLabel();
 		}
+	}
+
+	@Override
+	public void removeEntity(Entity e) {
+		 tiles[e.getY()][e.getX()] = ' ';
 	}
 	
 }

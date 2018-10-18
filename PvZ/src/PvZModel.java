@@ -44,12 +44,25 @@ public class PvZModel {
 		 gameCounter = 0;
 	}	
 	
-	private Point getLocation(String entity) {
-		System.out.println("Enter a location to spawn " + entity + ": ");
+	private Entity isOccupied(Point p) {
+		for(Entity e : entities) {
+			if (e.getX() == p.x && e.getY() == p.y) return e; 
+		}
+		return null;
+	}
+	
+	private Point getLocation(String entityName) {
+		System.out.println("Enter a location to spawn purchased " + entityName + ": ");
 		reader = new Scanner(System.in);
 		String input = reader.next();
 		// TODO: Fix tight coupling of game board 
-		return new Point(input.charAt(0) - 65, Character.getNumericValue(input.charAt(1)));
+		Point p = new Point(input.charAt(0) - 65, Character.getNumericValue(input.charAt(1)));
+		Entity e = isOccupied(p);
+		if (e == null) return p;
+		else {
+			System.out.println("Location currently occupied by " + e.getClass().getName() + ".");
+			return getLocation(entityName);
+		}
 	}
 	
 	private boolean isGameOver() {
@@ -111,7 +124,7 @@ public class PvZModel {
 				entities.add(new PeaShooter(getLocation(peaShooterName)));
 				PeaShooter.isDeployable = false;
 			} else {
-				System.err.println("Invalid input!");
+				System.out.println("Invalid input!");
 				nextMove();
 			}
 		}
@@ -165,11 +178,10 @@ public class PvZModel {
 		// TODO: Add tests, update UML diagram, update README.md
 		gameBoard.print();
 		spawnZombies(1);
-		boolean isRoundOver = false;
-		gameLoop:
-		while (!isRoundOver && !isGameOver()) {
+		while (!isGameOver()) {
 			gameBoard.clear();
 			nextMove();
+			boolean deathOccurred = false;
 			for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
 				Entity e = iter.next();
 				// Unlock Moveable entity
@@ -199,23 +211,21 @@ public class PvZModel {
 				}
 				// Check for dead entities
 				if (e instanceof Alive && ((Alive) e).getHealth() <= 0) {
-					System.err.println(e.getClass().getName() + " has died.");
+					System.out.println(e.getClass().getName() + " has died.");
+					gameBoard.removeEntity(e);
 					iter.remove();
-					if (isRoundOver()) { 
-						isRoundOver = true;
-						break gameLoop;
-					}
+					deathOccurred = true;
 				}
 			}
 			gameBoard.print();
+			// Check for end of round only if instance of Alive died during current game iteration.
+			if (deathOccurred && isRoundOver()) break;
 			gameCounter++;
 			// Add automatic welfare if payment period has elapsed 
 			if (gameCounter % PAYMENT_PERIOD == 0) sunPoints += WELFARE;
 		}
-		
-		if (isRoundOver()) System.err.println("You beat the round."); 
-		if (isGameOver()) System.err.println("Game over.");
-		
+		if (isRoundOver()) System.out.println("You beat the round."); 
+		if (isGameOver()) System.out.println("Game over.");
 		// TODO: Need to close reader
 		// https://goo.gl/jJzzG3
 	}
