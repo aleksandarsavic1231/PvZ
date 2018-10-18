@@ -12,10 +12,12 @@ public class Zombie extends Alive implements Moveable {
 	 */
 	public static final int VELOCITY = 1;
 	
+	public static final char IDENTIFIER = '<';
+	
 	private boolean locked;
 
 	public Zombie(Point position) {
-		super(position, '<', 5);
+		super(position, 5);
 		locked = false;
 	}
 

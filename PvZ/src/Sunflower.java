@@ -21,10 +21,11 @@ public class Sunflower extends Shooter {
 	 * Can new Sunflower be deployed
 	 */
 	public static boolean isDeployable;
-
+	
+	public static final char IDENTIFIER = '$';
 	
 	public Sunflower(Point position) {
-		super(position, '$', 8);
+		super(position, 8);
 		isDeployable = false;
 	}
 

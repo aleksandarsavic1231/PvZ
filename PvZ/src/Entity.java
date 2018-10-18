@@ -1,14 +1,11 @@
 import java.awt.Point;
 
-public class Entity {
+public abstract class Entity {
 	
 	private Point p;
 	
-	private char label;
-	
-	public Entity(Point p, char label) {
+	public Entity(Point p) {
 		this.p = p;
-		this.label = label;
 	}
 
 	public int getX() {
@@ -21,10 +18,6 @@ public class Entity {
 	
 	public Point getPoint() {
 		return p;
-	}
-	
-	public char getLabel() {
-		return label;
 	}
 
 }

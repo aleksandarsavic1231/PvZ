@@ -8,8 +8,10 @@ public class Bullet extends Entity implements Moveable {
 	
 	private boolean locked;
 	
+	public static final char IDENTIFIER = '>';
+	
 	public Bullet(Point position, int damage) {
-		super(position, '>');
+		super(position);
 		this.damage = damage;
 		this.locked = false;
 	}

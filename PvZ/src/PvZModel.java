@@ -59,7 +59,7 @@ public class PvZModel {
 		int x = input.charAt(0) - 65;
 		int y = Character.getNumericValue(input.charAt(1));
 		// Ensure valid input
-		if (input.length() != 2 || !(x <= 0 && x <= GameBoard.COLUMNS && 0 <= y && y <= GameBoard.ROWS)) {
+		if (input.length() != 2 || !(0 <= x && x <= GameBoard.COLUMNS && 0 <= y && y <= GameBoard.ROWS)) {
 			System.out.println("Invalid spawn location.");
 			return getLocation(entityName);
 		}
@@ -179,7 +179,6 @@ public class PvZModel {
 	}
 
 	private void gameLoop() {
-		// TODO: Player can not add plant on top of plant
 		// TODO: Spawn zombies at random intervals 
 		// TODO: Make multiple rounds
 		// TODO: Change entity label to static 

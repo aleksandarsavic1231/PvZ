@@ -22,13 +22,15 @@ public class PeaShooter extends Shooter {
 	 */
 	public static final int SPAWN_COOLDOWN = 3;
 	
+	public static final char IDENTIFIER = '^';
+	
 	/**
 	 * Can new PeaShooter be deployed
 	 */
 	public static boolean isDeployable;
 	
 	public PeaShooter(Point position) {
-		super(position, '^', 5);
+		super(position, 5);
 		isDeployable = false;
 	}
 

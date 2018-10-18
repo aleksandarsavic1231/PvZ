@@ -4,8 +4,8 @@ public class Alive extends Entity {
 
 	private int health;
 	
-	public Alive(Point position, char label, int health) {
-		super(position, label);
+	public Alive(Point position, int health) {
+		super(position);
 		this.health = health;
 	}
 	

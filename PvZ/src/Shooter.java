@@ -4,8 +4,8 @@ public abstract class Shooter extends Alive {
 	
 	private int fireRate;
 
-	public Shooter(Point position, char label, int health) {
-		super(position, label, health);
+	public Shooter(Point position, int health) {
+		super(position, health);
 		this.fireRate = 0;	
 	}
 	

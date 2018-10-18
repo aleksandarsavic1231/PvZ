@@ -44,7 +44,14 @@ public class GameBoard implements Board {
 		if (j < ROWS && i < COLUMNS) {
 			if (50 <= c && c <= 57) tiles[j][i]++;
 			else if ((e instanceof Zombie) && c != ' ') tiles[j][i] = 50;
-			else tiles[j][i] = e.getLabel();
+			else {
+				char identifier; 
+				if (e instanceof PeaShooter) identifier = PeaShooter.IDENTIFIER;
+				else if (e instanceof Sunflower) identifier = Sunflower.IDENTIFIER;
+				else if (e instanceof Bullet) identifier = Bullet.IDENTIFIER;
+				else identifier = Zombie.IDENTIFIER;
+				tiles[j][i] = identifier;
+			}
 		}
 	}
 
