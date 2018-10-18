@@ -141,11 +141,8 @@ public class PvZModel {
 				// Zombie hit by bullet
 				if (isZombie && m instanceof Bullet) {
 					((Zombie) e).setHealth(((Bullet) m).getDamage());
-					// Zombie should update position regardless of being hit by bullet
-					// Lock Zombie from moving again during current game iteration
-					if (!((Zombie) e).isLocked()) {
-						((Zombie) e).updatePosition();
-					}
+					// Zombie should update position regardless of being hit by bullet 
+					((Zombie) e).updatePosition();
 					break;
 				}
 				// Zombie collided with plant 
@@ -191,9 +188,7 @@ public class PvZModel {
 				if (e instanceof Moveable) {
 					if (!isCollision((Moveable) e)) {	
 						// Lock Moveable entity from moving again during current game iteration
-						if (!((Moveable) e).isLocked()) {
-							((Moveable) e).updatePosition();
-						}
+						((Moveable) e).updatePosition();
 					} else if (e instanceof Bullet) {
 						// Remove bullet on impact
 						iter.remove();

@@ -20,18 +20,13 @@ public class Bullet extends Entity implements Moveable {
 
 	@Override
 	public void updatePosition() {
-		getPoint().setLocation(nextPosition());
+		if (!locked) getPoint().setLocation(nextPosition());
 		locked = true;
 	}
 
 	@Override
 	public Point nextPosition() {
 		return new Point(getX() + VELOCITY, getY());
-	}
-
-	@Override
-	public boolean isLocked() {
-		return locked;
 	}
 
 	@Override
