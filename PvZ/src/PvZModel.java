@@ -44,33 +44,28 @@ public class PvZModel {
 		 gameCounter = 0;
 	}	
 	
-	private Entity isOccupied(Point p) {
+	private boolean isOccupied(Point p) {
 		for(Entity e : entities) {
-			if (e.getX() == p.x && e.getY() == p.y) return e; 
+			if (e.getX() == p.x && e.getY() == p.y) return true; 
 		}
-		return null;
+		return false;
 	}
 	
 	private Point getLocation(String entityName) {
-		// TODO: Fix tight coupling of game board 
 		System.out.println("Enter a location to spawn new " + entityName + ": ");
 		reader = new Scanner(System.in);
 		String input = reader.next();
-		int x = input.charAt(0) - 65;
-		int y = Character.getNumericValue(input.charAt(1));
-		// Ensure valid input
-		if (input.length() != 2 || !(0 <= x && x <= GameBoard.COLUMNS && 0 <= y && y <= GameBoard.ROWS)) {
-			System.out.println("Invalid spawn location.");
+		// Ensure valid spawn location 
+		Point p = gameBoard.isValidLocation(input);
+		if (p == null) {
 			return getLocation(entityName);
 		}
-		Point p = new Point(x, y);
-		// Ensure location is not currently occupied
-		Entity e = isOccupied(p);
-		if (e != null) {
-			System.out.println("Location " + input + " currently occupied by " + e.getClass().getName() + ".");
+		// Ensure location is not currently occupied by entity
+		if (isOccupied(p)) {
+			System.out.println("Location " + input + " is currently occupied.");
 			return getLocation(entityName);
 		}
-		// Return spawn location
+		// Return valid spawn location
 		return p;
 	}
 	

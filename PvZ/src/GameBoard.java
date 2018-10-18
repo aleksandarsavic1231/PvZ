@@ -1,8 +1,12 @@
+import java.awt.Point;
+
 public class GameBoard implements Board {
 	
 	public static final int ROWS = 5;
 	
 	public static final int COLUMNS = 10;
+	
+	public static final int ASCII_LOWER_BOUND = 65;
 	
 	private char[][] tiles;
 	
@@ -25,7 +29,7 @@ public class GameBoard implements Board {
 	@Override
 	public void print () {
 		for (int j = 0; j < COLUMNS; j++) 
-			System.out.print(Character.toString((char) (j + 65)) + " ");
+			System.out.print(Character.toString((char) (j + ASCII_LOWER_BOUND)) + " ");
 		System.out.println();
 		iterateBoard((i, j) -> {
 			System.out.print(Character.toString(tiles[i][j]));
@@ -42,8 +46,8 @@ public class GameBoard implements Board {
 		int j = e.getY(); 
 		char c = tiles[j][i];
 		if (j < ROWS && i < COLUMNS) {
-			if (50 <= c && c <= 57) tiles[j][i]++;
-			else if ((e instanceof Zombie) && c != ' ') tiles[j][i] = 50;
+			if ((int) '2' <= c && c <= (int) '9') tiles[j][i]++;
+			else if ((e instanceof Zombie) && c != ' ') tiles[j][i] = '2';
 			else {
 				char identifier; 
 				if (e instanceof PeaShooter) identifier = PeaShooter.IDENTIFIER;
@@ -58,6 +62,18 @@ public class GameBoard implements Board {
 	@Override
 	public void removeEntity(Entity e) {
 		 tiles[e.getY()][e.getX()] = ' ';
+	}
+	
+	@Override
+	public Point isValidLocation(String input) {
+		int x = input.charAt(0) - ASCII_LOWER_BOUND;
+		int y = Character.getNumericValue(input.charAt(1));
+		// Ensure valid input 
+		if (input.length() != 2 || !(0 <= x && x <= GameBoard.COLUMNS && 0 <= y && y <= GameBoard.ROWS)) {
+			System.out.println("Invalid spawn location.");
+			return null;
+		} 
+		return new Point(x, y);
 	}
 	
 }
