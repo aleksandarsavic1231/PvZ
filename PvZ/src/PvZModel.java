@@ -35,7 +35,7 @@ public class PvZModel {
 	 */
 	public static final int WELFARE = 25;
 	
-	public static final int INITIAL_BALANCE = 100;
+	public static final int INITIAL_BALANCE = 200;
 	
 	public PvZModel() {
 		 entities = new LinkedList<Entity>();
@@ -52,17 +52,26 @@ public class PvZModel {
 	}
 	
 	private Point getLocation(String entityName) {
-		System.out.println("Enter a location to spawn purchased " + entityName + ": ");
+		// TODO: Fix tight coupling of game board 
+		System.out.println("Enter a location to spawn new " + entityName + ": ");
 		reader = new Scanner(System.in);
 		String input = reader.next();
-		// TODO: Fix tight coupling of game board 
-		Point p = new Point(input.charAt(0) - 65, Character.getNumericValue(input.charAt(1)));
-		Entity e = isOccupied(p);
-		if (e == null) return p;
-		else {
-			System.out.println("Location currently occupied by " + e.getClass().getName() + ".");
+		int x = input.charAt(0) - 65;
+		int y = Character.getNumericValue(input.charAt(1));
+		// Ensure valid input
+		if (input.length() != 2 || !(x <= 0 && x <= GameBoard.COLUMNS && 0 <= y && y <= GameBoard.ROWS)) {
+			System.out.println("Invalid spawn location.");
 			return getLocation(entityName);
 		}
+		Point p = new Point(x, y);
+		// Ensure location is not currently occupied
+		Entity e = isOccupied(p);
+		if (e != null) {
+			System.out.println("Location " + input + " currently occupied by " + e.getClass().getName() + ".");
+			return getLocation(entityName);
+		}
+		// Return spawn location
+		return p;
 	}
 	
 	private boolean isGameOver() {
