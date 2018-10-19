@@ -35,7 +35,7 @@ public class PvZModel {
 	 */
 	public static final int WELFARE = 25;
 	
-	public static final int INITIAL_BALANCE = 100;
+	public static final int INITIAL_BALANCE = 1000;
 	
 	public PvZModel() {
 		 entities = new LinkedList<Entity>();
@@ -206,6 +206,10 @@ public class PvZModel {
 						// Remove bullet on impact
 						iter.remove();
 					}
+				}
+				// Remove bullet if domain is greater than game board columns
+				if (e instanceof Bullet && e.getX() >= GameBoard.COLUMNS) {
+					iter.remove();
 				}
 				// Check for dead entities
 				if (e instanceof Alive && ((Alive) e).getHealth() <= 0) {
