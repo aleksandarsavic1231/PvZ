@@ -35,7 +35,7 @@ public class PvZModel {
 	 */
 	public static final int WELFARE = 25;
 	
-	public static final int INITIAL_BALANCE = 200;
+	public static final int INITIAL_BALANCE = 100;
 	
 	public PvZModel() {
 		 entities = new LinkedList<Entity>();
@@ -137,7 +137,7 @@ public class PvZModel {
 	
 	private void spawnZombies(int n) {
 		for (int i = 0; i < n; i ++) {
-			entities.add(new Zombie(new Point(GameBoard.COLUMNS - 1, 0)));
+			entities.add(new Zombie(new Point(GameBoard.COLUMNS - 1, new Random().nextInt(GameBoard.ROWS))));
 		}
 	}
 	
@@ -174,10 +174,6 @@ public class PvZModel {
 	}
 
 	private void gameLoop() {
-		// TODO: Spawn zombies at random intervals 
-		// TODO: Make multiple rounds
-		// TODO: Add Java doc comments
-		// TODO: Add tests, update UML diagram, update README.md
 		gameBoard.print();
 		spawnZombies(1);
 		while (!isGameOver()) {
@@ -228,8 +224,7 @@ public class PvZModel {
 		}
 		if (isRoundOver()) System.out.println("You beat the round."); 
 		if (isGameOver()) System.out.println("Game over.");
-		// TODO: Need to close reader
-		// https://goo.gl/jJzzG3
+		reader.close();
 	}
 	
 	public static void main(String args[]) {
