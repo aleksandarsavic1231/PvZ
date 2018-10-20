@@ -22,27 +22,29 @@ public class PeaShooter extends Shooter {
 	 */
 	public static final int SPAWN_COOLDOWN = 3;
 	
-	public static final char IDENTIFIER = '^';
-	
 	/**
-	 * Can new PeaShooter be deployed
+	 * Next round the Sunflower can be deployed.
 	 */
-	public static boolean isDeployable;
+	public static int nextDeployable;
+	
+	public static final char IDENTIFIER = '^';
 	
 	public PeaShooter(Point position) {
 		super(position, 5);
-		isDeployable = false;
+		nextDeployable = 0;
 	}
 
 	@Override
 	public void resetFireRate() {
 		this.setFireRate(RECHARGE_TIME);
+	}	
+	
+	public static void setNextDeployable(int gameCounter) {
+		nextDeployable = gameCounter + SPAWN_COOLDOWN;
 	}
 	
-	public static void isDeployable(int gameCounter) {
-		if (gameCounter % SPAWN_COOLDOWN == 0) {
-			isDeployable = true;
-		} 
+	public static boolean isDeployable(int gameCounter) {
+		return (nextDeployable <= gameCounter);
 	}
 
 }

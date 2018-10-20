@@ -18,15 +18,15 @@ public class Sunflower extends Shooter {
 	public static final int SPAWN_COOLDOWN = 2;
 	
 	/**
-	 * Can new Sunflower be deployed
+	 * Next round the Sunflower can be deployed.
 	 */
-	public static boolean isDeployable;
+	public static int nextDeployable;
 	
 	public static final char IDENTIFIER = '$';
 	
 	public Sunflower(Point position) {
 		super(position, 8);
-		isDeployable = false;
+		nextDeployable = 0;
 	}
 
 	@Override
@@ -34,11 +34,12 @@ public class Sunflower extends Shooter {
 		this.setFireRate(RECHARGE_TIME);
 	}	
 	
+	public static void setNextDeployable(int gameCounter) {
+		nextDeployable = gameCounter + SPAWN_COOLDOWN;
+	}
+	
 	public static boolean isDeployable(int gameCounter) {
-		if (gameCounter % SPAWN_COOLDOWN == 0) {
-			isDeployable = true;
-		} 
-		return isDeployable;
+		return (nextDeployable <= gameCounter);
 	}
 
 }
