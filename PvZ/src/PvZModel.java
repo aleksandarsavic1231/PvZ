@@ -97,12 +97,12 @@ public class PvZModel {
 	private void nextMove() {
 		// TODO: Make functional 
 		// Update isDeployable
-		Sunflower.isDeployable(gameCounter);
-		PeaShooter.isDeployable(gameCounter);	
+		//Sunflower.isDeployable(gameCounter);
+		//PeaShooter.isDeployable(gameCounter);	
 		System.out.println("Sun points: " + sunPoints);
 		// Check for purchasable items
-		boolean isSunflowerPurchasable = sunPoints >= Sunflower.COST && Sunflower.isDeployable;
-		boolean isPeaShooterPurchasable = sunPoints >= PeaShooter.COST && PeaShooter.isDeployable;
+		boolean isSunflowerPurchasable = sunPoints >= Sunflower.COST && Sunflower.isDeployable(gameCounter);
+		boolean isPeaShooterPurchasable = sunPoints >= PeaShooter.COST && PeaShooter.isDeployable(gameCounter);
 		if (!(isSunflowerPurchasable && isPeaShooterPurchasable)) {
 			System.out.println("No store items deployable.");
 		} else {
@@ -122,11 +122,11 @@ public class PvZModel {
 			if (isSunflowerPurchasable && sunflowerName.toUpperCase().equals(input)) {
 				sunPoints -= Sunflower.COST;
 				entities.add(new Sunflower(getLocation(sunflowerName)));	
-				Sunflower.isDeployable = false;
+				Sunflower.setNextDeployable(gameCounter);
 			} else if (isPeaShooterPurchasable && peaShooterName.toUpperCase().equals(input)) {
 				sunPoints -= PeaShooter.COST;
 				entities.add(new PeaShooter(getLocation(peaShooterName)));
-				PeaShooter.isDeployable = false;
+				PeaShooter.setNextDeployable(gameCounter);
 			} else {
 				System.out.println("Invalid input!");
 				nextMove();
