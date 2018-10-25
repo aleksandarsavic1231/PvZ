@@ -27,7 +27,7 @@ public class PeaShooter extends Shooter {
 	 */
 	public static int nextDeployable;
 	
-	public static final char IDENTIFIER = '^';
+	public static final char IDENTIFIER = 'P';
 	
 	public PeaShooter(Point position) {
 		super(position, 5);

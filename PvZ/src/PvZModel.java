@@ -54,7 +54,7 @@ public class PvZModel {
 	private Point getLocation(String entityName) {
 		System.out.println("Enter a location to spawn new " + entityName + ": ");
 		reader = new Scanner(System.in);
-		String input = reader.next();
+		String input = reader.next().toUpperCase();
 		// Ensure valid spawn location 
 		Point p = gameBoard.isValidLocation(input);
 		if (p == null) {
@@ -103,7 +103,7 @@ public class PvZModel {
 		// Check for purchasable items
 		boolean isSunflowerPurchasable = sunPoints >= Sunflower.COST && Sunflower.isDeployable(gameCounter);
 		boolean isPeaShooterPurchasable = sunPoints >= PeaShooter.COST && PeaShooter.isDeployable(gameCounter);
-		if (!(isSunflowerPurchasable && isPeaShooterPurchasable)) {
+		if (!(isSunflowerPurchasable || isPeaShooterPurchasable)) {
 			System.out.println("No store items deployable.");
 		} else {
 			// Print available items to purchase 
@@ -116,9 +116,10 @@ public class PvZModel {
 			if (isPeaShooterPurchasable) {
 				System.out.println("<" + peaShooterName + " : " + PeaShooter.COST + " Sun points>");
 			} 
+			System.out.println("Press <Enter> to proceed without purchases");
 			// Read from standard out
 			reader = new Scanner(System.in);
-			String input = reader.next().toUpperCase();
+			String input = reader.nextLine().toUpperCase();
 			if (isSunflowerPurchasable && sunflowerName.toUpperCase().equals(input)) {
 				sunPoints -= Sunflower.COST;
 				entities.add(new Sunflower(getLocation(sunflowerName)));	
@@ -127,7 +128,12 @@ public class PvZModel {
 				sunPoints -= PeaShooter.COST;
 				entities.add(new PeaShooter(getLocation(peaShooterName)));
 				PeaShooter.setNextDeployable(gameCounter);
-			} else {
+			} 
+			else if(input.isEmpty()) {
+				System.out.println("PRess");
+				return;
+			}
+			else {
 				System.out.println("Invalid input!");
 				nextMove();
 			}
