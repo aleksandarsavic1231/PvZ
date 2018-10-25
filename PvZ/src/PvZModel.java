@@ -107,7 +107,7 @@ public class PvZModel {
 			System.out.println("No store items deployable.");
 		} else {
 			// Print available items to purchase 
-			System.out.println("Items available for purcahse:");
+			System.out.println("Items available for purchase:");
 			String sunflowerName = Sunflower.class.getName();
 			if (isSunflowerPurchasable) {
 				System.out.println("<" + sunflowerName + " : " + Sunflower.COST + " Sun points>");
