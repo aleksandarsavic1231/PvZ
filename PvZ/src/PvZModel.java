@@ -103,7 +103,7 @@ public class PvZModel {
 		// Check for purchasable items
 		boolean isSunflowerPurchasable = sunPoints >= Sunflower.COST && Sunflower.isDeployable(gameCounter);
 		boolean isPeaShooterPurchasable = sunPoints >= PeaShooter.COST && PeaShooter.isDeployable(gameCounter);
-		if (!(isSunflowerPurchasable && isPeaShooterPurchasable)) {
+		if (!(isSunflowerPurchasable || isPeaShooterPurchasable)) {
 			System.out.println("No store items deployable.");
 		} else {
 			// Print available items to purchase 
