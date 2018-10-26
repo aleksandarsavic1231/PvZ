@@ -1,5 +1,12 @@
 import java.awt.Point;
 
+/** Alive
+ * 
+ * The Alive class only applies for entity that are still considered alive in the game.
+ * It has the health attribute to keep track of each entities health
+ *
+ */
+
 public class Alive extends Entity {
 
 	private int health;

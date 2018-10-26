@@ -1,3 +1,9 @@
+
+/** Level
+ * 
+ * NOT COMPLETED YET
+ */
+
 public enum Level {
 	
     ONE   (1, 2, 4),

@@ -1,5 +1,11 @@
 import java.awt.Point;
 
+/** Sunflower
+ * 
+ * Sunflower has attributes cost, recharge_time, damage
+ * Determines when the sunflower can be deployed
+ */
+
 public class Sunflower extends Shooter {
 	
 	/**

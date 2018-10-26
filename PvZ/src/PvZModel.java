@@ -4,6 +4,14 @@ import java.util.ListIterator;
 import java.util.Random;
 import java.util.Scanner;
 
+/** PvZModel
+ * 
+ * The Model class initializes the game by commencing a game loop which
+ * prompts the user and initializes the gameboard 
+ *
+ */
+
+
 public class PvZModel {
 
 	/**
@@ -43,6 +51,14 @@ public class PvZModel {
 		 gameBoard = new GameBoard();
 		 gameCounter = 0;
 	}	
+	
+	public void addEntity (Entity e){
+			entities.add(e);
+	}
+	
+	public void removeEntity (Entity e) {
+			entities.remove(e);
+	}
 	
 	private boolean isOccupied(Point p) {
 		for(Entity e : entities) {
@@ -122,15 +138,14 @@ public class PvZModel {
 			String input = reader.nextLine().toUpperCase();
 			if (isSunflowerPurchasable && sunflowerName.toUpperCase().equals(input)) {
 				sunPoints -= Sunflower.COST;
-				entities.add(new Sunflower(getLocation(sunflowerName)));	
+				addEntity(new Sunflower(getLocation(sunflowerName)));	
 				Sunflower.setNextDeployable(gameCounter);
 			} else if (isPeaShooterPurchasable && peaShooterName.toUpperCase().equals(input)) {
 				sunPoints -= PeaShooter.COST;
-				entities.add(new PeaShooter(getLocation(peaShooterName)));
+				addEntity(new PeaShooter(getLocation(peaShooterName)));
 				PeaShooter.setNextDeployable(gameCounter);
 			} 
 			else if(input.isEmpty()) {
-				System.out.println("PRess");
 				return;
 			}
 			else {
@@ -143,7 +158,7 @@ public class PvZModel {
 	
 	private void spawnZombies(int n) {
 		for (int i = 0; i < n; i ++) {
-			entities.add(new Zombie(new Point(GameBoard.COLUMNS - 1, new Random().nextInt(GameBoard.ROWS))));
+			addEntity(new Zombie(new Point(GameBoard.COLUMNS - 1, new Random().nextInt(GameBoard.ROWS))));
 		}
 	}
 	

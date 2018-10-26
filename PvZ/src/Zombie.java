@@ -1,5 +1,11 @@
 import java.awt.Point;
 
+/** Zombie
+ * 
+ * Zombie has attributes damage, velocity
+ * Updates the position of the zombie for each turn
+ */
+
 public class Zombie extends Alive implements Moveable {
 	
 	/**

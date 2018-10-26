@@ -1,5 +1,11 @@
 import java.awt.Point;
 
+/** Shooter
+ * 
+ * Shooter applies to all entities that can shoot objects
+ * Controls the fire rate for all entities
+ */
+
 public abstract class Shooter extends Alive {
 	
 	private int fireRate;

@@ -1,5 +1,11 @@
 import java.awt.Point;
 
+/** Entity
+ * 
+ * Entity applies to all entities in the game
+ * It keeps track of the location of all entities
+ */
+
 public abstract class Entity {
 	
 	private Point p;

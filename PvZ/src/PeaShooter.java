@@ -1,5 +1,11 @@
 import java.awt.Point;
 
+/** PeaShooter
+ * 
+ * PeaShooter has attributes cost, recharge_time, damage
+ * Determines when the peashooter can shoot and be deployed
+ */
+
 public class PeaShooter extends Shooter {
 	
 	/**

@@ -1,5 +1,11 @@
 import java.awt.Point;
 
+/** Bullet
+ * 
+ * Bullet applies to plants/zombies that can shoot any objects.
+ * It consists of attributes damage and velocity 
+ */
+
 public class Bullet extends Entity implements Moveable {
 	
 	private int damage;

@@ -1,5 +1,11 @@
 import java.awt.Point;
 
+/** GameBoard
+ * 
+ * GameBoard implements the Board interface
+ * It prints, clears, adds and removes entities off the board
+ */
+
 public class GameBoard implements Board {
 	
 	public static final int ROWS = 5;
