@@ -157,8 +157,7 @@ public class PvZModel {
 			Entity e = iter.next();
 			boolean isZombie = e instanceof Zombie;
 			if ((!(isZombie && (m instanceof Zombie)) 
-					&& ((e.getX() == m.nextPosition().getX() && e.getY() == m.nextPosition().getY()) 
-					|| (e.getX() == m.nextPosition().getX() && e.getY() == m.nextPosition().getY())))) {
+					&& ((e.getX() == m.nextPosition().getX() && e.getY() == m.nextPosition().getY())))) {
 				isCollision = true;
 				// Zombie hit by bullet
 				if (isZombie && m instanceof Bullet) {
@@ -169,7 +168,7 @@ public class PvZModel {
 					}
 					break;
 				}
-				// Zombie collided with plant 
+				//Zombie collided with plant 
 				if ((e instanceof PeaShooter || e instanceof Sunflower) && m instanceof Zombie) {
 					((Alive) e).setHealth(Zombie.DAMAGE);				
 					break;
