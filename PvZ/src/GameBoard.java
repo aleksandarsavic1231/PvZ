@@ -86,11 +86,6 @@ public class GameBoard implements Board {
 	}
 
 	@Override
-	public void removeEntity(Entity e) {
-		 tiles[e.getY()][e.getX()] = ' ';
-	}
-	
-	@Override
 	public Point isValidLocation(String input) {
 		int x = input.charAt(0) - ASCII_LOWER_BOUND;
 		int y = Character.getNumericValue(input.charAt(1));
