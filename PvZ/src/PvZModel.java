@@ -227,7 +227,7 @@ public class PvZModel {
 	 * @return boolean type
 	 * Checks true and false if collision has been made between two things in same position
 	 * Updates game when bullet and entity zombie collide resulting in damage to the zombie which lowers the health
-	 * Updates game when entity zombie is in the same tile as any plant and checks if plant is alive or not due to damage caused by zombie
+	 * Updates game when entity zombie is infront of any plant and checks if plant is alive or not due to damage caused by zombie
 	 */
 	private boolean isCollision(Moveable m) {
 		// TODO: Make functional 
