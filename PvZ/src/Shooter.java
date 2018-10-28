@@ -15,9 +15,21 @@ public abstract class Shooter extends Alive {
 		this.fireRate = 0;	
 	}
 	
-	public int setFireRate(int fireRate) {
-		return this.fireRate = fireRate;
+	/**
+	 * Returns the firerate of a specific shooter
+	 * @param fireRate
+	 * @return int
+	 */
+	
+	public void setFireRate(int fireRate) {
+		this.fireRate = fireRate;
 	}
+	
+	/**
+	 * Determines whether a shooter can shoot or if it is still cooling down
+	 * 
+	 * @return boolean
+	 */
 
 	public boolean canShoot() {
 		if (fireRate == 0) {

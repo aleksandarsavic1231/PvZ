@@ -45,9 +45,20 @@ public class PeaShooter extends Shooter {
 		this.setFireRate(RECHARGE_TIME);
 	}	
 	
+	/**
+	 *This function sets the next available time to deploy a PeaShooter
+	 *
+	 * @param gameCounter
+	 */
 	public static void setNextDeployable(int gameCounter) {
 		nextDeployable = gameCounter + SPAWN_COOLDOWN;
 	}
+	
+	/**
+	 * This function determines whether PeaShooter is deployable
+	 * @param gameCounter
+	 * @return boolean
+	 */
 	
 	public static boolean isDeployable(int gameCounter) {
 		return (nextDeployable <= gameCounter);
