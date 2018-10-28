@@ -4,6 +4,8 @@ import java.awt.Point;
  * 
  * Zombie has attributes damage, velocity
  * Updates the position of the zombie for each turn
+ * Version: Oct 28, 2018
+ * Author: Kyle Horne
  */
 
 public class Zombie extends Alive implements Moveable {
@@ -18,6 +20,9 @@ public class Zombie extends Alive implements Moveable {
 	 */
 	public static final int VELOCITY = 1;
 	
+	/**
+	 * Character representing the Zombie on the GameBoard
+	 */
 	public static final char IDENTIFIER = '<';
 	
 	private boolean locked;
@@ -27,6 +32,9 @@ public class Zombie extends Alive implements Moveable {
 		locked = false;
 	}
 
+	/**
+	 * Overrides are explained in Moveable interface
+	 */
 	@Override
 	public void updatePosition() {
 		if (!locked) getPoint().setLocation(nextPosition());
