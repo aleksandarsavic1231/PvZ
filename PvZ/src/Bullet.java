@@ -1,27 +1,50 @@
 import java.awt.Point;
 
-/** Bullet
+/**
+ * Bullet applies to Entities that can shoot objects.
  * 
- * Bullet applies to plants/zombies that can shoot any objects.
- * It consists of attributes damage and velocity 
+ * @author kylehorne
+ * @version 28 Oct 18
  */
-
 public class Bullet extends Entity implements Moveable {
 	
+	/**
+	 * The damage of this Bullet.
+	 */
 	private int damage;
 	
+	/**
+	 * The velocity of all Bullet objects.
+	 */
 	public static final int VELOCITY = 1;
 	
+	/**
+	 * Is this bullet locked from moving.
+	 */
 	private boolean locked;
 	
+	/**
+	 * The identifier for all Bullet objects.
+	 */
 	public static final char IDENTIFIER = '*';
 	
+	/**
+	 * Constructor.
+	 * 
+	 * @param position Location of entity.
+	 * @param damage Bullet damage on impact.
+	 */
 	public Bullet(Point position, int damage) {
 		super(position);
 		this.damage = damage;
 		this.locked = false;
 	}
 
+	/**
+	 * Get the damage of this bullet.
+	 * 
+	 * @return int The damage of this bullet.
+	 */
 	public int getDamage() {
 		return damage;
 	}
