@@ -72,16 +72,12 @@ public class GameBoard implements Board {
 		int j = e.getY(); 
 		char c = tiles[j][i];
 		if (j < ROWS && i < COLUMNS) {
-			if ((int) '2' <= c && c <= (int) '9') tiles[j][i]++;
-			else if ((e instanceof Zombie) && c != ' ') tiles[j][i] = '2';
-			else {
-				char identifier; 
-				if (e instanceof PeaShooter) identifier = PeaShooter.IDENTIFIER;
-				else if (e instanceof Sunflower) identifier = Sunflower.IDENTIFIER;
-				else if (e instanceof Bullet) identifier = Bullet.IDENTIFIER;
-				else identifier = Zombie.IDENTIFIER;
-				tiles[j][i] = identifier;
-			}
+			char identifier = ' '; 
+			if (e instanceof PeaShooter) identifier = PeaShooter.IDENTIFIER;
+			else if (e instanceof Sunflower) identifier = Sunflower.IDENTIFIER;
+			else if (e instanceof Bullet) identifier = Bullet.IDENTIFIER;
+			else identifier = Zombie.IDENTIFIER;
+			if (c == ' ') tiles[j][i] = identifier;
 		}
 	}
 

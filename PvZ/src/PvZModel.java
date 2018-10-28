@@ -135,19 +135,6 @@ public class PvZModel {
 		}
 		return true;
 	}
-	
-	/**
-	 * Returns void
-	 * Time delay of one second for game board update after a turn
-	 */
-	private void sleepOneSecond() {
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Returns void
@@ -206,7 +193,6 @@ public class PvZModel {
 				nextMove();
 			}
 		}
-		sleepOneSecond();
 	}
 	
 	/**
@@ -240,7 +226,7 @@ public class PvZModel {
 			boolean isZombie = e instanceof Zombie;
 			if ((!(isZombie && (m instanceof Zombie)) 
 				&& ((e.getX() == m.nextPosition().getX() && e.getY() == m.nextPosition().getY()) 
-						|| (e.getX() == ((Entity) m).getX() && e.getY() == ((Entity) m).getY())))) {
+						|| (e != m && e.getX() == ((Entity) m).getX() && e.getY() == ((Entity) m).getY())))) {
 				
 				isCollision = true;
 				// Zombie hit by bullet
