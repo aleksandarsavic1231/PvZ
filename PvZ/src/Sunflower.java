@@ -4,6 +4,8 @@ import java.awt.Point;
  * 
  * Sunflower has attributes cost, recharge_time, damage
  * Determines when the sunflower can be deployed
+ * Version: Oct 28, 2018
+ * Author: Kyle Horne
  */
 
 public class Sunflower extends Shooter {
@@ -27,7 +29,9 @@ public class Sunflower extends Shooter {
 	 * Next round the Sunflower can be deployed.
 	 */
 	public static int nextDeployable;
-	
+	/**
+	 * Character representation of Sunflower on GameBoard
+	 */
 	public static final char IDENTIFIER = '$';
 	
 	public Sunflower(Point position) {
@@ -35,6 +39,9 @@ public class Sunflower extends Shooter {
 		nextDeployable = 0;
 	}
 
+	/** 
+	 * All Overrides are found in Shooter class
+	 */
 	@Override
 	public void resetFireRate() {
 		this.setFireRate(RECHARGE_TIME);
