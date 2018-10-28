@@ -45,6 +45,7 @@ public class PvZModel {
 	
 	public static final int INITIAL_BALANCE = 1000;
 	
+	//PvZModel constructor
 	public PvZModel() {
 		 entities = new LinkedList<Entity>();
 		 sunPoints = INITIAL_BALANCE; 
@@ -52,14 +53,32 @@ public class PvZModel {
 		 gameCounter = 0;
 	}	
 	
+	/**
+	 * 
+	 * @param e
+	 * Adds Entity e to entities list
+	 * returns void
+	 */
 	public void addEntity (Entity e){
 			entities.add(e);
 	}
 	
+	/**
+	 * 
+	 * @param e
+	 * Removes Entity e from entities list
+	 * returns void
+	 */
 	public void removeEntity (Entity e) {
 			entities.remove(e);
 	}
-	
+
+	/**
+	 * 
+	 * @param p
+	 * @return boolean type
+	 * Checks true or false if another entity is occupied in that specific position
+	 */
 	private boolean isOccupied(Point p) {
 		for(Entity e : entities) {
 			if (e.getX() == p.x && e.getY() == p.y) return true; 
@@ -67,6 +86,12 @@ public class PvZModel {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param entityName
+	 * @return Point type
+	 * prompts user to spawn new entity and gets location
+	 */
 	private Point getLocation(String entityName) {
 		System.out.println("Enter a location to spawn new " + entityName + ": ");
 		reader = new Scanner(System.in);
@@ -85,6 +110,11 @@ public class PvZModel {
 		return p;
 	}
 	
+	/**
+	 * 
+	 * @return boolean type
+	 * Checks true or false if Zombie entity reaches end of board that results in a loosing game over 
+	 */
 	private boolean isGameOver() {
 		// TODO: Make functional method to iterate over entities
 		for(Entity e : entities) {
@@ -93,6 +123,11 @@ public class PvZModel {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @return boolean type 
+	 * Checks true or false for if round is over
+	 */
 	private boolean isRoundOver() {
 		// TODO: Make functional method to iterate over entities
 		for(Entity e : entities) {
@@ -101,6 +136,10 @@ public class PvZModel {
 		return true;
 	}
 	
+	/**
+	 * Returns void
+	 * Time delay of one second for game board update after a turn
+	 */
 	private void sleepOneSecond() {
 		try {
 			Thread.sleep(1000);
@@ -110,6 +149,11 @@ public class PvZModel {
 		}
 	}
 
+	/**
+	 * Returns void
+	 * Shows amount of sun points left and what plants are available to buy 
+	 * Prompts user to make the next move on making a purchase or not and proceeds accordingly 
+	 */
 	private void nextMove() {
 		// TODO: Make functional 
 		// Update isDeployable
@@ -156,12 +200,26 @@ public class PvZModel {
 		sleepOneSecond();
 	}
 	
+	/**
+	 * 
+	 * @param n
+	 * Returns void
+	 * Spawns Zombie Entity to the game board
+	 */
 	private void spawnZombies(int n) {
 		for (int i = 0; i < n; i ++) {
 			addEntity(new Zombie(new Point(GameBoard.COLUMNS - 1, new Random().nextInt(GameBoard.ROWS))));
 		}
 	}
 	
+	/**
+	 * 
+	 * @param m
+	 * @return boolean type
+	 * Checks true and false if collision has been made between two things in same position
+	 * Updates game when bullet and entity zombie collide resulting in damage to the zombie which lowers the health
+	 * Updates game when entity zombie is in the same tile as any plant and checks if plant is alive or not due to damage caused by zombie
+	 */
 	private boolean isCollision(Moveable m) {
 		// TODO: Make functional 
 		boolean isCollision = false;
@@ -195,6 +253,12 @@ public class PvZModel {
 		return isCollision;
 	}
 
+	/**
+	 * Returns void
+	 * loops turn based game until game is over due to either all zombies are dead (win) or zombie making it to the end of the board (lose)
+	 * prints board after every turn to update user 
+	 * Notifies User on result of game once game is over
+	 */
 	private void gameLoop() {
 		gameBoard.print();
 		spawnZombies(1);
@@ -253,6 +317,11 @@ public class PvZModel {
 		reader.close();
 	}
 	
+	/**
+	 * 
+	 * @param args
+	 * Returns void 
+	 */
 	public static void main(String args[]) {
 		PvZModel PvZ = new PvZModel();
 		PvZ.gameLoop();
