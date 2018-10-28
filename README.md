@@ -11,6 +11,7 @@ README - Kaj Hemmingsen-Beriault
 
 CODE - (Primary Contributor):
 Alive.java - NEW - Class - Kyle Horne
+
 Board.java - NEW - Interface - Kyle Horne
 Bullet.java - NEW - Class - Kyle Horne
 Entity.java - NEW - Class - Kyle Horne
