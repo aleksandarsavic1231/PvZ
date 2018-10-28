@@ -300,7 +300,6 @@ public class PvZModel {
 				// Check for dead entities
 				if (e instanceof Alive && ((Alive) e).getHealth() <= 0) {
 					System.out.println(e.getClass().getName() + " has died.");
-					gameBoard.removeEntity(e);
 					iter.remove();
 					deathOccurred = true;
 				}
