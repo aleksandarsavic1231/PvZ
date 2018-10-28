@@ -1,26 +1,46 @@
 import java.awt.Point;
 
-/** GameBoard
+/**
+ * GameBoard consisting of multiple tiles. 
  * 
- * GameBoard implements the Board interface
- * It prints, clears, adds and removes entities off the board
+ * @author kylehorne
+ * @version 28 Oct 18
  */
-
 public class GameBoard implements Board {
 	
+	/**
+	 * The rows for all GameBoard objects.
+	 */
 	public static final int ROWS = 5;
 	
+	/**
+	 * The columns for all GameBoard objects.
+	 */
 	public static final int COLUMNS = 10;
 	
+	/**
+	 * The beginning ASCII character for all GameBoard objects.
+	 */
 	public static final int ASCII_LOWER_BOUND = 65;
 	
+	/**
+	 * Tiles making up the board.
+	 */
 	private char[][] tiles;
 	
+	/**
+	 * Constructor.
+	 */
 	public GameBoard() {
 		tiles = new char [ROWS][COLUMNS];
 		clear();
 	}
 	
+	/**
+	 * Iterate over GameBoard and apply update.
+	 * 
+	 * @param t The tile.
+	 */
 	private void iterateBoard(Tile t) {
 		for (int i = 0 ; i < ROWS ; i++){
 			for (int j = 0 ; j < COLUMNS ; j++){
