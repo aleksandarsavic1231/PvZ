@@ -163,6 +163,15 @@ public class PvZModel {
 		// Check for purchasable items
 		boolean isSunflowerPurchasable = sunPoints >= Sunflower.COST && Sunflower.isDeployable(gameCounter);
 		boolean isPeaShooterPurchasable = sunPoints >= PeaShooter.COST && PeaShooter.isDeployable(gameCounter);
+		
+		for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
+			Entity e = iter.next();
+			if (e.getClass().getName().equals("Zombie")) {
+				Zombie f = (Zombie) e;
+				System.out.println("Zombie's Health: " + f.getHealth());
+			}
+		}
+		
 		if (!(isSunflowerPurchasable || isPeaShooterPurchasable)) {
 			System.out.println("No store items deployable.");
 		} else {
