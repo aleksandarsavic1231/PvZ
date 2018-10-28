@@ -10,19 +10,31 @@ SEQUENCE DIAGRAM - Alexander Savic
 README - Kaj Hemmingsen-Beriault
 
 CODE - (Primary Contributor):
+
 Alive.java - NEW - Class - Kyle Horne
 
 Board.java - NEW - Interface - Kyle Horne
+
 Bullet.java - NEW - Class - Kyle Horne
+
 Entity.java - NEW - Class - Kyle Horne
+
 GameBoard.java - NEW - Class - Kyle Horne
+
 Moveable.java - NEW -Interface - Kyle Horne
+
 PeaShooter.java - NEW - Class - Kyle Horne
-PvZModel.java - NEW - Class - Kyle Horne, Kaj Hemmingsen-Beriault, Tashfiq 				Akhand, Alexander Savic
+
+PvZModel.java - NEW - Class - Kyle Horne, Kaj Hemmingsen-Beriault, Tashfiq Akhand, Alexander Savic
+
 Shooter.java - NEW - Class - Kyle Horne
+
 Sun.java - NEW - Class - Kyle Horne
+
 Sunflower.java - NEW - Class - Kyle Horne
+
 Tile.java - NEW - Interface - Kyle Horne
+
 Zombie.java - NEW - Class - Kyle Horne
 
 KNOWN BUGS -
