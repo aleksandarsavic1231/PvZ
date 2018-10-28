@@ -1,16 +1,28 @@
 import java.awt.Point;
 
-/** Moveable
+/**
+ * Moveable interface.
  * 
- * Moveable interface consists of methods updatePosition, nextPosition, unlock
+ * @author kylehorne
+ * @version 28 Oct 18
  */
-
 public interface Moveable {
 	
+	/**
+	 * Update the position of Moveable.
+	 */
 	public void updatePosition();
 	
+	/**
+	 * Get the next position of Moveable.
+	 * 
+	 * @return
+	 */
 	public Point nextPosition();
 	
+	/**
+	 * Unlock Moveable to allow update position.
+	 */
 	public void unlock();
 
 }
