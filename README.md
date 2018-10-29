@@ -23,7 +23,7 @@
   + Zombie.java - NEW - Class - Kyle Horne
 
 **KNOWN BUGS** 
-+ None so far
++ See issues
 
 **DESIGN DECISIONS**
 + Abstract classes were used as much as possible when creating plants and zombies, as that cut down on copied code for shared properties between entities. We also used lambda functions to reduce repeated code. Coupling was kept low with the use of interfaces. We choose to use a linked list as our primary data structure for maintaining the state of multiple Entities since traversal is unavoidable for things like collision detection; however, once the index is known, insertion and deletions are trivial with linked list. We also used the Java standard libraries as much as possible. For example, we used the Point from the java.awt library to maintain the location of Entities. Moreover, we used the static keyword for read-only variables to increase efficiency.
