@@ -19,10 +19,11 @@ public interface Board {
 	public void print();
 	
 	/**
-	 * Check whether a input String is a valid location on the board.
+	 * Check whether a input location is within the domain and range of the board.
+	 * Return is null if location is outside the scope of the domain and range.
 	 * 
 	 * @param input The input location.
-	 * @return Point Point object of a valid input String.
+	 * @return Point Point object of a valid input String. 
 	 */
 	public Point isValidLocation(String input);
 			
@@ -32,7 +33,6 @@ public interface Board {
 	 * @param e Entity object.
 	 */
 	public void addEntity(Entity e);
-	
-	public void removeEntity(Entity e);
+
 
 }

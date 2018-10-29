@@ -4,14 +4,13 @@ import java.util.ListIterator;
 import java.util.Random;
 import java.util.Scanner;
 
-/** PvZModel
+/** 
+ * The game Model of the Plant vs. Zombies.
+ * The Model contains the game state and logic.
  * 
- * The Model class initializes the game by commencing a game loop which
- * prompts the user and initializes the gameboard 
- *
+ * @author kylehorne
+ * @version 29 Oct 18
  */
-
-
 public class PvZModel {
 
 	/**
@@ -29,6 +28,9 @@ public class PvZModel {
 	 */
 	public int gameCounter;
 
+	/**
+	 * Object that implements the board interface.
+	 */
 	private Board gameBoard;
 
 	private Scanner reader;
@@ -45,71 +47,73 @@ public class PvZModel {
 	
 	public static final int INITIAL_BALANCE = 1000;
 	
-	//PvZModel constructor
+	/**
+	 * Constructor.
+	 */
 	public PvZModel() {
 		 entities = new LinkedList<Entity>();
 		 sunPoints = INITIAL_BALANCE; 
 		 gameBoard = new GameBoard();
 		 gameCounter = 0;
 	}	
-	
+
 	/**
+	 * Check whether a position is occupied by another Entity excluding Bullet.
 	 * 
-	 * @param p
-	 * @return boolean type
-	 * Checks true or false if another entity is occupied in that specific position
+	 * @param p The location to check.
+	 * @return boolean True if position is currently occupied by another Entity excluding Bullet.
 	 */
 	private boolean isOccupied(Point p) {
 		for(Entity e : entities) {
-			if (e.getX() == p.x && e.getY() == p.y) return true; 
+			if (!(e instanceof Bullet) && e.getX() == p.x && e.getY() == p.y) return true; 
 		}
 		return false;
 	}
-	
+
 	/**
+	 * Get the location to spawn a plant from input by the user.
 	 * 
-	 * @param entityName
-	 * @return Point type
-	 * prompts user to spawn new entity and gets location
+	 * @param entityName The name of the plant to spawn.
+	 * @return Point The location to spawn a new plant.
 	 */
-	private Point getLocation(String entityName) {
-		System.out.println("Enter a location to spawn new " + entityName + ": ");
+	private Point getLocation(String plantName) {
+		System.out.println("Enter a location to spawn new " + plantName + ": ");
 		reader = new Scanner(System.in);
 		String input = reader.next().toUpperCase();
 		// Ensure valid spawn location 
 		Point p = gameBoard.isValidLocation(input);
 		if (p == null) {
-			return getLocation(entityName);
+			return getLocation(plantName);
 		}
-		// Ensure location is not currently occupied by entity
+		// Ensure location is not currently occupied by another Entity
 		if (isOccupied(p)) {
 			System.out.println("Location " + input + " is currently occupied.");
-			return getLocation(entityName);
+			return getLocation(plantName);
 		}
 		// Return valid spawn location
 		return p;
 	}
-	
+
 	/**
+	 * Check if game is over (player has lost the game).
+	 * Game is over if and only if a Zombie has traversed the board.
 	 * 
-	 * @return boolean type
-	 * Checks true or false if Zombie entity reaches end of board that results in a loosing game over 
+	 * @return boolean True if game is over.
 	 */
 	private boolean isGameOver() {
-		// TODO: Make functional method to iterate over entities
 		for(Entity e : entities) {
-			if (e instanceof Zombie && e.getX() == -1) return true;
+			if (e instanceof Zombie && e.getX() == 0) return true;
 		}
 		return false;
 	}
 	
 	/**
+	 * Check if the current round is over.
+	 * The round is over if all instances of Zombie have died.
 	 * 
-	 * @return boolean type 
-	 * Checks true or false for if round is over
+	 * @return boolean True if the round is over.
 	 */
 	private boolean isRoundOver() {
-		// TODO: Make functional method to iterate over entities
 		for(Entity e : entities) {
 			if (e instanceof Zombie) return false;
 		}
@@ -117,31 +121,14 @@ public class PvZModel {
 	}
 
 	/**
-	 * Returns void
-	 * Shows amount of sun points left and what plants are available to buy 
-	 * Prompts user to make the next move on making a purchase or not and proceeds accordingly 
+	 * Get the next move by the player. 
+	 * Ask whether they would like to purchase anything from store.
+	 * If they would like to purchase something from store ask where they would like to spawn the purchase.
 	 */
 	private void nextMove() {
-		// TODO: Make functional 
-		// Update isDeployable
-		//Sunflower.isDeployable(gameCounter);
-		//PeaShooter.isDeployable(gameCounter);	
 		System.out.println("Sun points: " + sunPoints);
-		// Check for purchasable items
 		boolean isSunflowerPurchasable = sunPoints >= Sunflower.COST && Sunflower.isDeployable(gameCounter);
 		boolean isPeaShooterPurchasable = sunPoints >= PeaShooter.COST && PeaShooter.isDeployable(gameCounter);
-		
-		for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
-			Entity e = iter.next();
-			if (e.getClass().getName().equals("Zombie")) {
-				Zombie f = (Zombie) e;
-				System.out.println("Zombie's Health: " + f.getHealth());
-			}
-			if (e instanceof PeaShooter) {
-				System.out.println("PeaShooter Health: " + ((PeaShooter) e).getHealth());
-			}
-		}
-		
 		if (!(isSunflowerPurchasable || isPeaShooterPurchasable)) {
 			System.out.println("No store items deployable.");
 		} else {
@@ -149,11 +136,11 @@ public class PvZModel {
 			System.out.println("Items available for purchase:");
 			String sunflowerName = Sunflower.class.getName();
 			if (isSunflowerPurchasable) {
-				System.out.println("<" + sunflowerName + " : " + Sunflower.COST + " Sun points>");
+				System.out.println("<" + sunflowerName + "> : " + Sunflower.COST + " Sun points");
 			}
 			String peaShooterName = PeaShooter.class.getName();
 			if (isPeaShooterPurchasable) {
-				System.out.println("<" + peaShooterName + " : " + PeaShooter.COST + " Sun points>");
+				System.out.println("<" + peaShooterName + "> : " + PeaShooter.COST + " Sun points");
 			} 
 			System.out.println("Press <Enter> to proceed without purchases");
 			// Read from standard out
@@ -179,49 +166,38 @@ public class PvZModel {
 	}
 	
 	/**
+	 * Spawn n Zombies at a random location.
 	 * 
-	 * @param n
-	 * Returns void
-	 * Spawns Zombie Entity to the game board
+	 * @param n The number of zombies to spawn.
 	 */
 	private void spawnZombies(int n) {
 		for (int i = 0; i < n; i ++) {
-			entities.add(new Zombie(new Point(GameBoard.COLUMNS - 1, 0)));
+			entities.add(new Zombie(new Point(GameBoard.COLUMNS, new Random().nextInt(GameBoard.ROWS))));
 		}
 	}
 	
 	/**
+	 * Check for collision of Entities.
+	 * A collision occurs when the next position of Moveable is currently 
+	 * occupied by a Entity.
 	 * 
-	 * @param m
-	 * @return boolean type
-	 * Checks true and false if collision has been made between two things in same position
-	 * Updates game when bullet and entity zombie collide resulting in damage to the zombie which lowers the health
-	 * Updates game when entity zombie is infront of any plant and checks if plant is alive or not due to damage caused by zombie
+	 * @param m The Moveable object to check.
+	 * @return boolean True if a collision has occurred.
 	 */
 	private boolean isCollision(Moveable m) {
-		// TODO: Make functional 
 		boolean isCollision = false;
-		for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
-			// Ensure the current position of Entity is not the next move of Moveable
-			// Ignore if Entity and Moveable are instances of Zombie
-			// (Zombies may share next position)
-			Entity e = iter.next();
-			boolean isZombie = e instanceof Zombie;
+		for(Entity e: entities) {
+			// Collision if the current position of Entity is the next position of Moveable
 			if (e.getX() == m.nextPosition().getX() && e.getY() == m.nextPosition().getY()) {
-				
 				isCollision = true;
 				// Zombie hit by bullet
-				if (isZombie && m instanceof Bullet) {
+				if (e instanceof Zombie && m instanceof Bullet) {
 					((Zombie) e).setHealth(((Bullet) m).getDamage());
-					// Zombie should update position regardless of being hit by bullet 
-					if (isCollision((Moveable) e)) {
-						((Zombie) e).updatePosition();
-					}
 					break;
 				}
-				//Zombie collided with plant 
+				// Zombie collided with plant 
 				if ((e instanceof PeaShooter || e instanceof Sunflower) && m instanceof Zombie) {
-					((Alive) e).setHealth(Zombie.DAMAGE);				
+					((Alive) e).setHealth(Zombie.DAMAGE);		
 					break;
 				}
 			}
@@ -230,74 +206,88 @@ public class PvZModel {
 	}
 
 	/**
-	 * Returns void
-	 * loops turn based game until game is over due to either all zombies are dead (win) or zombie making it to the end of the board (lose)
-	 * prints board after every turn to update user 
-	 * Notifies User on result of game once game is over
+	 * Game loop of Plant vs. Zombies.
 	 */
 	private void gameLoop() {
 		gameBoard.print();
 		spawnZombies(1);
-		while (!isGameOver()) {
-			gameBoard.clear();
-			nextMove();
-			boolean deathOccurred = false;
-			for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
-				Entity e = iter.next();
-				// Unlock Moveable entity
-				if (e instanceof Moveable) ((Moveable) e).unlock();
-				// Add entity to current game board
-				gameBoard.addEntity(e);
-				// Check if Shooter can fire 
+		boolean isRoundOver = false;
+		while(!isGameOver()) {
+			gameBoard.clear(); // Clear board of Entities
+			
+			// Spawn new Entities
+			LinkedList<Entity> tempEntities = new LinkedList<Entity>();
+			nextMove(); // Get next move by user
+			for(Entity e: entities) {
 				if (e instanceof Shooter && ((Shooter) e).canShoot())  {
-					// Instantiate new bullet if Entity is instance of PeaShooter
-					if (e instanceof PeaShooter) {
-						iter.add(new Bullet(new Point(e.getX() + 1, e.getY()), PeaShooter.DAMAGE));
-					}
-					// Increase sun points if Entity is instance of Sunflower
-					if (e instanceof Sunflower) {
-						sunPoints += Sun.REWARD;
-					}
-				}
-				// Update location of entity if instance of Moveable	
-				if (e instanceof Moveable) {
-					if (!isCollision((Moveable) e)) {	
-						// Lock Moveable entity from moving again during current game iteration
-						((Moveable) e).updatePosition();
-					} else if (e instanceof Bullet) {
-						// Remove bullet on impact
-						iter.remove();
-					}
-				}
-				// Remove bullet if domain is greater than game board columns
-				if (e instanceof Bullet && e.getX() >= GameBoard.COLUMNS) {
-					iter.remove();
-				}
-				// Check for dead entities
-				if (e instanceof Alive && ((Alive) e).getHealth() <= 0) {
-					System.out.println(e.getClass().getName() + " has died.");
-					gameBoard.removeEntity(e);
-					iter.remove();
-					deathOccurred = true;
-					break;
+					// If PeaShooter can fire add new bullet to Entity list
+					if (e instanceof PeaShooter) tempEntities.add(new Bullet(new Point(e.getX(), e.getY()), PeaShooter.DAMAGE));
+					// If sunflower can fire add sun reward.
+					else if (e instanceof Sunflower) sunPoints += Sun.REWARD;
 				}
 			}
-			gameBoard.print();
-			// Check for end of round only if instance of Alive died during current game iteration.
-			if (deathOccurred && isRoundOver()) break;
-			gameCounter++;
+			entities.addAll(tempEntities); // Add new Entities to Entities list
+			
+			// Update position of Moveable Entities
+			for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
+				Entity e = iter.next();
+				// Ensure Entity is Moveable and is not waiting to be delete
+				if (e instanceof Moveable) {
+					Moveable m = ((Moveable) e);
+					boolean isBullet = m instanceof Bullet;
+					m.unlock(); // Unlock to allow update position on this game iteration
+					if (!isCollision(m)) { 
+						m.updatePosition(); // Update position if there is no collision
+						// Remove bullet if domain is greater than game board columns
+						if (isBullet && e.getX() >= GameBoard.COLUMNS) iter.remove();
+					} else if (isBullet) iter.remove(); // Remove bullet on impact
+				}
+			}
+			
+			// Check for dead Entities
+			tempEntities = new LinkedList<Entity>();
+			boolean deathOccurred = false;
+			for(Entity e: entities) {	
+				if (e instanceof Alive) {	
+					// Check if Entity is dead 
+					if (((Alive) e).getHealth() <= 0) {
+						System.out.println(e.getClass().getName() + " died");
+						tempEntities.add(e);
+						deathOccurred = true;
+					} else {
+						// Print health of Entity if still alive
+						System.out.println(e.getClass().getName() + " heatlh: " + ((Alive) e).getHealth());
+					}
+				}
+			}
+			entities.removeAll(tempEntities);
+			
+			// Add Entities to game board
+			for(Entity e: entities) {
+				gameBoard.addEntity(e);
+			}
+			
+			gameBoard.print(); // Print game board
+			// Check if round is over if and only if death occurred
+			if (deathOccurred && isRoundOver()) {
+				isRoundOver = true;
+				break;
+			} 
+			gameCounter++; // Increase game counter
 			// Add automatic welfare if payment period has elapsed 
 			if (gameCounter % PAYMENT_PERIOD == 0) sunPoints += WELFARE;
 		}
-		if (isRoundOver()) System.out.println("You beat the round."); 
-		if (isGameOver()) System.out.println("Game over.");
+		
+		if (isRoundOver) System.out.println("You beat the round"); 
+		else System.out.println("You lost");
 		reader.close();
 	}
 	
 	/**
+	 * Main  method.
+	 * Initialize game and run game loop.
 	 * 
-	 * @param args
-	 * Returns void 
+	 * @param args The arguments from standard out.
 	 */
 	public static void main(String args[]) {
 		PvZModel PvZ = new PvZModel();

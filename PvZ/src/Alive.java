@@ -1,8 +1,7 @@
 import java.awt.Point;
 
 /**
- * 
- * The Alive class only applies for Entities that have a health attribute.
+ * The Alive class applies to Entities that have a health attribute.
  * 
  * @author kylehorne
  * @version 28 Oct 18

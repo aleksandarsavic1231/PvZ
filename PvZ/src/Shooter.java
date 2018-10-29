@@ -1,36 +1,43 @@
 import java.awt.Point;
 
-/** Shooter
+/**
+ * Shooter is object that can fire sequentially.
  * 
- * Shooter applies to all entities that can shoot objects
- * Controls the fire rate for all entities
+ * @author kylehorne
+ * @version 28 Oct 18
  */
-
 public abstract class Shooter extends Alive {
 	
+	/**
+	 * The fire rate of this Shooter.
+	 */
 	private int fireRate;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param position The spawn location of this Shooter.
+	 * @param health The initial health of this Shooter. 
+	 */
 	public Shooter(Point position, int health) {
 		super(position, health);
 		this.fireRate = 0;	
 	}
 	
 	/**
-	 * Returns the firerate of a specific shooter
+	 * Set the fire rate of this shooter.
+	 * 
 	 * @param fireRate
-	 * @return int
 	 */
-	
 	public void setFireRate(int fireRate) {
 		this.fireRate = fireRate;
 	}
-	
-	/**
-	 * Determines whether a shooter can shoot or if it is still cooling down
-	 * 
-	 * @return boolean
-	 */
 
+	/**
+	 * Whether the Shooter can fire.
+	 * 
+	 * @return
+	 */
 	public boolean canShoot() {
 		if (fireRate == 0) {
 			resetFireRate();

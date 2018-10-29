@@ -9,19 +9,19 @@ import java.awt.Point;
 public interface Moveable {
 	
 	/**
-	 * Update the position of Moveable.
+	 * Update current position.
 	 */
 	public void updatePosition();
 	
 	/**
 	 * Get the next position of Moveable.
 	 * 
-	 * @return
+	 * @return Point The next location of Moveable.
 	 */
 	public Point nextPosition();
 	
 	/**
-	 * Unlock Moveable to allow update position.
+	 * Unlock Moveable to allow call on update position.
 	 */
 	public void unlock();
 

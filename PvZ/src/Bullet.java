@@ -1,7 +1,7 @@
 import java.awt.Point;
 
 /**
- * Bullet applies to Entities that can shoot objects.
+ * Bullet is a Entity that can move and apply damage on impact with enemy forces.
  * 
  * @author kylehorne
  * @version 28 Oct 18
@@ -10,11 +10,12 @@ public class Bullet extends Entity implements Moveable {
 	
 	/**
 	 * The damage of this Bullet.
+	 * Each bullet may have different damage depending on who fired.
 	 */
 	private int damage;
 	
 	/**
-	 * The velocity of all Bullet objects.
+	 * The velocity of a Bullet.
 	 */
 	public static final int VELOCITY = 1;
 	
@@ -24,15 +25,15 @@ public class Bullet extends Entity implements Moveable {
 	private boolean locked;
 	
 	/**
-	 * The identifier for all Bullet objects.
+	 * Character representation of a Bullet.
 	 */
 	public static final char IDENTIFIER = '*';
 	
 	/**
 	 * Constructor.
 	 * 
-	 * @param position Location of entity.
-	 * @param damage Bullet damage on impact.
+	 * @param position Location of this Bullet.
+	 * @param damage This bullet damage on impact.
 	 */
 	public Bullet(Point position, int damage) {
 		super(position);

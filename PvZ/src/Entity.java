@@ -1,7 +1,7 @@
 import java.awt.Point;
 
 /**
- * Entity is a location of a entity in the game.
+ * Entity is a thing within the game that has a location. 
  * 
  * @author kylehorne
  * @version 28 Oct 18

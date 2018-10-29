@@ -1,40 +1,43 @@
 import java.awt.Point;
 
-/** Zombie
+/**
+ * Zombie is a Moveable enemy that can do damage on impact with plants.
  * 
- * Zombie has attributes damage, velocity
- * Updates the position of the zombie for each turn
- * Version: Oct 28, 2018
- * Author: Kyle Horne
+ * @author kylehorne
+ * @version 28 Oct 18
  */
-
 public class Zombie extends Alive implements Moveable {
 	
 	/**
-	 * Damaged cause by Zombie
+	 * Damaged caused by Zombie on impact with a plant.
 	 */
 	public static final int DAMAGE = 2;
 	
 	/**
-	 * Velocity of Zombie
+	 * Velocity of a Zombie.
 	 */
 	public static final int VELOCITY = 1;
 	
 	/**
-	 * Character representing the Zombie on the GameBoard
+	 * Character representation of a Zombie.
 	 */
 	public static final char IDENTIFIER = '<';
 	
+	/**
+	 * Is this bullet locked from moving.
+	 */
 	private boolean locked;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param position The spawn location of this Zombie.
+	 */
 	public Zombie(Point position) {
 		super(position, 5);
 		locked = false;
 	}
 
-	/**
-	 * Overrides are explained in Moveable interface
-	 */
 	@Override
 	public void updatePosition() {
 		if (!locked) getPoint().setLocation(nextPosition());

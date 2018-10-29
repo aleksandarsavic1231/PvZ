@@ -2,6 +2,7 @@ import java.awt.Point;
 
 /**
  * GameBoard consisting of multiple tiles. 
+ * This class implements the Board interface.
  * 
  * @author kylehorne
  * @version 28 Oct 18
@@ -9,22 +10,22 @@ import java.awt.Point;
 public class GameBoard implements Board {
 	
 	/**
-	 * The rows for all GameBoard objects.
+	 * The number of rows on a GameBoard.
 	 */
 	public static final int ROWS = 5;
 	
 	/**
-	 * The columns for all GameBoard objects.
+	 * The number of columns on a GameBoard.
 	 */
 	public static final int COLUMNS = 10;
 	
 	/**
-	 * The beginning ASCII character for all GameBoard objects.
+	 * The lower bound ASCII character for all GameBoard objects.
 	 */
 	public static final int ASCII_LOWER_BOUND = 65;
 	
 	/**
-	 * Tiles making up the board.
+	 * Tiles making up the game board.
 	 */
 	private char[][] tiles;
 	
@@ -49,6 +50,17 @@ public class GameBoard implements Board {
 		}	 
 	}
 	
+	/**
+	 * Check if tile is currently unoccupied.
+	 * 
+	 * @param i The location i of tile on game board.
+	 * @param j The location i of tile on game board.
+	 * @return boolean True if the location is unoccupied.
+	 */
+	private boolean isEmpty(int i, int j) {
+		return tiles[j][i] == ' ';
+	}
+	
 	@Override
 	public void clear () {iterateBoard((i, j) -> tiles[i][j] = ' '); }
 
@@ -66,31 +78,23 @@ public class GameBoard implements Board {
 	
 	@Override
 	public void addEntity(Entity e) {
-		// TODO: Throw exception if out of bounds
-		// TODO: Loosen coupling 
 		int i = e.getX();
 		int j = e.getY(); 
-		char c = tiles[j][i];
-		if (j < ROWS && i < COLUMNS) {
+		if (j < ROWS && i < COLUMNS && isEmpty(i, j)) {
 			char identifier = ' '; 
 			if (e instanceof PeaShooter) identifier = PeaShooter.IDENTIFIER;
 			else if (e instanceof Sunflower) identifier = Sunflower.IDENTIFIER;
 			else if (e instanceof Bullet) identifier = Bullet.IDENTIFIER;
-			else identifier = Zombie.IDENTIFIER;
-			if (c == ' ') tiles[j][i] = identifier;
+			else if (e instanceof Zombie) identifier = Zombie.IDENTIFIER;
+			tiles[j][i] = identifier;
 		}
-	}
-	
-	@Override
-	public void removeEntity(Entity e) {
-		tiles[e.getY()][e.getX()] = ' ';
 	}
 
 	@Override
 	public Point isValidLocation(String input) {
 		int x = input.charAt(0) - ASCII_LOWER_BOUND;
 		int y = Character.getNumericValue(input.charAt(1));
-		// Ensure valid input 
+		// Ensure input location is within the domain and range of game board.
 		if (input.length() != 2 || !(0 <= x && x < GameBoard.COLUMNS && 0 <= y && y < GameBoard.ROWS)) {
 			System.out.println("Invalid spawn location.");
 			return null;
