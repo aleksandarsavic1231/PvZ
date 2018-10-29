@@ -172,37 +172,36 @@ public class PvZModel {
 	 */
 	private void spawnZombies(int n) {
 		for (int i = 0; i < n; i ++) {
-			entities.add(new Zombie(new Point(GameBoard.COLUMNS, new Random().nextInt(GameBoard.ROWS))));
+			entities.add(new Zombie(new Point(GameBoard.COLUMNS, 0)));
 		}
 	}
 	
 	/**
-	 * Check for collision of Entities.
-	 * A collision occurs when the next position of Moveable is currently 
-	 * occupied by a Entity.
+	 * Whether a Moveable object will collide with game Entities.
 	 * 
 	 * @param m The Moveable object to check.
 	 * @return boolean True if a collision has occurred.
 	 */
 	private boolean isCollision(Moveable m) {
-		boolean isCollision = false;
 		for(Entity e: entities) {
-			// Collision if the current position of Entity is the next position of Moveable
-			if (e.getX() == m.nextPosition().getX() && e.getY() == m.nextPosition().getY()) {
-				isCollision = true;
-				// Zombie hit by bullet
-				if (e instanceof Zombie && m instanceof Bullet) {
-					((Zombie) e).setHealth(((Bullet) m).getDamage());
-					break;
-				}
-				// Zombie collided with plant 
-				if ((e instanceof PeaShooter || e instanceof Sunflower) && m instanceof Zombie) {
-					((Alive) e).setHealth(Zombie.DAMAGE);		
-					break;
-				}
+			// A collision will occur if the next position of Moveable is currently occupied.
+			boolean willCollide = e.getX() == m.nextPosition().getX() && e.getY() == m.nextPosition().getY();
+			// A collision occurred if two entities are on top of each other.
+			boolean hasCollided = e.getX() == ((Entity) m).getX() && e.getY() == ((Entity) m).getY();
+			
+			// Zombie hit by bullet
+			if (e instanceof Zombie && m instanceof Bullet && (hasCollided || willCollide)) {
+				((Zombie) e).setHealth(((Bullet) m).getDamage());
+				return true;
+			}
+			
+			// Zombie collided with plant 
+			if ((e instanceof PeaShooter || e instanceof Sunflower) && m instanceof Zombie && willCollide) {
+				((Alive) e).setHealth(Zombie.DAMAGE);		
+				return true;
 			}
 		}
-		return isCollision;
+		return false;
 	}
 
 	/**
