@@ -279,6 +279,7 @@ public class PvZModel {
 					gameBoard.removeEntity(e);
 					iter.remove();
 					deathOccurred = true;
+					break;
 				}
 			}
 			gameBoard.print();
