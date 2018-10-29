@@ -55,26 +55,6 @@ public class PvZModel {
 	
 	/**
 	 * 
-	 * @param e
-	 * Adds Entity e to entities list
-	 * returns void
-	 */
-	public void addEntity (Entity e){
-			entities.add(e);
-	}
-	
-	/**
-	 * 
-	 * @param e
-	 * Removes Entity e from entities list
-	 * returns void
-	 */
-	public void removeEntity (Entity e) {
-			entities.remove(e);
-	}
-
-	/**
-	 * 
 	 * @param p
 	 * @return boolean type
 	 * Checks true or false if another entity is occupied in that specific position
@@ -157,6 +137,9 @@ public class PvZModel {
 				Zombie f = (Zombie) e;
 				System.out.println("Zombie's Health: " + f.getHealth());
 			}
+			if (e instanceof PeaShooter) {
+				System.out.println("PeaShooter Health: " + ((PeaShooter) e).getHealth());
+			}
 		}
 		
 		if (!(isSunflowerPurchasable || isPeaShooterPurchasable)) {
@@ -178,11 +161,11 @@ public class PvZModel {
 			String input = reader.nextLine().toUpperCase();
 			if (isSunflowerPurchasable && sunflowerName.toUpperCase().equals(input)) {
 				sunPoints -= Sunflower.COST;
-				addEntity(new Sunflower(getLocation(sunflowerName)));	
+				entities.add(new Sunflower(getLocation(sunflowerName)));	
 				Sunflower.setNextDeployable(gameCounter);
 			} else if (isPeaShooterPurchasable && peaShooterName.toUpperCase().equals(input)) {
 				sunPoints -= PeaShooter.COST;
-				addEntity(new PeaShooter(getLocation(peaShooterName)));
+				entities.add(new PeaShooter(getLocation(peaShooterName)));
 				PeaShooter.setNextDeployable(gameCounter);
 			} 
 			else if(input.isEmpty()) {
@@ -203,7 +186,7 @@ public class PvZModel {
 	 */
 	private void spawnZombies(int n) {
 		for (int i = 0; i < n; i ++) {
-			addEntity(new Zombie(new Point(GameBoard.COLUMNS - 1, new Random().nextInt(GameBoard.ROWS))));
+			entities.add(new Zombie(new Point(GameBoard.COLUMNS - 1, 0)));
 		}
 	}
 	
@@ -224,9 +207,7 @@ public class PvZModel {
 			// (Zombies may share next position)
 			Entity e = iter.next();
 			boolean isZombie = e instanceof Zombie;
-			if ((!(isZombie && (m instanceof Zombie)) 
-				&& ((e.getX() == m.nextPosition().getX() && e.getY() == m.nextPosition().getY()) 
-						|| (e != m && e.getX() == ((Entity) m).getX() && e.getY() == ((Entity) m).getY())))) {
+			if (e.getX() == m.nextPosition().getX() && e.getY() == m.nextPosition().getY()) {
 				
 				isCollision = true;
 				// Zombie hit by bullet
@@ -295,6 +276,7 @@ public class PvZModel {
 				// Check for dead entities
 				if (e instanceof Alive && ((Alive) e).getHealth() <= 0) {
 					System.out.println(e.getClass().getName() + " has died.");
+					gameBoard.removeEntity(e);
 					iter.remove();
 					deathOccurred = true;
 				}

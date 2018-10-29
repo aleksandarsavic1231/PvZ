@@ -32,5 +32,7 @@ public interface Board {
 	 * @param e Entity object.
 	 */
 	public void addEntity(Entity e);
+	
+	public void removeEntity(Entity e);
 
 }

@@ -80,6 +80,11 @@ public class GameBoard implements Board {
 			if (c == ' ') tiles[j][i] = identifier;
 		}
 	}
+	
+	@Override
+	public void removeEntity(Entity e) {
+		tiles[e.getY()][e.getX()] = ' ';
+	}
 
 	@Override
 	public Point isValidLocation(String input) {
