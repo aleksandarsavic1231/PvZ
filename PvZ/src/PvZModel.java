@@ -255,7 +255,7 @@ public class PvZModel {
 						deathOccurred = true;
 					} else {
 						// Print health of Entity if still alive
-						System.out.println(e.getClass().getName() + " heatlh: " + ((Alive) e).getHealth());
+						System.out.println(e.getClass().getName() + " health: " + ((Alive) e).getHealth());
 					}
 				}
 			}
