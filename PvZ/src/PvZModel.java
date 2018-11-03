@@ -255,7 +255,7 @@ public class PvZModel {
 						deathOccurred = true;
 					} else {
 						// Print health of Entity if still alive
-						System.out.println(e.getClass().getName() + " heatlh: " + ((Alive) e).getHealth());
+						System.out.println(e.getClass().getName() + " health: " + ((Alive) e).getHealth());
 					}
 				}
 			}
@@ -292,5 +292,22 @@ public class PvZModel {
 		PvZModel PvZ = new PvZModel();
 		PvZ.gameLoop();
 	}
+
+	public int getSunPoints() {
+		return sunPoints;
+	}
+
+	public void setSunPoints(int sunPoints) {
+		this.sunPoints = sunPoints;
+	}
+
+	public int getGameCounter() {
+		return gameCounter;
+	}
+
+	public void setGameCounter(int gameCounter) {
+		this.gameCounter = gameCounter;
+	}
 		
+	
 }
