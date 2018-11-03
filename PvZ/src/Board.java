@@ -25,7 +25,7 @@ public interface Board {
 	 * @param input The input location.
 	 * @return Point Point object of a valid input String. 
 	 */
-	public Point isValidLocation(String input);
+	public Point isValidLocation(int x, int y);
 			
 	/**
 	 * Add Entity object to board.

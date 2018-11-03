@@ -91,12 +91,12 @@ public class GameBoard implements Board {
 	}
 
 	@Override
-	public Point isValidLocation(String input) {
-		int x = input.charAt(0) - ASCII_LOWER_BOUND;
-		int y = Character.getNumericValue(input.charAt(1));
+	public Point isValidLocation(int x, int y) {
+		//int x = input.charAt(0) - ASCII_LOWER_BOUND;
+		//int y = Character.getNumericValue(input.charAt(1));
 		// Ensure input location is within the domain and range of game board.
-		if (input.length() != 2 || !(0 <= x && x < GameBoard.COLUMNS && 0 <= y && y < GameBoard.ROWS)) {
-			System.out.println("Invalid spawn location.");
+		if (!(0 <= x && x < GameBoard.COLUMNS && 0 <= y && y < GameBoard.ROWS)) {
+			//System.out.println("Invalid spawn location.");
 			return null;
 		} 
 		return new Point(x, y);

@@ -31,7 +31,7 @@ public class View extends JFrame{
 		private JPanel gridPanel;
 		private JLabel sunpointsLabel;
 		private JTextField plantName;
-		private JButton sunflowerButton, peashooterButton;
+		private JButton sunflowerButton, peaShooterButton;
 
 		//images
 		private ImageIcon zombie = new ImageIcon("Zombie_PvZ-2.png");
@@ -111,14 +111,14 @@ public class View extends JFrame{
 			
 			//plant buttons
 			sunflowerButton = new JButton("Sunflower");
-			peashooterButton = new JButton("PeaShooter");
+			peaShooterButton = new JButton("PeaShooter");
 			
 			//set contentPane
 			contentPane = this.getContentPane();
 			contentPane.add(gridPanel, BorderLayout.CENTER);
 			contentPane.add(bottomPanel, BorderLayout.PAGE_END);
 
-			//init
+			//initialize
 			this.setSize(800,600);
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setVisible(true);
@@ -181,8 +181,8 @@ public class View extends JFrame{
 		}
 
 
-		public JButton getPeashooterButton() {
-			return peashooterButton;
+		public JButton getPeaShooterButton() {
+			return peaShooterButton;
 		}
 		
 }

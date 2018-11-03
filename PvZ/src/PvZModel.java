@@ -63,7 +63,7 @@ public class PvZModel {
 	 * @param p The location to check.
 	 * @return boolean True if position is currently occupied by another Entity excluding Bullet.
 	 */
-	private boolean isOccupied(Point p) {
+	public boolean isOccupied(Point p) {
 		for(Entity e : entities) {
 			if (!(e instanceof Bullet) && e.getX() == p.x && e.getY() == p.y) return true; 
 		}
@@ -76,19 +76,20 @@ public class PvZModel {
 	 * @param entityName The name of the plant to spawn.
 	 * @return Point The location to spawn a new plant.
 	 */
-	private Point getLocation(String plantName) {
-		System.out.println("Enter a location to spawn new " + plantName + ": ");
-		reader = new Scanner(System.in);
-		String input = reader.next().toUpperCase();
+	public Point getLocation(int x, int y) {
+//		System.out.println("Enter a location to spawn new " + plantName + ": ");
+//		reader = new Scanner(System.in);
+//		String input = reader.next().toUpperCase();
 		// Ensure valid spawn location 
-		Point p = gameBoard.isValidLocation(input);
+		Point p = gameBoard.isValidLocation(x,y);
 		if (p == null) {
-			return getLocation(plantName);
+			return p;
 		}
 		// Ensure location is not currently occupied by another Entity
 		if (isOccupied(p)) {
-			System.out.println("Location " + input + " is currently occupied.");
-			return getLocation(plantName);
+			//System.out.println("Location " + input + " is currently occupied.");
+			p = null;
+			return p;
 		}
 		// Return valid spawn location
 		return p;
@@ -148,11 +149,11 @@ public class PvZModel {
 			String input = reader.nextLine().toUpperCase();
 			if (isSunflowerPurchasable && sunflowerName.toUpperCase().equals(input)) {
 				sunPoints -= Sunflower.COST;
-				entities.add(new Sunflower(getLocation(sunflowerName)));	
+			//	entities.add(new Sunflower(getLocation(sunflowerName)));	
 				Sunflower.setNextDeployable(gameCounter);
 			} else if (isPeaShooterPurchasable && peaShooterName.toUpperCase().equals(input)) {
 				sunPoints -= PeaShooter.COST;
-				entities.add(new PeaShooter(getLocation(peaShooterName)));
+			//	entities.add(new PeaShooter(getLocation(peaShooterName)));
 				PeaShooter.setNextDeployable(gameCounter);
 			} 
 			else if(input.isEmpty()) {
@@ -307,6 +308,22 @@ public class PvZModel {
 
 	public void setGameCounter(int gameCounter) {
 		this.gameCounter = gameCounter;
+	}
+
+	public Board getGameBoard() {
+		return gameBoard;
+	}
+
+	public void setGameBoard(Board gameBoard) {
+		this.gameBoard = gameBoard;
+	}
+
+	public LinkedList<Entity> getEntities() {
+		return entities;
+	}
+
+	public void setEntities(LinkedList<Entity> entities) {
+		this.entities = entities;
 	}
 		
 	
