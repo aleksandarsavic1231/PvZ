@@ -23,7 +23,7 @@ public class Zombie extends Alive implements Moveable {
 	/**
 	 * Character representation of a Zombie.
 	 */
-	public static final ImageIcon IMAGE = new ImageIcon("../resources/Zombie.png");
+	public static final ImageIcon IMAGE = new ImageIcon("../resources/Zombie_Scaled.png");
 	/**
 	 * Is this bullet locked from moving.
 	 */
