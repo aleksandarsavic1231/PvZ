@@ -189,5 +189,12 @@ public class Controller implements ActionListener{
 	
 	}
 	
+	public static void main(String[] args) {
+		View v = new View("Plants Vs Zombies");
+		PvZModel PvZ = new PvZModel();
+		Controller con = new Controller(v, PvZ);
+		PvZ.gameLoop();
+	}
+	
 
 }
