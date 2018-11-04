@@ -1,5 +1,7 @@
 import java.awt.Point;
 
+import javax.swing.ImageIcon;
+
 /**
  * Zombie is a Moveable enemy that can do damage on impact with plants.
  * 
@@ -21,8 +23,7 @@ public class Zombie extends Alive implements Moveable {
 	/**
 	 * Character representation of a Zombie.
 	 */
-	public static final char IDENTIFIER = '<';
-	
+	public static final ImageIcon IMAGE = new ImageIcon("Zombie_PvZ-2.png");
 	/**
 	 * Is this bullet locked from moving.
 	 */

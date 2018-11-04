@@ -91,10 +91,71 @@ public class Controller implements ActionListener{
 
 		
 		
-		if(e.getSource() instanceof JButton && !addPlant) {
+		if(e.getSource() instanceof JButton) {
 			
 			JButton button = (JButton)e.getSource();
 			String buttonName = button.getText();
+			
+			
+			if(addPlant) {
+				
+				 for (int i = 0; i < GameBoard.ROWS; i++) {
+						
+						for(int j = 0; j < GameBoard.COLUMNS; j++) {
+							
+							if(e.getSource() == tiles[i][j]) {
+								
+								Point p = new Point(i,j);
+								
+								if(model.getLocation(i,j) != null) {
+									
+									switch(plant) {
+									
+									case "Sunflower":
+										JOptionPane.showMessageDialog(null, "Sunflower added!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+										
+										tiles[i][j].setIcon(Sunflower.IMAGE);
+										model.setSunPoints(model.getSunPoints()-Sunflower.COST);
+										v.setSunpointsLabel("Sunpoints: "+String.valueOf(model.getSunPoints()));
+										model.getEntities().add(new Sunflower(model.getLocation(i,j)));
+										Sunflower.setNextDeployable(model.getGameCounter());
+										break;
+										
+									case "PeaShooter":
+										
+										JOptionPane.showMessageDialog(null, "PeaShooter added!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+										
+										tiles[i][j].setIcon(PeaShooter.IMAGE);
+										model.setSunPoints(model.getSunPoints()-PeaShooter.COST);
+										v.setSunpointsLabel("Sunpoints: "+String.valueOf(model.getSunPoints()));
+										model.getEntities().add(new PeaShooter(model.getLocation(i,j)));
+										PeaShooter.setNextDeployable(model.getGameCounter());
+										break;
+									
+									}
+									
+									addPlant = false;
+									
+								}
+								else if(model.isOccupied(p)){
+									JOptionPane.showMessageDialog(null, "This location is currently occupied!", "Error", JOptionPane.ERROR_MESSAGE);
+								}
+								else {
+									
+									JOptionPane.showMessageDialog(null, "This is not a valid location", "Error", JOptionPane.ERROR_MESSAGE);
+
+								}
+						
+								
+								
+							}
+							
+							
+						}
+						
+					}
+				
+			}
 			
 			
 			switch(buttonName) {
@@ -121,79 +182,21 @@ public class Controller implements ActionListener{
 				JOptionPane.showConfirmDialog(null, fields, "Add Plant", JOptionPane.CANCEL_OPTION);
 				
 				break;
+				
+				
+			case "Next Turn":	
+				
+				if (model.getGameCounter() == 1) {
+					
+					model.spawnZombies(1);
+					
+					
+				}
 
 			
 			}
 		}
 			
-		else if(e.getSource() instanceof JButton && addPlant) {
-			  
-			  for (int i = 0; i < GameBoard.ROWS; i++) {
-					
-					for(int j = 0; j < GameBoard.COLUMNS; j++) {
-						
-						if(e.getSource() == tiles[i][j]) {
-							
-							Point p = new Point(i,j);
-							
-							if(model.getLocation(i,j) != null) {
-								
-								switch(plant) {
-								
-								case "Sunflower":
-									JOptionPane.showMessageDialog(null, "Sunflower added!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-									
-									tiles[i][j].setIcon(v.getSunflower());
-									model.setSunPoints(model.getSunPoints()-Sunflower.COST);
-									v.setSunpointsLabel("Sunpoints: "+String.valueOf(model.getSunPoints()));
-									model.getEntities().add(new Sunflower(model.getLocation(i,j)));
-									Sunflower.setNextDeployable(model.getGameCounter());
-									break;
-									
-								case "PeaShooter":
-									
-									JOptionPane.showMessageDialog(null, "PeaShooter added!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-									
-									tiles[i][j].setIcon(v.getPeashooter());
-									model.setSunPoints(model.getSunPoints()-PeaShooter.COST);
-									v.setSunpointsLabel("Sunpoints: "+String.valueOf(model.getSunPoints()));
-									model.getEntities().add(new PeaShooter(model.getLocation(i,j)));
-									PeaShooter.setNextDeployable(model.getGameCounter());
-									break;
-								
-								}
-								
-								addPlant = false;
-								
-							}
-							else if(model.isOccupied(p)){
-								JOptionPane.showMessageDialog(null, "This location is currently occupied!", "Error", JOptionPane.ERROR_MESSAGE);
-							}
-							else {
-								
-								JOptionPane.showMessageDialog(null, "This is not a valid location", "Error", JOptionPane.ERROR_MESSAGE);
-
-							}
-					
-							
-							
-						}
-						
-						
-					}
-					
-				}
-		
-		
-		}
-	
-	}
-	
-	public static void main(String[] args) {
-		View v = new View("Plants Vs Zombies");
-		PvZModel PvZ = new PvZModel();
-		Controller con = new Controller(v, PvZ);
-		PvZ.gameLoop();
 	}
 	
 

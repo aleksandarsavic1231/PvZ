@@ -82,10 +82,10 @@ public class GameBoard implements Board {
 		int j = e.getY(); 
 		if (j < ROWS && i < COLUMNS && isEmpty(i, j)) {
 			char identifier = ' '; 
-			if (e instanceof PeaShooter) identifier = PeaShooter.IDENTIFIER;
-			else if (e instanceof Sunflower) identifier = Sunflower.IDENTIFIER;
-			else if (e instanceof Bullet) identifier = Bullet.IDENTIFIER;
-			else if (e instanceof Zombie) identifier = Zombie.IDENTIFIER;
+			if (e instanceof PeaShooter) identifier = PeaShooter.IMAGE;
+			else if (e instanceof Sunflower) identifier = Sunflower.IMAGE;
+			else if (e instanceof Bullet) identifier = Bullet.IMAGE;
+			else if (e instanceof Zombie) identifier = Zombie.IMAGE;
 			tiles[j][i] = identifier;
 		}
 	}

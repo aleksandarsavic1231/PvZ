@@ -12,6 +12,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,15 +39,15 @@ public class View extends JFrame{
 		private JButton sunflowerButton, peaShooterButton;
 		private JMenuBar bar;
 	   	private JMenu jm;
-	        private JMenuItem Quit;
-	        private JMenuItem PlayAgain;
+	    private JMenuItem Quit;
+	    private JMenuItem PlayAgain;
 		private JMenuItem Undo;
 
 
 		//images
-		private ImageIcon zombie = new ImageIcon("Zombie_PvZ-2.png");
-		private ImageIcon sunflower = new ImageIcon("sunflower.png");
-		private ImageIcon peashooter = new ImageIcon("Peashooter_2.png");
+		//private ImageIcon zombie = new ImageIcon("Zombie_PvZ-2.png");
+		//private ImageIcon sunflower = new ImageIcon("sunflower.png");
+		//private ImageIcon peashooter = new ImageIcon("Peashooter_2.png");
 		
 		//colors
 		private Color lightGreen = new Color(0,255,51);
@@ -169,18 +172,6 @@ public class View extends JFrame{
 
 		public JButton getNextButton() {
 			return nextButton;
-		}
-
-		public ImageIcon getZombie() {
-			return zombie;
-		}
-
-		public ImageIcon getSunflower() {
-			return sunflower;
-		}
-
-		public ImageIcon getPeashooter() {
-			return peashooter;
 		}
 
 		public Color getLightGreen() {

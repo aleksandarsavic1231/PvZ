@@ -1,5 +1,7 @@
 import java.awt.Point;
 
+import javax.swing.ImageIcon;
+
 /**
  * PeaShooter is a Plant that can fire bullets.
  * 
@@ -36,8 +38,7 @@ public class PeaShooter extends Shooter {
 	/**
 	 * Character representation of a PeaShooter.
 	 */
-	public static final char IDENTIFIER = 'P';
-	
+	public static final ImageIcon IMAGE = new ImageIcon("Peashooter_2.png");
 	/**
 	 * Constructor.
 	 * 

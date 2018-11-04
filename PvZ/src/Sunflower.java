@@ -1,5 +1,7 @@
 import java.awt.Point;
 
+import javax.swing.ImageIcon;
+
 /** Sunflower
  * 
  * Sunflower has attributes cost, recharge_time, damage
@@ -38,8 +40,7 @@ public class Sunflower extends Shooter {
 	/**
 	 * Character representation of a Sunflower.
 	 */
-	public static final char IDENTIFIER = '$';
-	
+	public static final ImageIcon IMAGE = new ImageIcon("sunflower.png");
 	/**
 	 * Constructor.
 	 * 
