@@ -186,7 +186,7 @@ public class Controller implements ActionListener{
 				
 			case "Next Turn":	
 				
-				model.nextIteration();
+				//model.nextIteration();
 				v.setSunpointsLabel("Sunpoints: "+String.valueOf(model.getSunPoints()));
 				break;
 			

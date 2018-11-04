@@ -29,7 +29,7 @@ public class Bullet extends Entity implements Moveable {
 	/**
 	 * Character representation of a Bullet.
 	 */
-	public static final ImageIcon IMAGE = new ImageIcon("Peashooter_2.png");
+	public static final ImageIcon IMAGE = new ImageIcon("./resources/Peashooter_Scaled.png");
 	/**
 	 * Constructor.
 	 * 
