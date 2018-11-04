@@ -68,7 +68,7 @@ public class View extends JFrame{
 				for(int j = 0; j < GameBoard.COLUMNS; j++) {
 					
 					tiles[i][j] = new JButton();
-					
+					tiles[i][j].setOpaque(true);
 					
 					tiles[i][j].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0), BorderFactory.createEmptyBorder(0, 0, 0, 0)));
 					//set background colors
