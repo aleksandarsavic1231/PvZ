@@ -29,5 +29,4 @@ public interface Board {
 	 */
 	public void addEntity(Entity e);
 
-
 }
