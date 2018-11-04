@@ -20,11 +20,6 @@ public class GameBoard implements Board {
 	public static final int COLUMNS = 10;
 	
 	/**
-	 * The lower bound ASCII character for all GameBoard objects.
-	 */
-	public static final int ASCII_LOWER_BOUND = 65;
-	
-	/**
 	 * Tiles making up the game board.
 	 */
 	private Entity[][] tiles;
