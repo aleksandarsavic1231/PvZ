@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+
 
 @SuppressWarnings("serial")
 public class View extends JFrame{
@@ -32,6 +34,12 @@ public class View extends JFrame{
 		private JLabel sunpointsLabel;
 		private JTextField plantName;
 		private JButton sunflowerButton, peaShooterButton;
+		private JMenuBar bar;
+	   	private JMenu jm;
+	        private JMenuItem Quit;
+	        private JMenuItem PlayAgain;
+		private JMenuItem Undo;
+
 
 		//images
 		private ImageIcon zombie = new ImageIcon("Zombie_PvZ-2.png");
@@ -117,6 +125,16 @@ public class View extends JFrame{
 			contentPane = this.getContentPane();
 			contentPane.add(gridPanel, BorderLayout.CENTER);
 			contentPane.add(bottomPanel, BorderLayout.PAGE_END);
+			
+			bar = new JMenuBar();
+	        	jm = new JMenu("Menu");
+	        	Undo = new JMenuItem("Play Again");
+	        	PlayAgain = new JMenuItem("Play Again");
+	        	Quit = new JMenuItem("Quit Game");
+	        	jm.add(Undo);
+	        	jm.add(PlayAgain);
+	        	jm.add(Quit);
+	        	bar.add(jm);
 
 			//initialize
 			this.setSize(800,600);
@@ -124,7 +142,22 @@ public class View extends JFrame{
 			this.setVisible(true);
 		
 		}
+	
+		public void addListener(ActionListener a){
+			for (int i=0; i < GameBoard.ROWS; i++) {
+				for (int j=0; j < GameBoard.COLUMNS; j++){
+					tiles[i][j].addActionListener(a);
+				}
+			}
+			addButton.addActionListener(a);
+			nextButton.addActionListener(a);
+			sunflowerButton.addActionListener(a);
+			peaShooterButton.addActionListener(a);
+			Undo.addActionListener(a);
+			PlayAgain.addActionListener(a);
+			Quit.addActionListener(a);
 
+		}
 
 		public JButton[][] getTiles() {
 			return tiles;
