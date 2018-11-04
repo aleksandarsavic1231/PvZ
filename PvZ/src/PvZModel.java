@@ -208,16 +208,22 @@ public class PvZModel {
 	/**
 	 * Game loop of Plant vs. Zombies.
 	 */
-	private void gameLoop() {
-		gameBoard.print();
-		spawnZombies(1);
+	public void nextIteration() {
+		//gameBoard.print();
+		//spawnZombies(1);
 		boolean isRoundOver = false;
 		while(!isGameOver()) {
+			
+			if(gameCounter == 1) {
+				
+				spawnZombies(1);
+			}
+			
 			gameBoard.clear(); // Clear board of Entities
 			
 			// Spawn new Entities
 			LinkedList<Entity> tempEntities = new LinkedList<Entity>();
-			nextMove(); // Get next move by user
+			//nextMove(); // Get next move by user
 			for(Entity e: entities) {
 				if (e instanceof Shooter && ((Shooter) e).canShoot())  {
 					// If PeaShooter can fire add new bullet to Entity list
@@ -267,7 +273,7 @@ public class PvZModel {
 				gameBoard.addEntity(e);
 			}
 			
-			gameBoard.print(); // Print game board
+			//gameBoard.print(); // Print game board
 			// Check if round is over if and only if death occurred
 			if (deathOccurred && isRoundOver()) {
 				isRoundOver = true;
@@ -280,7 +286,7 @@ public class PvZModel {
 		
 		if (isRoundOver) System.out.println("You beat the round"); 
 		else System.out.println("You lost");
-		reader.close();
+		//reader.close();
 	}
 	
 	/**
@@ -291,7 +297,7 @@ public class PvZModel {
 	 */
 	public static void main(String args[]) {
 		PvZModel PvZ = new PvZModel();
-		PvZ.gameLoop();
+		//PvZ.gameLoop();
 	}
 
 	public int getSunPoints() {

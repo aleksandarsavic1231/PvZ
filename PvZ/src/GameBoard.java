@@ -1,5 +1,8 @@
 import java.awt.Point;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
 /**
  * GameBoard consisting of multiple tiles. 
  * This class implements the Board interface.
@@ -27,13 +30,13 @@ public class GameBoard implements Board {
 	/**
 	 * Tiles making up the game board.
 	 */
-	private char[][] tiles;
+	private Entity[][] tiles;
 	
 	/**
 	 * Constructor.
 	 */
 	public GameBoard() {
-		tiles = new char [ROWS][COLUMNS];
+		tiles = new Entity [ROWS][COLUMNS];
 		clear();
 	}
 	
@@ -58,22 +61,22 @@ public class GameBoard implements Board {
 	 * @return boolean True if the location is unoccupied.
 	 */
 	private boolean isEmpty(int i, int j) {
-		return tiles[j][i] == ' ';
+		return tiles[j][i] == null;
 	}
 	
 	@Override
-	public void clear () {iterateBoard((i, j) -> tiles[i][j] = ' '); }
+	public void clear () {iterateBoard((i, j) -> tiles[i][j] = null); }
 
 	@Override
 	public void print () {
-		for (int j = 0; j < COLUMNS; j++) 
-			System.out.print(Character.toString((char) (j + ASCII_LOWER_BOUND)) + " ");
-		System.out.println();
-		iterateBoard((i, j) -> {
-			System.out.print(Character.toString(tiles[i][j]));
-		    System.out.print(" ");
-		    if (j == COLUMNS - 1) System.out.println(i);
-		});
+//		for (int j = 0; j < COLUMNS; j++) 
+//			System.out.print(Character.toString((char) (j + ASCII_LOWER_BOUND)) + " ");
+//		System.out.println();
+//		iterateBoard((i, j) -> {
+//			System.out.print(Character.toString(tiles[i][j]));
+//		    System.out.print(" ");
+//		    if (j == COLUMNS - 1) System.out.println(i);
+//		});
 	}
 	
 	@Override
@@ -81,12 +84,12 @@ public class GameBoard implements Board {
 		int i = e.getX();
 		int j = e.getY(); 
 		if (j < ROWS && i < COLUMNS && isEmpty(i, j)) {
-			char identifier = ' '; 
+			ImageIcon identifier = null; 
 			if (e instanceof PeaShooter) identifier = PeaShooter.IMAGE;
 			else if (e instanceof Sunflower) identifier = Sunflower.IMAGE;
 			else if (e instanceof Bullet) identifier = Bullet.IMAGE;
 			else if (e instanceof Zombie) identifier = Zombie.IMAGE;
-			tiles[j][i] = identifier;
+			tiles[j][i].setIcon(identifier);
 		}
 	}
 

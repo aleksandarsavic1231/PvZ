@@ -1,5 +1,7 @@
 import java.awt.Point;
 
+import javax.swing.ImageIcon;
+
 /**
  * Bullet is a Entity that can move and apply damage on impact with enemy forces.
  * 
@@ -27,8 +29,7 @@ public class Bullet extends Entity implements Moveable {
 	/**
 	 * Character representation of a Bullet.
 	 */
-	public static final char IDENTIFIER = '*';
-	
+	public static final ImageIcon IMAGE = new ImageIcon("Peashooter_2.png");
 	/**
 	 * Constructor.
 	 * 

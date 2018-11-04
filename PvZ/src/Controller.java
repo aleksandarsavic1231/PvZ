@@ -186,13 +186,9 @@ public class Controller implements ActionListener{
 				
 			case "Next Turn":	
 				
-				if (model.getGameCounter() == 1) {
-					
-					model.spawnZombies(1);
-					
-					
-				}
-
+				model.nextIteration();
+				v.setSunpointsLabel("Sunpoints: "+String.valueOf(model.getSunPoints()));
+				break;
 			
 			}
 		}
