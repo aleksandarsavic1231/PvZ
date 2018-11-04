@@ -12,11 +12,6 @@ public interface Board {
 	 * Clear board.
 	 */
 	public void clear();
-
-	/**
-	 * Print board.
-	 */
-	public void print();
 	
 	/**
 	 * Check whether a input location is within the domain and range of the board.

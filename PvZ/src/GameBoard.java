@@ -1,8 +1,5 @@
 import java.awt.Point;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-
 /**
  * GameBoard consisting of multiple tiles. 
  * This class implements the Board interface.
@@ -65,44 +62,21 @@ public class GameBoard implements Board {
 	}
 	
 	@Override
-	public void clear () {iterateBoard((i, j) -> tiles[i][j] = null); }
-
-	@Override
-	public void print () {
-//		for (int j = 0; j < COLUMNS; j++) 
-//			System.out.print(Character.toString((char) (j + ASCII_LOWER_BOUND)) + " ");
-//		System.out.println();
-//		iterateBoard((i, j) -> {
-//			System.out.print(Character.toString(tiles[i][j]));
-//		    System.out.print(" ");
-//		    if (j == COLUMNS - 1) System.out.println(i);
-//		});
-	}
+	public void clear () { iterateBoard((i, j) -> tiles[i][j] = null); }
 	
 	@Override
 	public void addEntity(Entity e) {
 		int i = e.getX();
 		int j = e.getY(); 
-		if (j < ROWS && i < COLUMNS && isEmpty(i, j)) {
-			ImageIcon identifier = null; 
-			if (e instanceof PeaShooter) identifier = PeaShooter.IMAGE;
-			else if (e instanceof Sunflower) identifier = Sunflower.IMAGE;
-			else if (e instanceof Bullet) identifier = Bullet.IMAGE;
-			else if (e instanceof Zombie) identifier = Zombie.IMAGE;
-			tiles[j][i].setIcon(identifier);
-		}
+		if (j < ROWS && i < COLUMNS && isEmpty(i, j)) tiles[j][i] = e;
 	}
 
 	@Override
-	public Point isValidLocation(int x, int y) {
-		//int x = input.charAt(0) - ASCII_LOWER_BOUND;
-		//int y = Character.getNumericValue(input.charAt(1));
-		// Ensure input location is within the domain and range of game board.
-		if (!(0 <= x && x < GameBoard.COLUMNS && 0 <= y && y < GameBoard.ROWS)) {
-			//System.out.println("Invalid spawn location.");
+	public Point isValidLocation(int i, int j) {
+		if (!(0 <= i && j < GameBoard.COLUMNS && 0 <= i && j < GameBoard.ROWS)) {
 			return null;
 		} 
-		return new Point(x, y);
+		return new Point(i, j);
 	}
 	
 }
