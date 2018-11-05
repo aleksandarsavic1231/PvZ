@@ -196,6 +196,10 @@ public class Controller implements ActionListener{
 				} else {
 					// Print health of Entity if still alive
 					System.out.println(entity.getClass().getName() + " health: " + ((Alive) entity).getHealth());
+					if (entity.getClass().getName().equals("Zombie")){
+						view.setZombieHealth("Zombie's Health: " + ((Alive) entity).getHealth());
+
+					}
 				}
 			}
 		}
