@@ -208,7 +208,7 @@ public class Controller implements ActionListener{
 					for(Entity entity: entities) {
 						if (entity instanceof Shooter && ((Shooter) entity).canShoot())  {
 							// If PeaShooter can fire add new bullet to Entity list
-							if (entity instanceof PeaShooter) tempEntities.add(new Bullet(new Point(entity.getX(), entity.getY()), PeaShooter.DAMAGE));
+							if (entity instanceof PeaShooter) tempEntities.add(new Bullet(new Point(entity.getY(), entity.getX()), PeaShooter.DAMAGE));
 							// If sunflower can fire add sun reward.
 							else if (entity instanceof Sunflower) model.setSunPoints(model.getSunPoints()+Sun.REWARD);
 						}
@@ -255,8 +255,8 @@ public class Controller implements ActionListener{
 						}
 						
 						for(Entity entity: model.getEntities()) {
-							if (entity instanceof PeaShooter) tiles[entity.getY()][entity.getX()].setIcon(PeaShooter.IMAGE);
-							if (entity instanceof Sunflower) tiles[entity.getY()][entity.getX()].setIcon(Sunflower.IMAGE);
+							if (entity instanceof PeaShooter) tiles[entity.getX()][entity.getY()].setIcon(PeaShooter.IMAGE);
+							if (entity instanceof Sunflower) tiles[entity.getX()][entity.getY()].setIcon(Sunflower.IMAGE);
 							if (entity instanceof Zombie) tiles[entity.getY()][entity.getX()].setIcon(Zombie.IMAGE);
 							if (entity instanceof Bullet) tiles[entity.getY()][entity.getX()].setIcon(Bullet.IMAGE);
 						}
