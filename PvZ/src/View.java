@@ -39,8 +39,8 @@ public class View extends JFrame{
 	private JMenuBar bar;
 	private JMenu jm;
 	private JMenuItem Quit;
-	private JMenuItem PlayAgain;
-	private JMenuItem Undo;
+	private JMenuItem Restart;
+	//private JMenuItem Undo;
 
 	public static final Color LIGHT_GREEN = new Color(0,255,51);
 	public static final Color GREEN = new Color(0,153,0);
@@ -112,14 +112,15 @@ public class View extends JFrame{
 			
 		bar = new JMenuBar();
 		jm = new JMenu("Menu");
-		Undo = new JMenuItem("Play Again");
-		PlayAgain = new JMenuItem("Play Again");
+		//Undo = new JMenuItem("Undo");
+		Restart = new JMenuItem("Restart");
 		Quit = new JMenuItem("Quit Game");
-		jm.add(Undo);
-		jm.add(PlayAgain);
+		//jm.add(Undo);
+		jm.add(Restart);
 		jm.add(Quit);
 		bar.add(jm);
-
+		this.setJMenuBar(bar);
+		
 		//initialize
 		this.setSize(800,600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -132,8 +133,8 @@ public class View extends JFrame{
 		nextButton.addActionListener(a);
 		sunflowerButton.addActionListener(a);
 		peaShooterButton.addActionListener(a);
-		Undo.addActionListener(a);
-		PlayAgain.addActionListener(a);
+		//Undo.addActionListener(a);
+		Restart.addActionListener(a);
 		Quit.addActionListener(a);
 	}
 
