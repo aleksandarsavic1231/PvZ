@@ -24,7 +24,7 @@ public class Model {
 	/**
 	 * Current game iteration.
 	 */
-	public int gameCounter;
+	private int gameCounter;
 
 	/**
 	 * The period which sun points are automatically rewarded to balance (welfare)

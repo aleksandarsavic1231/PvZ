@@ -120,7 +120,8 @@ public class Controller implements ActionListener{
 		});
 		view.setSunpointsLabel("Sunpoints: " + model.getSunPoints());		
 		view.setZombieHealth("Zombie's Health: ");
-		
+		PeaShooter.nextDeployable = 0;
+		Sunflower.nextDeployable = 0;
 	}
 	
 	private void quit() {
@@ -210,6 +211,10 @@ public class Controller implements ActionListener{
 				// Check if Entity is dead 
 				if (((Alive) entity).getHealth() <= 0) {
 					System.out.println(entity.getClass().getName() + " died");
+					if (entity.getClass().getName().equals("Zombie")){
+						view.setZombieHealth("Zombie's Health: 0");
+
+					}					
 					tempEntities.add(entity);
 				} else {
 					// Print health of Entity if still alive
