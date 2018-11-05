@@ -48,7 +48,7 @@ public class View extends JFrame{
 		
 	public View(String title) {
 		super(title);
-			
+		setResizable(false);
 		//add tiles to grid panel
 		gridPanel = new JPanel();
 		gridPanel.setLayout(new GridLayout(Tile.ROWS, Tile.COLUMNS));
