@@ -39,6 +39,7 @@ public class Controller implements ActionListener{
 	private static enum Plant {SUNFLOWER, PEASHOOTER};
 	private Plant plant;
 	
+	
 	public Controller(View view, Model model) {
 		this.view = view;
 		this.model = model;
@@ -161,13 +162,7 @@ public class Controller implements ActionListener{
 	
 	private void nextTurn() {
 		// Check if game or round is over
-		if (model.isGameOver() || model.isRoundOver()) {
-			
-			int input = JOptionPane.showConfirmDialog(null, "Would you like to restart?", "Game Over!", JOptionPane.YES_NO_OPTION);
-			if(input == JOptionPane.YES_OPTION) restart();
-			else quit();
-			return;
-		}
+		if (model.isGameOver() || model.isRoundOver()) return;
 		// Clear board of Entities
 		Tile.iterateBoard((i, j) -> {
 			tiles[i][j].setIcon(null);
@@ -236,6 +231,11 @@ public class Controller implements ActionListener{
 		if (model.getGameCounter() % Model.PAYMENT_PERIOD == 0) model.setSunPoints(model.getSunPoints() + Model.WELFARE);
 		//model.nextIteration();
 		view.setSunpointsLabel("Sunpoints: " + model.getSunPoints());
+		if (model.isGameOver() || model.isRoundOver()) {
+			int input = JOptionPane.showConfirmDialog(null, "Would you like to restart?", "Game Over!", JOptionPane.YES_NO_OPTION);
+			if(input == JOptionPane.YES_OPTION) restart();
+			else quit();
+		}
 	}
 
 	@Override
