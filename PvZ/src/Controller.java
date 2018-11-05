@@ -28,7 +28,7 @@ public class Controller implements ActionListener{
 	
 	
 	public void initController() {
-		
+		// dsadSA
 		this.tiles = v.getTiles();
 		v.getAddButton().addActionListener(this);
 		v.getNextButton().addActionListener(this);
