@@ -193,6 +193,14 @@ public class Controller implements ActionListener{
 					if(model.getGameCounter() == 1) model.spawnZombies(1);
 					
 					model.getGameBoard().clear(); // Clear board of Entities
+					for (int i = 0; i < GameBoard.ROWS; i++) {
+						
+						for(int j = 0; j < GameBoard.COLUMNS; j++) {
+							
+							tiles[i][j].setIcon(null);
+					
+						}
+					}
 						
 					// Spawn new Entities
 					LinkedList<Entity> tempEntities = new LinkedList<Entity>();
@@ -245,6 +253,10 @@ public class Controller implements ActionListener{
 						// Add Entities to game board
 						for(Entity entity: entities) {
 							model.getGameBoard().addEntity(entity);
+						}
+						
+						for(Entity entity: model.getEntities()) {
+							tiles[entity.getY()][entity.getX()].setIcon(Zombie.IMAGE);
 						}
 						
 						// Check if round is over if and only if death occurred
