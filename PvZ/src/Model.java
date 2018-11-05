@@ -9,7 +9,7 @@ import java.util.Random;
  * @author kylehorne
  * @version 29 Oct 18
  */
-public class PvZModel {
+public class Model {
 
 	/**
 	 * Spawned entities. 
@@ -27,11 +27,6 @@ public class PvZModel {
 	public int gameCounter;
 
 	/**
-	 * Object that implements the board interface.
-	 */
-	private Board gameBoard;
-	
-	/**
 	 * The period which sun points are automatically rewarded to balance (welfare)
 	 */
 	public static final int PAYMENT_PERIOD = 4;
@@ -41,16 +36,30 @@ public class PvZModel {
 	 */
 	public static final int WELFARE = 25;
 	
-	public static final int INITIAL_BALANCE = 1000;
+	/**
+	 * 
+	 */
+	public static final int INITIAL_BALANCE = 100;
+	
+	/**
+	 * 
+	 */
+	private boolean gameOver;
+	
+	/**
+	 * 
+	 */
+	private boolean roundOver;
 	
 	/**
 	 * Constructor.
 	 */
-	public PvZModel() {
+	public Model() {
 		 entities = new LinkedList<Entity>();
 		 sunPoints = INITIAL_BALANCE; 
-		 gameBoard = new GameBoard();
 		 gameCounter = 0;
+		 spawnZombies(1);
+		 gameOver = false;
 	}	
 
 	/**
@@ -59,32 +68,15 @@ public class PvZModel {
 	 * @param p The location to check.
 	 * @return boolean True if position is currently occupied by another Entity excluding Bullet.
 	 */
-	public boolean isOccupied(Point p) {
-		for(Entity e : entities) {
-			if (!(e instanceof Bullet) && e.getX() == p.x && e.getY() == p.y) return true; 
+	public boolean isOccupied(int x, int y) {
+		if (!roundOver) {
+			for(Entity e : entities) {
+				if (!(e instanceof Bullet) && e.getX() == x && e.getY() == y) {
+					roundOver = true;
+				} 
+			}
 		}
-		return false;
-	}
-
-	/**
-	 * Get the location to spawn a plant from input by the user.
-	 * 
-	 * @param entityName The name of the plant to spawn.
-	 * @return Point The location to spawn a new plant.
-	 */
-	public Point getLocation(int x, int y) {
-		// Ensure valid location on game board
-		Point p = gameBoard.isValidLocation(x,y);
-		if (p == null) {
-			return p;
-		}
-		// Ensure location is not currently occupied by another Entity
-		if (isOccupied(p)) {
-			p = null;
-			return p;
-		}
-		// Return valid spawn location
-		return p;
+		return roundOver;
 	}
 
 	/**
@@ -94,10 +86,14 @@ public class PvZModel {
 	 * @return boolean True if game is over.
 	 */
 	public boolean isGameOver() {
-		for(Entity e : entities) {
-			if (e instanceof Zombie && e.getX() == 0) return true;
+		if (!gameOver) {
+			for(Entity e : entities) {
+				if (e instanceof Zombie && e.getX() == 0) {
+					gameOver = true;
+				}
+			}	
 		}
-		return false;
+		return gameOver;
 	}
 	
 	/**
@@ -120,7 +116,7 @@ public class PvZModel {
 	 */
 	public void spawnZombies(int n) {
 		for (int i = 0; i < n; i ++) {
-			entities.add(new Zombie(new Point(GameBoard.COLUMNS, new Random().nextInt(GameBoard.ROWS))));
+			entities.add(new Zombie(new Point(Tile.COLUMNS, new Random().nextInt(Tile.ROWS))));
 		}
 	}
 	
@@ -136,13 +132,11 @@ public class PvZModel {
 			boolean willCollide = e.getX() == m.nextPosition().getX() && e.getY() == m.nextPosition().getY();
 			// A collision occurred if two entities are on top of each other.
 			boolean hasCollided = e.getX() == ((Entity) m).getX() && e.getY() == ((Entity) m).getY();
-			
 			// Zombie hit by bullet
 			if (e instanceof Zombie && m instanceof Bullet && (hasCollided || willCollide)) {
 				((Zombie) e).setHealth(((Bullet) m).getDamage());
 				return true;
 			}
-			
 			// Zombie collided with plant 
 			if ((e instanceof PeaShooter || e instanceof Sunflower) && m instanceof Zombie && willCollide) {
 				((Alive) e).setHealth(Zombie.DAMAGE);		
@@ -184,26 +178,8 @@ public class PvZModel {
 	 * 
 	 * @param gameCounter
 	 */
-	public void setGameCounter(int gameCounter) {
-		this.gameCounter = gameCounter;
-	}
-
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	public Board getGameBoard() {
-		return gameBoard;
-	}
-
-	/**
-	 * 
-	 * 
-	 * @param gameBoard
-	 */
-	public void setGameBoard(Board gameBoard) {
-		this.gameBoard = gameBoard;
+	public void incrementGameCounter() {
+		this.gameCounter++;
 	}
 
 	/**
@@ -220,8 +196,26 @@ public class PvZModel {
 	 * 
 	 * @param entities
 	 */
-	public void setEntities(LinkedList<Entity> entities) {
-		this.entities = entities;
+	public void addEntities(LinkedList<Entity> entities) {
+		this.entities.addAll(entities);
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param entities
+	 */
+	public void removeEntities(LinkedList<Entity> entities) {
+		this.entities.removeAll(entities);
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param entity
+	 */
+	public void addEntity(Entity entity) {
+		this.entities.add(entity);
 	}
 	
 }

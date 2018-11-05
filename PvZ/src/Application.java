@@ -1,10 +1,18 @@
+/**
+ * 
+ * @author 
+ * @version 5 Nov 18
+ */
 public class Application {
 
+	/**
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		View v = new View("PvZ");
-		PvZModel model = new PvZModel();
-		Controller control = new Controller(v, model);
-		control.initController();
+		View view = new View("Plants vs. Zombies");
+		Model model = new Model();
+		new Controller(view, model);
 	}
 
 }
