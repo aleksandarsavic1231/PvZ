@@ -94,6 +94,26 @@ public class Controller implements ActionListener{
 			  }
 				    
 		});
+		// Add action listener to restart item in menu bar
+		view.getRestartItem().addActionListener(new ActionListener() { 
+			
+			public void actionPerformed(ActionEvent e) { 
+				  JOptionPane.showMessageDialog(null, "The game has restarted, enjoy!", "Restart", JOptionPane.INFORMATION_MESSAGE);
+				  view.setVisible(false);
+				  View view2 = new View("Plants vs. Zombies");
+				  Model model = new Model();
+			          new Controller(view2, model);	   
+			}
+			    
+		});
+		// Add action listener to quit item in menu bar
+		view.getQuitItem().addActionListener(new ActionListener() { 
+			
+			public void actionPerformed(ActionEvent e) { 
+				  JOptionPane.showMessageDialog(null, " Thanks for playing!", "Quit", JOptionPane.INFORMATION_MESSAGE);	
+				  System.exit(0);	   
+			}  
+		});
 	}
 	
 	private void addPlant() {
