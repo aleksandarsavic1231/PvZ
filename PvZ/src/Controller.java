@@ -107,6 +107,8 @@ public class Controller implements ActionListener{
 		boolean isPeaShooterPurchasable = model.getSunPoints() >= PeaShooter.COST && PeaShooter.isDeployable(model.getGameCounter());
 		if(!isSunflowerPurchasable) view.getSunflowerButton().setEnabled(false);
 		if(!isPeaShooterPurchasable) view.getPeaShooterButton().setEnabled(false);
+		if(isSunflowerPurchasable) view.getSunflowerButton().setEnabled(true);
+		if(isPeaShooterPurchasable) view.getPeaShooterButton().setEnabled(true);
 		JOptionPane.showConfirmDialog(null, fields, "Add Plant", JOptionPane.CANCEL_OPTION);
 	}
 	
