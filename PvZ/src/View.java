@@ -40,6 +40,8 @@ public class View extends JFrame{
 	private JMenu jm;
 	private JMenuItem Quit;
 	private JMenuItem Restart;
+	private JLabel ZombieHealth;
+
 	//private JMenuItem Undo;
 
 	public static final Color LIGHT_GREEN = new Color(0,255,51);
@@ -67,13 +69,16 @@ public class View extends JFrame{
 			
 		sunpointsLabel = new JLabel("Sunpoints: ");
 		sunpointsLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-			
+		ZombieHealth = new JLabel("Zombie's Health: ");
+		ZombieHealth.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		//add label Panel
 		labelPanel = new JPanel();
 		labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.X_AXIS));
 		labelPanel.add(sunpointsLabel);
+		labelPanel.add(ZombieHealth);
 		sunpointsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);	
-			
+		ZombieHealth.setAlignmentX(Component.CENTER_ALIGNMENT);	
+
 		//add buttons
 		addButton = new JButton("Add Plant");
 		addButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -122,7 +127,8 @@ public class View extends JFrame{
 		this.setJMenuBar(bar);
 		
 		//initialize
-		this.setSize(800,600);
+		this.setSize(1000,600);
+		this.setResizable(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);	
 	}
@@ -165,9 +171,17 @@ public class View extends JFrame{
 	public JLabel getSunpointsLabel() {
 		return sunpointsLabel;
 	}
+	
+	public JLabel getZombieHealth() {
+		return ZombieHealth;
+	}
 
 	public void setSunpointsLabel(String text) {
 		this.sunpointsLabel.setText(text);
+	}
+	
+	public void setZombieHealth(String text) {
+		this.ZombieHealth.setText(text);
 	}
 
 	public JButton getSunflowerButton() {
