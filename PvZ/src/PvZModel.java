@@ -93,7 +93,7 @@ public class PvZModel {
 	 * 
 	 * @return boolean True if game is over.
 	 */
-	private boolean isGameOver() {
+	public boolean isGameOver() {
 		for(Entity e : entities) {
 			if (e instanceof Zombie && e.getX() == 0) return true;
 		}
@@ -106,7 +106,7 @@ public class PvZModel {
 	 * 
 	 * @return boolean True if the round is over.
 	 */
-	private boolean isRoundOver() {
+	public boolean isRoundOver() {
 		for(Entity e : entities) {
 			if (e instanceof Zombie) return false;
 		}
@@ -130,7 +130,7 @@ public class PvZModel {
 	 * @param m The Moveable object to check.
 	 * @return boolean True if a collision has occurred.
 	 */
-	private boolean isCollision(Moveable m) {
+	public boolean isCollision(Moveable m) {
 		for(Entity e: entities) {
 			// A collision will occur if the next position of Moveable is currently occupied.
 			boolean willCollide = e.getX() == m.nextPosition().getX() && e.getY() == m.nextPosition().getY();

@@ -186,6 +186,79 @@ public class Controller implements ActionListener{
 				
 			case "Next Turn":	
 				
+					gameBoard.print();
+					spawnZombies(1);
+					boolean isRoundOver = false;
+					while(!isGameOver()) {
+						gameBoard.clear(); // Clear board of Entities
+						
+						// Spawn new Entities
+						LinkedList<Entity> tempEntities = new LinkedList<Entity>();
+						nextMove(); // Get next move by user
+						for(Entity e: entities) {
+							if (e instanceof Shooter && ((Shooter) e).canShoot())  {
+								// If PeaShooter can fire add new bullet to Entity list
+								if (e instanceof PeaShooter) tempEntities.add(new Bullet(new Point(e.getX(), e.getY()), PeaShooter.DAMAGE));
+								// If sunflower can fire add sun reward.
+								else if (e instanceof Sunflower) sunPoints += Sun.REWARD;
+							}
+						}
+						entities.addAll(tempEntities); // Add new Entities to Entities list
+						
+						// Update position of Moveable Entities
+						for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
+							Entity e = iter.next();
+							// Ensure Entity is Moveable and is not waiting to be delete
+							if (e instanceof Moveable) {
+								Moveable m = ((Moveable) e);
+								boolean isBullet = m instanceof Bullet;
+								m.unlock(); // Unlock to allow update position on this game iteration
+								if (!isCollision(m)) { 
+									m.updatePosition(); // Update position if there is no collision
+									// Remove bullet if domain is greater than game board columns
+									if (isBullet && e.getX() >= GameBoard.COLUMNS) iter.remove();
+								} else if (isBullet) iter.remove(); // Remove bullet on impact
+							}
+						}
+						
+						// Check for dead Entities
+						tempEntities = new LinkedList<Entity>();
+						boolean deathOccurred = false;
+						for(Entity e: entities) {	
+							if (e instanceof Alive) {	
+								// Check if Entity is dead 
+								if (((Alive) e).getHealth() <= 0) {
+									System.out.println(e.getClass().getName() + " died");
+									tempEntities.add(e);
+									deathOccurred = true;
+								} else {
+									// Print health of Entity if still alive
+									System.out.println(e.getClass().getName() + " health: " + ((Alive) e).getHealth());
+								}
+							}
+						}
+						entities.removeAll(tempEntities);
+						
+						// Add Entities to game board
+						for(Entity e: entities) {
+							gameBoard.addEntity(e);
+						}
+						
+						gameBoard.print(); // Print game board
+						// Check if round is over if and only if death occurred
+						if (deathOccurred && isRoundOver()) {
+							isRoundOver = true;
+							break;
+						} 
+						gameCounter++; // Increase game counter
+						// Add automatic welfare if payment period has elapsed 
+						if (gameCounter % PAYMENT_PERIOD == 0) sunPoints += WELFARE;
+					}
+					
+					if (isRoundOver) System.out.println("You beat the round"); 
+					else System.out.println("You lost");
+					
+				
 				//model.nextIteration();
 				v.setSunpointsLabel("Sunpoints: "+String.valueOf(model.getSunPoints()));
 				break;
