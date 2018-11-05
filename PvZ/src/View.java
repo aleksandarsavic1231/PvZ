@@ -133,17 +133,6 @@ public class View extends JFrame{
 		this.setVisible(true);	
 	}
 	
-	public void addListener(ActionListener a) {
-		Tile.iterateBoard((i, j) -> tiles[i][j].addActionListener(a));
-		addButton.addActionListener(a);
-		nextButton.addActionListener(a);
-		sunflowerButton.addActionListener(a);
-		peaShooterButton.addActionListener(a);
-		//Undo.addActionListener(a);
-		Restart.addActionListener(a);
-		Quit.addActionListener(a);
-	}
-	
 	public JMenuItem getQuitItem() {
 		return Quit;
 	}
