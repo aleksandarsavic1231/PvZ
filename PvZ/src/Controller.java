@@ -98,11 +98,12 @@ public class Controller implements ActionListener{
 		view.getRestartItem().addActionListener(new ActionListener() { 
 			
 			public void actionPerformed(ActionEvent e) { 
-				  JOptionPane.showMessageDialog(null, "The game has restarted, enjoy!", "Restart", JOptionPane.INFORMATION_MESSAGE);
-				  view.setVisible(false);
-				  View view2 = new View("Plants vs. Zombies");
-				  Model model = new Model();
-			          new Controller(view2, model);	   
+				JOptionPane.showMessageDialog(null, "The game has restarted, enjoy!", "Restart", JOptionPane.INFORMATION_MESSAGE);
+				model = new Model();  
+				Tile.iterateBoard((i, j) -> {
+					tiles[i][j].setIcon(null);
+				});
+				view.setSunpointsLabel("Sunpoints: " + model.getSunPoints());
 			}
 			    
 		});
@@ -110,9 +111,10 @@ public class Controller implements ActionListener{
 		view.getQuitItem().addActionListener(new ActionListener() { 
 			
 			public void actionPerformed(ActionEvent e) { 
-				  JOptionPane.showMessageDialog(null, " Thanks for playing!", "Quit", JOptionPane.INFORMATION_MESSAGE);	
-				  System.exit(0);	   
+				JOptionPane.showMessageDialog(null, " Thanks for playing!", "Quit", JOptionPane.INFORMATION_MESSAGE);	
+				System.exit(0);	   
 			}  
+			
 		});
 	}
 	
@@ -206,7 +208,7 @@ public class Controller implements ActionListener{
 		// Add automatic welfare if payment period has elapsed 
 		if (model.getGameCounter() % Model.PAYMENT_PERIOD == 0) model.setSunPoints(model.getSunPoints() + Model.WELFARE);
 		//model.nextIteration();
-		view.setSunpointsLabel("Sunpoints: " + String.valueOf(model.getSunPoints()));
+		view.setSunpointsLabel("Sunpoints: " + model.getSunPoints());
 	}
 
 	@Override

@@ -137,6 +137,14 @@ public class View extends JFrame{
 		Restart.addActionListener(a);
 		Quit.addActionListener(a);
 	}
+	
+	public JMenuItem getQuitItem() {
+		return Quit;
+	}
+	
+	public JMenuItem getRestartItem() {
+		return Restart;
+	}
 
 	public JButton[][] getTiles() {
 		return tiles;
