@@ -92,7 +92,7 @@ public class View extends JFrame{
 		buttonPanel.add(nextButton);
 		addButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		nextButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 500, 10, 0));
+		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 600, 10, 0));
 				
 		//add bottom panel
 		bottomPanel = new JPanel();

@@ -98,12 +98,7 @@ public class Controller implements ActionListener{
 		view.getRestartItem().addActionListener(new ActionListener() { 
 			
 			public void actionPerformed(ActionEvent e) { 
-				JOptionPane.showMessageDialog(null, "The game has restarted, enjoy!", "Restart", JOptionPane.INFORMATION_MESSAGE);
-				model = new Model();  
-				Tile.iterateBoard((i, j) -> {
-					tiles[i][j].setIcon(null);
-				});
-				view.setSunpointsLabel("Sunpoints: " + model.getSunPoints());
+				restart();
 			}
 			    
 		});
@@ -111,11 +106,28 @@ public class Controller implements ActionListener{
 		view.getQuitItem().addActionListener(new ActionListener() { 
 			
 			public void actionPerformed(ActionEvent e) { 
-				JOptionPane.showMessageDialog(null, " Thanks for playing!", "Quit", JOptionPane.INFORMATION_MESSAGE);	
-				System.exit(0);	   
+				quit();   
 			}  
 			
 		});
+	}
+	
+	private void restart() {
+		JOptionPane.showMessageDialog(null, "The game has restarted, enjoy!", "Restart Game", JOptionPane.INFORMATION_MESSAGE);
+		model = new Model();  
+		Tile.iterateBoard((i, j) -> {
+			tiles[i][j].setIcon(null);
+		});
+		view.setSunpointsLabel("Sunpoints: " + model.getSunPoints());		
+		view.setZombieHealth("Zombie's Health: ");
+		
+	}
+	
+	private void quit() {
+		
+		JOptionPane.showMessageDialog(null, " Thanks for playing!", "Quit", JOptionPane.INFORMATION_MESSAGE);	
+		System.exit(0);	   		
+		
 	}
 	
 	private void addPlant() {
@@ -148,7 +160,13 @@ public class Controller implements ActionListener{
 	
 	private void nextTurn() {
 		// Check if game or round is over
-		if (model.isGameOver() || model.isRoundOver()) return;
+		if (model.isGameOver() || model.isRoundOver()) {
+			
+			int input = JOptionPane.showConfirmDialog(null, "Would you like to restart?", "Game Over!", JOptionPane.YES_NO_OPTION);
+			if(input == JOptionPane.YES_OPTION) restart();
+			else quit();
+			return;
+		}
 		// Clear board of Entities
 		Tile.iterateBoard((i, j) -> {
 			tiles[i][j].setIcon(null);
