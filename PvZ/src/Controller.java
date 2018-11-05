@@ -187,7 +187,6 @@ public class Controller implements ActionListener{
 				
 				
 			case "Next Turn":	
-				
 					boolean isRoundOver = false;
 					
 					if(model.getGameCounter() == 1) model.spawnZombies(1);
