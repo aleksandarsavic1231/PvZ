@@ -107,8 +107,8 @@ public class View extends JFrame{
 		plantName = new JTextField();
 			
 		//plant buttons
-		sunflowerButton = new JButton("Sunflower");
-		peaShooterButton = new JButton("PeaShooter");
+		sunflowerButton = new JButton("Sunflower: 50 Sunpoints");
+		peaShooterButton = new JButton("PeaShooter: 100 Sunpoints");
 			
 		//set contentPane
 		contentPane = this.getContentPane();
@@ -127,7 +127,7 @@ public class View extends JFrame{
 		this.setJMenuBar(bar);
 		
 		//initialize
-		this.setSize(1000,600);
+		this.setSize(1050,600);
 		this.setResizable(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);	
