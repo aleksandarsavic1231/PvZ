@@ -5,7 +5,7 @@
  * @version 28 Oct 18
  */
 @FunctionalInterface
-public interface Tile {
+public interface Board {
 	
 	/**
 	 * The number of rows on a GameBoard.
@@ -30,10 +30,10 @@ public interface Tile {
 	 * 
 	 * @param t The tile.
 	 */
-	public static void iterateBoard(Tile t) {
+	public static void iterate(Board board) {
 		for (int i = 0 ; i < ROWS ; i++){
 			for (int j = 0 ; j < COLUMNS ; j++){
-				t.update(i, j);
+				board.update(i, j);
 			}
 		}	 
 	}

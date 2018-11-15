@@ -6,7 +6,7 @@ import java.awt.Point;
  * @author kylehorne
  * @version 28 Oct 18
  */
-public abstract class Entity {
+public class Entity {
 	
 	/**
 	 * The position of the Entity.
@@ -19,34 +19,15 @@ public abstract class Entity {
 	 * @param position The spawn position of the Entity.
 	 */
 	public Entity(Point position) {
-		this.position = position;
+		this.setPosition(position);
 	}
 
-	/**
-	 * Get the x coordinate of the Entity.
-	 * 
-	 * @return int The x coordinate of the Entity.
-	 */
-	public int getX() {
-		return position.x;
-	}
-	
-	/**
-	 * Get the y coordinate of the Entity.
-	 * 
-	 * @return int The y coordinate of the Entity.
-	 */
-	public int getY() {
-		return position.y;
-	}
-	
-	/**
-	 * Get the location of this Entity.
-	 * 
-	 * @return Point The position of this Entity.
-	 */
-	public Point getPoint() {
+	public Point getPosition() {
 		return position;
+	}
+
+	public void setPosition(Point position) {
+		this.position = position;
 	}
 
 }

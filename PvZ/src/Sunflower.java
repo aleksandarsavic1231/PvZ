@@ -35,7 +35,7 @@ public class Sunflower extends Shooter {
 	/**
 	 * The next game iteration a Sunflower can be deployed.
 	 */
-	public static int nextDeployable;
+	private static int nextDeployable;
 	
 	/**
 	 * Character representation of a Sunflower.
@@ -73,6 +73,10 @@ public class Sunflower extends Shooter {
 	 */
 	public static boolean isDeployable(int gameCounter) {
 		return (nextDeployable <= gameCounter);
+	}
+	
+	public static void resetNextDeployable() {
+		nextDeployable = 0;
 	}
 
 }

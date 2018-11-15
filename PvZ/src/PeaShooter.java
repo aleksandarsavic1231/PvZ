@@ -33,7 +33,7 @@ public class PeaShooter extends Shooter {
 	/**
 	 * The next game iteration a PeaShooter can be deployed.
 	 */
-	public static int nextDeployable;
+	private static int nextDeployable;
 	
 	/**
 	 * Character representation of a PeaShooter.
@@ -71,6 +71,10 @@ public class PeaShooter extends Shooter {
 	 */
 	public static boolean isDeployable(int gameCounter) {
 		return (nextDeployable <= gameCounter);
+	}
+	
+	public static void resetNextDeployable() {
+		nextDeployable = 0;
 	}
 
 }
