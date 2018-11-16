@@ -23,8 +23,8 @@ public class Zombie extends Alive implements Moveable {
 	/**
 	 * Custom images of Zombie objects.
 	 */
-	public static final ImageIcon HEALTHY_ZOMBIE = new ImageIcon("src/main/resources/healthyzombie.png");
-	public static final ImageIcon HURT_ZOMBIE = new ImageIcon("src/main/resources/brokenzombie.png");
+	public static final ImageIcon HEALTHY_ZOMBIE = new ImageIcon("src/main/resources/healthyZombie.png");
+	public static final ImageIcon HURT_ZOMBIE = new ImageIcon("src/main/resources/hurtZombie.png");
 	
 	/**
 	 * Default health of Zombie objects.

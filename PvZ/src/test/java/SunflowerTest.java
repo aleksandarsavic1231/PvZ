@@ -42,7 +42,7 @@ public class SunflowerTest extends TestCase {
 		int n = 4;
 		// Set fire rate and test can shoot
 		sunflower.setFireRate(n);
-		for(int i = 0; i < n - 1; i++)  assertFalse(sunflower.canShoot());
+		for(int i = 0; i < n; i++)  assertFalse(sunflower.canShoot());
 		assertTrue(sunflower.canShoot()); // Can now shoot
 		//assertFalse(peaShooter.canShoot());
 	}
@@ -51,7 +51,7 @@ public class SunflowerTest extends TestCase {
 	public void testResetFireRate() {
 		// Reset fire rate and test can shoot
 		sunflower.resetFireRate();
-		for(int i = 0; i < Sunflower.RECHARGE_TIME - 1; i++) assertFalse(sunflower.canShoot());
+		for(int i = 0; i < Sunflower.RECHARGE_TIME; i++) assertFalse(sunflower.canShoot());
 		assertTrue(sunflower.canShoot()); 
 		assertFalse(sunflower.canShoot());
 	}

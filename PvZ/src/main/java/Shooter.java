@@ -39,10 +39,11 @@ public abstract class Shooter extends Alive {
 	 * @return boolean True if the Shooter can shoot.
 	 */
 	public boolean canShoot() {
-		if (--fireRate == 0) {
+		if (fireRate == 0) {
 			resetFireRate();
 			return true;
 		} 
+		this.fireRate--;
 		return false;
 	}
 	

@@ -33,7 +33,7 @@ public class Sunflower extends Shooter {
 	/**
 	 * Image icon of a Sunflower object.
 	 */
-	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/customsunflower.png");
+	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/customSunflower.png");
 	
 	/**
 	 * Constructor.

@@ -42,7 +42,7 @@ public class PeaShooterTest extends TestCase {
 		int n = 4;
 		// Set fire rate and test can shoot
 		peaShooter.setFireRate(n);
-		for(int i = 0; i < n - 1; i++)  assertFalse(peaShooter.canShoot());
+		for(int i = 0; i < n; i++)  assertFalse(peaShooter.canShoot());
 		assertTrue(peaShooter.canShoot()); // Can now shoot
 		//assertFalse(peaShooter.canShoot());
 	}
@@ -51,7 +51,7 @@ public class PeaShooterTest extends TestCase {
 	public void testResetFireRate() {
 		// Reset fire rate and test can shoot
 		peaShooter.resetFireRate();
-		for(int i = 0; i < PeaShooter.RECHARGE_TIME - 1; i++) assertFalse(peaShooter.canShoot());
+		for(int i = 0; i < PeaShooter.RECHARGE_TIME; i++) assertFalse(peaShooter.canShoot());
 		assertTrue(peaShooter.canShoot()); 
 		assertFalse(peaShooter.canShoot());
 	}
