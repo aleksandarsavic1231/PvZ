@@ -60,7 +60,7 @@ public class Model {
 		entities = new LinkedList<Entity>();
 		balance = INITIAL_BALANCE; 
 		gameCounter = 0;
-		spawnZombies(1);
+		spawnZombies(3);
 		plantToggled = null;
 	}
 
@@ -93,7 +93,10 @@ public class Model {
 
 	private void spawnZombies(int n) {
 		for (int i = 0; i < n; i ++) {
-			Entity zombie = new Zombie(new Point(Board.COLUMNS, new Random().nextInt(Board.ROWS)));
+			// Spawn further than columns so player has time to increase balance
+			int lowerBound = 3 + Board.COLUMNS;
+			int delay = 6;
+			Entity zombie = new Zombie(new Point(new Random().nextInt(delay) + lowerBound , new Random().nextInt(Board.ROWS)));
 			entities.add(zombie);
 			notifyOfSpawn(zombie);
 		}
@@ -258,6 +261,7 @@ public class Model {
 			}
 		}
 		entities.removeAll(tempEntities);
+		if (foundSun) spawnEntities(); // If Sun was clicked, there may be an Entity underneath that we need to spawn.
 		return foundSun;
 	}
 	
