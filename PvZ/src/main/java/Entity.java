@@ -9,23 +9,33 @@ import java.awt.Point;
 public class Entity {
 	
 	/**
-	 * The position of the Entity.
+	 * The position of this.
 	 */
 	private Point position;
 	
 	/**
 	 * Constructor.
 	 * 
-	 * @param position The spawn position of the Entity.
+	 * @param position The position of this.
 	 */
 	public Entity(Point position) {
 		this.setPosition(position);
 	}
 
+	/**
+	 * Get this position.
+	 * 
+	 * @return Point The current position of this.
+	 */
 	public Point getPosition() {
 		return position;
 	}
 
+	/**
+	 * Set the position of this.
+	 * 
+	 * @param position The new position of this.
+	 */
 	public void setPosition(Point position) {
 		this.position = position;
 	}

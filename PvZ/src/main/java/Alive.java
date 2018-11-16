@@ -9,15 +9,15 @@ import java.awt.Point;
 public class Alive extends Entity {
 
 	/**
-	 * The health of this Entity.
+	 * The health of this.
 	 */
 	private int health;
 	
 	/**
 	 * Constructor.
 	 * 
-	 * @param position Location of entity.
-	 * @param health Health of entity.
+	 * @param position Location of this.
+	 * @param health Health of this.
 	 */
 	public Alive(Point position, int health) {
 		super(position);
@@ -25,18 +25,18 @@ public class Alive extends Entity {
 	}
 	
 	/**
-	 * Get health of this Entity.
+	 * Get health of this.
 	 * 
-	 * @return int Health of this Entity.
+	 * @return int Health of this.
 	 */
 	public int getHealth() {
 		return this.health;
 	}
 	
 	/**
-	 * Set Entity health.
+	 * Set this health .
 	 * 
-	 * @param health New health of Entity.
+	 * @param health New health this.
 	 */
 	public void setHealth(int health) {
 		this.health -= health;

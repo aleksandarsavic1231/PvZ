@@ -11,22 +11,22 @@ import javax.swing.ImageIcon;
 public class PeaShooter extends Shooter {
 	
 	/**
-	 * Sun points required to buy a PeaShooter.
+	 * Sun points required to buy this.
 	 */
 	public static final int COST = 100;
 	
 	/**
-	 * Recharge time required by a PeaShooter to fire a new bullet.
+	 * Recharge time required by a PeaShooter objects to fire a new bullet.
 	 */
 	public static final int RECHARGE_TIME = 2;
 	
 	/**
-	 * Damaged cause by a PeaShooter bullet.
+	 * Damaged caused from fired Bullets from this.
 	 */
 	public static final int DAMAGE = 2;
 
 	/**
-	 * Cooldown time required to spawn a new PeaShooter.
+	 * Cooldown time required to spawn a new PeaShooter object.
 	 */
 	public static final int SPAWN_COOLDOWN = 3;
 	
@@ -36,26 +36,22 @@ public class PeaShooter extends Shooter {
 	private static int nextDeployable;
 	
 	/**
-	 * Character representation of a PeaShooter.
+	 * Icon image of PeaShooter objects.
 	 */
 	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/PeaShooter.png");
+	
 	/**
 	 * Constructor.
 	 * 
-	 * @param position The spawn location of this PeaShooter.
+	 * @param position The spawn location of this.
 	 */
 	public PeaShooter(Point position) {
 		super(position, 5);
 		nextDeployable = 0;
 	}
-
-	@Override
-	public void resetFireRate() {
-		this.setFireRate(RECHARGE_TIME);
-	}	
 	
 	/**
-	 * Set the next deployable game iteration a new PeaShooter can be spawned.
+	 * Set the next deployable game iteration a new PeaShooter object can be spawned.
 	 *
 	 * @param gameCounter The current game iteration.
 	 */
@@ -64,17 +60,25 @@ public class PeaShooter extends Shooter {
 	}
 	
 	/**
-	 * Whether a PeaShooter is deployable.
+	 * Whether a PeaShooter object is deployable.
 	 * 
 	 * @param gameCounter The current game iteration.
-	 * @return boolean True if PeaShooter is deployable.
+	 * @return boolean True if a PeaShooter object is deployable.
 	 */
 	public static boolean isDeployable(int gameCounter) {
 		return (nextDeployable <= gameCounter);
 	}
 	
+	/**
+	 * Reset next deployable time of a PeaShooter object.
+	 */
 	public static void resetNextDeployable() {
 		nextDeployable = 0;
 	}
+	
+	@Override
+	public void resetFireRate() {
+		this.setFireRate(RECHARGE_TIME);
+	}	
 
 }

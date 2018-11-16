@@ -3,7 +3,7 @@ import java.awt.Point;
 import javax.swing.ImageIcon;
 
 /**
- * Zombie is a Moveable enemy that can do damage on impact with plants.
+ * Zombie is a Moveable enemy that can do damage on impact with friendly objects.
  * 
  * @author kylehorne
  * @version 28 Oct 18
@@ -11,28 +11,29 @@ import javax.swing.ImageIcon;
 public class Zombie extends Alive implements Moveable {
 	
 	/**
-	 * Damaged caused by Zombie on impact with a plant.
+	 * Damaged caused by a Zombie object on impact with friendly objects.
 	 */
 	public static final int DAMAGE = 2;
 	
 	/**
-	 * Velocity of a Zombie.
+	 * Velocity of Zombie objects.
 	 */
 	public static final int VELOCITY = 1;
 	
 	/**
-	 * Character representation of a Zombie.
+	 * Image icon of Zombie objects.
 	 */
 	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/Zombie.png");
+	
 	/**
-	 * Is this bullet locked from moving.
+	 * Whether this is locked from moving.
 	 */
 	private boolean locked;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param position The spawn location of this Zombie.
+	 * @param position The spawn location of this.
 	 */
 	public Zombie(Point position) {
 		super(position, 5);

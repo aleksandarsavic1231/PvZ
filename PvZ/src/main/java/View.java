@@ -20,33 +20,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-/**
- * 
- * @author 
- * @version 5 Nov 18
- */
 public class View extends JFrame implements Listener {
 
 	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * 
-	 */
 	private JButton[][] tiles;
 	
-	/**
-	 * 
-	 */
 	private JLabel sunPointsLabel;
 	
-	/**
-	 * 
-	 */
 	private JButton addPeaShooterButton, addSunflowerButton;
 		
-	/**
-	 * 
-	 */
 	private Model model;
 	
 	public static final int WIDTH = 1000;
@@ -59,9 +42,6 @@ public class View extends JFrame implements Listener {
 	
 	public static final Color DARK_GREEN = new Color(0,102,0);
 		
-	/**
-	 * 
-	 */
 	public View() {
 		super("Plant vs. Zombies");
 		// Initialize model
@@ -79,16 +59,12 @@ public class View extends JFrame implements Listener {
 		setVisible(true);	
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
 	private JMenuBar addMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("Menu");
  
 		JMenuItem restart = new JMenuItem("Restart");
-		restart.addActionListener(new Controller (model, new Dispatch(Action.RESTART_GAME, null)));
+		restart.addActionListener(new Controller (model, new Event(Action.RESTART_GAME, null)));
 		
 		JMenuItem quit = new JMenuItem("Quit Game");
 		quit.addActionListener(new ActionListener() { 
@@ -104,10 +80,6 @@ public class View extends JFrame implements Listener {
 		return menuBar;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
 	private JPanel addBoard() {		
 		JPanel boardPanel = new JPanel();
 		boardPanel.setLayout(new GridLayout(Board.ROWS, Board.COLUMNS));
@@ -116,7 +88,7 @@ public class View extends JFrame implements Listener {
 		// Initialize tiles	
 		Board.iterate((i, j) -> {
 			tiles[i][j] = new JButton();
-			tiles[i][j].addActionListener(new Controller(model, new Dispatch(Action.SPAWN_ENTITY, new Point(j, i))));
+			tiles[i][j].addActionListener(new Controller(model, new Event(Action.SPAWN_ENTITY, new Point(j, i))));
 			tiles[i][j].setOpaque(true); // Required for OSX
 			tiles[i][j].setBorderPainted(false);
 			// Set tile color
@@ -142,10 +114,6 @@ public class View extends JFrame implements Listener {
 		return boardPanel;	
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
 	private JPanel addFooter() {
 		Border defaultBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 		
@@ -156,15 +124,15 @@ public class View extends JFrame implements Listener {
 		addPeaShooterButton = new JButton("Add PeaShooter");
 		addPeaShooterButton.setBorder(defaultBorder);
 		addPeaShooterButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addPeaShooterButton.addActionListener(new Controller(model, new Dispatch(Action.TOGGLE_PEASHOOTER, null)));
+		addPeaShooterButton.addActionListener(new Controller(model, new Event(Action.TOGGLE_PEASHOOTER, null)));
 		addSunflowerButton = new JButton("Add Sunflower");
 		addSunflowerButton.setBorder(defaultBorder);
 		addSunflowerButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addSunflowerButton.addActionListener(new Controller(model, new Dispatch(Action.TOGGLE_SUNFLOWER, null)));
+		addSunflowerButton.addActionListener(new Controller(model, new Event(Action.TOGGLE_SUNFLOWER, null)));
 		JButton nextIterationButton = new JButton("Next Iteration");
 		nextIterationButton.setBorder(defaultBorder);
 		nextIterationButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		nextIterationButton.addActionListener(new Controller(model, new Dispatch(Action.NEXT_ITERATION, null)));
+		nextIterationButton.addActionListener(new Controller(model, new Event(Action.NEXT_ITERATION, null)));
 			
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -184,9 +152,9 @@ public class View extends JFrame implements Listener {
 	}
 
 	@Override
-	public void handleEvent(Dispatch dispatch) {
-		Action type = dispatch.getType();
-		Object payload = dispatch.getPayload();
+	public void handleEvent(Event event) {
+		Action type = event.getType();
+		Object payload = event.getPayload();
 		switch(type) {
 		case SPAWN_ENTITY:
 		case REMOVE_ENTITY:
@@ -219,11 +187,7 @@ public class View extends JFrame implements Listener {
 			break;
 		}  
 	}
-	
-	/**
-	 * 
-	 * @param args
-	 */
+
 	public static void main(String args[]) {
 		new View();
 	}

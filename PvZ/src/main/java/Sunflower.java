@@ -2,15 +2,8 @@ import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
-/** Sunflower
- * 
- * Sunflower has attributes cost, recharge_time, damage
- * Determines when the sunflower can be deployed
- * Version: Oct 28, 2018
- * Author: Kyle Horne
- */
-
 /**
+ * Sunflower is a object which spawns Sun. Sun can be interpreted as a Shooter (has fire rate).
  * 
  * @author kylehorne
  * @version 28 Oct 18
@@ -18,46 +11,42 @@ import javax.swing.ImageIcon;
 public class Sunflower extends Shooter {
 	
 	/**
-	 * Sun points required to buy a Sunflower.
+	 * Sun points required to buy a Sunflower object.
 	 */
 	public static final int COST = 50;
 	
 	/**
-	 * Recharge time required by a Sunflower to fire a new bullet.
+	 * Recharge time required by a Sunflower object to spawn a new Sun object.
 	 */
 	public static final int RECHARGE_TIME = 3;
 
 	/**
-	 * Cooldown time required to spawn a new Sunflower.
+	 * Cooldown time required to spawn a new Sunflower object.
 	 */
 	public static final int SPAWN_COOLDOWN = 2;
 	
 	/**
-	 * The next game iteration a Sunflower can be deployed.
+	 * The next game iteration a Sunflower object can be deployed.
 	 */
 	private static int nextDeployable;
 	
 	/**
-	 * Character representation of a Sunflower.
+	 * Image icon of a Sunflower object.
 	 */
 	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/Sunflower.png");
+	
 	/**
 	 * Constructor.
 	 * 
-	 * @param position The spawn location of this Sunflower.
+	 * @param position The spawn location of this.
 	 */
 	public Sunflower(Point position) {
 		super(position, 8);
 		nextDeployable = 0;
 	}
-
-	@Override
-	public void resetFireRate() {
-		this.setFireRate(RECHARGE_TIME);
-	}	
 	
 	/**
-	 * Set the next deployable game iteration a new Sunflower can be spawned.
+	 * Set the next deployable game iteration a new Sunflower object can be spawned.
 	 *
 	 * @param gameCounter The current game iteration.
 	 */
@@ -66,17 +55,25 @@ public class Sunflower extends Shooter {
 	}
 	
 	/**
-	 * Whether a Sunflower is deployable.
+	 * Whether a Sunflower object is deployable.
 	 * 
 	 * @param gameCounter The current game iteration.
-	 * @return boolean True if Sunflower is deployable.
+	 * @return boolean True if a Sunflower object is deployable.
 	 */
 	public static boolean isDeployable(int gameCounter) {
 		return (nextDeployable <= gameCounter);
 	}
 	
+	/**
+	 * Reset next deployable time of a PeaShooter object.
+	 */
 	public static void resetNextDeployable() {
 		nextDeployable = 0;
 	}
+	
+	@Override
+	public void resetFireRate() {
+		this.setFireRate(RECHARGE_TIME);
+	}	
 
 }

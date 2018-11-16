@@ -1,7 +1,7 @@
 import java.awt.Point;
 
 /**
- * Shooter is object that can fire sequentially.
+ * Shooter is object that can fire.
  * 
  * @author kylehorne
  * @version 28 Oct 18
@@ -9,15 +9,15 @@ import java.awt.Point;
 public abstract class Shooter extends Alive {
 	
 	/**
-	 * The fire rate of this Shooter.
+	 * The fire rate of this.
 	 */
 	private int fireRate;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param position The spawn location of this Shooter.
-	 * @param health The initial health of this Shooter. 
+	 * @param position The spawn location of this.
+	 * @param health The initial health of this. 
 	 */
 	public Shooter(Point position, int health) {
 		super(position, health);
@@ -25,7 +25,7 @@ public abstract class Shooter extends Alive {
 	}
 	
 	/**
-	 * Set the fire rate of this shooter.
+	 * Set the fire rate of this.
 	 * 
 	 * @param fireRate
 	 */
@@ -34,7 +34,7 @@ public abstract class Shooter extends Alive {
 	}
 
 	/**
-	 * Whether the Shooter can fire.
+	 * Whether this can fire.
 	 * 
 	 * @return
 	 */

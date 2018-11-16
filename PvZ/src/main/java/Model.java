@@ -4,7 +4,7 @@ import java.util.ListIterator;
 import java.util.Random;
 
 /** 
- * The Model contains the game state and logic.
+ * The Model contains the game state and logic of PvZ.
  * 
  * @author kylehorne
  * @version 29 Oct 18
@@ -12,14 +12,8 @@ import java.util.Random;
  */
 public class Model {
 	
-	/**
-	 * 
-	 */
 	private Action plantType;
 	
-	/**
-	 * 
-	 */
 	private LinkedList<Listener> listeners;
 
 	/**
@@ -40,7 +34,7 @@ public class Model {
 	private int gameCounter;
 
 	/**
-	 * The period which sun points are automatically rewarded to balance (welfare)
+	 * The period which sun points are automatically rewarded to balance (welfare).
 	 */
 	public static final int PAYMENT_PERIOD = 4;
 	
@@ -90,12 +84,6 @@ public class Model {
 		notifyListeners(Action.UPDATE_SUN_POINTS, INITIAL_BALANCE); 
 	}
 
-	/**
-	 * Check whether a position is occupied by another Entity excluding Bullet.
-	 * 
-	 * @param location The location to check.
-	 * @return boolean True if position is currently occupied by another Entity excluding Bullet.
-	 */
 	private boolean isOccupied(Point location) {
 		for(Entity e : entities) {
 			if (!(e instanceof Bullet) && e.getPosition().x == location.x && e.getPosition().y == location.y) {
@@ -105,12 +93,6 @@ public class Model {
 		return false;
 	}
 
-	/**
-	 * Check if game is over.
-	 * Game is over if and only if a Zombie has traversed the board.
-	 * 
-	 * @return boolean True if game is over.
-	 */
 	private boolean isGameOver() {
 		for(Entity e : entities) {
 			if (e instanceof Zombie && e.getPosition().x == 0) {
@@ -120,13 +102,7 @@ public class Model {
 		}
 		return false;
 	}
-	
-	/**
-	 * Check if the current round is over.
-	 * The round is over if all instances of Zombie have died.
-	 * 
-	 * @return boolean True if the round is over.
-	 */
+
 	private boolean isRoundOver() {
 		for(Entity e : entities) {
 			if (e instanceof Zombie) return false;
@@ -134,12 +110,7 @@ public class Model {
 		isGameOver = true;
 		return true;
 	}
-	
-	/**
-	 * Spawn n Zombies at a random location.
-	 * 
-	 * @param n The number of zombies to spawn.
-	 */
+
 	private void spawnZombies(int n) {
 		for (int i = 0; i < n; i ++) {
 			Entity zombie = new Zombie(new Point(Board.COLUMNS, new Random().nextInt(Board.ROWS)));
@@ -148,12 +119,6 @@ public class Model {
 		}
 	}
 	
-	/**
-	 * Whether a Moveable object will collide with game Entities.
-	 * 
-	 * @param m The Moveable object to check.
-	 * @return boolean True if a collision has occurred.
-	 */
 	private boolean isCollision(Moveable m) {
 		for(Entity e: entities) {
 			// A collision will occur if the next position of Moveable is currently occupied.
@@ -284,9 +249,9 @@ public class Model {
 		if (isGameOver()) notifyListeners(Action.LOG_MESSAGE, "You lost!");
 	}
 	
-	public void reducer(Dispatch dispatch) {
-		Action type = dispatch.getType();
-		Object payload = dispatch.getPayload();
+	public void reducer(Event event) {
+		Action type = event.getType();
+		Object payload = event.getPayload();
 		switch(type) {
 		case NEXT_ITERATION:
 			nextIteration(); 
@@ -308,7 +273,7 @@ public class Model {
 	}
 	
 	private void notifyListeners(Action type, Object payload) {
-		for(Listener listener : listeners) listener.handleEvent(new Dispatch(type, payload));
+		for(Listener listener : listeners) listener.handleEvent(new Event(type, payload));
 	}
 
 	public void addActionListener(Listener listener) {

@@ -11,30 +11,30 @@ import javax.swing.ImageIcon;
 public class Bullet extends Entity implements Moveable {
 	
 	/**
-	 * The damage of this Bullet.
-	 * Each bullet may have different damage depending on who fired.
+	 * The damage of this.
 	 */
 	private int damage;
 	
 	/**
-	 * The velocity of a Bullet.
+	 * The velocity Bullet objects.
 	 */
 	public static final int VELOCITY = 1;
 	
 	/**
-	 * Is this bullet locked from moving.
+	 * Whether this is locked from moving.
 	 */
 	private boolean locked;
 	
 	/**
-	 * Character representation of a Bullet.
+	 * Icon image of Bullet objects.
 	 */
 	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/Bullet.png");
+	
 	/**
 	 * Constructor.
 	 * 
-	 * @param position Location of this Bullet.
-	 * @param damage This bullet damage on impact.
+	 * @param position Location of this.
+	 * @param damage Damage of this.
 	 */
 	public Bullet(Point position, int damage) {
 		super(position);
@@ -43,9 +43,9 @@ public class Bullet extends Entity implements Moveable {
 	}
 
 	/**
-	 * Get the damage of this bullet.
+	 * Get the damage of this.
 	 * 
-	 * @return int The damage of this bullet.
+	 * @return int The damage of this.
 	 */
 	public int getDamage() {
 		return damage;

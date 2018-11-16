@@ -1,5 +1,5 @@
 /**
- * A functional interface.
+ * A functional interface representing the PvZ Board.
  * 
  * @author kylehorne
  * @version 28 Oct 18
@@ -8,27 +8,27 @@
 public interface Board {
 	
 	/**
-	 * The number of rows on a GameBoard.
+	 * Number of rows on a Board.
 	 */
 	public static final int ROWS = 5;
 	
 	/**
-	 * The number of columns on a GameBoard.
+	 * Number of columns on a Board.
 	 */
 	public static final int COLUMNS = 10;
 	
 	/**
-	 * Apply an update on tile.
+	 * Apply an update to Board location.
 	 * 
 	 * @param i The i coordinate of the tile.
 	 * @param j The j coordinate of the tile.
 	 */
-	public void update(int x, int y);
+	public void update(int i, int j);
 	
 	/**
-	 * Iterate over GameBoard and apply update.
+	 * Iterate over Board and apply update.
 	 * 
-	 * @param t The tile.
+	 * @param board Implementation of lambda.
 	 */
 	public static void iterate(Board board) {
 		for (int i = 0 ; i < ROWS ; i++){

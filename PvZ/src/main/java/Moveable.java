@@ -14,14 +14,14 @@ public interface Moveable {
 	public void updatePosition();
 	
 	/**
-	 * Get the next position of Moveable.
+	 * Get the next position this.
 	 * 
-	 * @return Point The next location of Moveable.
+	 * @return Point The next location of this.
 	 */
 	public Point nextPosition();
 	
 	/**
-	 * Unlock Moveable to allow call on update position.
+	 * Unlock this to allow call on update position.
 	 */
 	public void unlock();
 
