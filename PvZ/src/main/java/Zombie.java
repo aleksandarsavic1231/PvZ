@@ -23,7 +23,7 @@ public class Zombie extends Alive implements Moveable {
 	/**
 	 * Image icon of Zombie objects.
 	 */
-	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/Zombie.png");
+	public ImageIcon IMAGE = new ImageIcon("src/main/resources/healthyzombie.png");
 	
 	/**
 	 * Whether this is locked from moving.
@@ -55,6 +55,12 @@ public class Zombie extends Alive implements Moveable {
 	public void unlock() {
 		this.locked = false;
 	}	
+	
+	public void updateImage() {
+		if (this.getHealth() < 3) {
+			IMAGE = new ImageIcon("src/main/resources/brokenzombie.png");
+		}
+	}
 
 }
 
