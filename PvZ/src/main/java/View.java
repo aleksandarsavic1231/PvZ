@@ -64,7 +64,7 @@ public class View extends JFrame implements Listener {
 		JMenu menu = new JMenu("Menu");
  
 		JMenuItem restart = new JMenuItem("Restart");
-		restart.addActionListener(new Controller (model, new Event(Action.RESTART_GAME, null)));
+		restart.addActionListener(initController(Action.RESTART_GAME, null));
 		
 		JMenuItem quit = new JMenuItem("Quit Game");
 		quit.addActionListener(new ActionListener() { 
@@ -88,7 +88,7 @@ public class View extends JFrame implements Listener {
 		// Initialize tiles	
 		Board.iterate((i, j) -> {
 			tiles[i][j] = new JButton();
-			tiles[i][j].addActionListener(new Controller(model, new Event(Action.SPAWN_ENTITY, new Point(j, i))));
+			tiles[i][j].addActionListener(initController(Action.SPAWN_ENTITY, new Point(j, i)));
 			tiles[i][j].setOpaque(true); // Required for OSX
 			tiles[i][j].setBorderPainted(false);
 			// Set tile color
@@ -124,15 +124,15 @@ public class View extends JFrame implements Listener {
 		addPeaShooterButton = new JButton("Add PeaShooter");
 		addPeaShooterButton.setBorder(defaultBorder);
 		addPeaShooterButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addPeaShooterButton.addActionListener(new Controller(model, new Event(Action.TOGGLE_PEASHOOTER, null)));
+		addPeaShooterButton.addActionListener(initController(Action.TOGGLE_PEASHOOTER, null));
 		addSunflowerButton = new JButton("Add Sunflower");
 		addSunflowerButton.setBorder(defaultBorder);
 		addSunflowerButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addSunflowerButton.addActionListener(new Controller(model, new Event(Action.TOGGLE_SUNFLOWER, null)));
+		addSunflowerButton.addActionListener(initController(Action.TOGGLE_SUNFLOWER, null));
 		JButton nextIterationButton = new JButton("Next Iteration");
 		nextIterationButton.setBorder(defaultBorder);
 		nextIterationButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		nextIterationButton.addActionListener(new Controller(model, new Event(Action.NEXT_ITERATION, null)));
+		nextIterationButton.addActionListener(initController(Action.NEXT_ITERATION, null));
 			
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -150,26 +150,35 @@ public class View extends JFrame implements Listener {
 
 		return footerPanel;
 	}
-
+	
+	private Controller initController(Action action, Object payload) {
+		return new Controller(model, new Event(action, payload)); 
+	} 
+	
 	@Override
 	public void handleEvent(Event event) {
-		Action type = event.getType();
 		Object payload = event.getPayload();
-		switch(type) {
-		case SPAWN_ENTITY:
-		case REMOVE_ENTITY:
+		switch(event.getType()) {
+		case SPAWN_ENTITY: {
 			Entity entity = (Entity) payload;
 			int i = entity.getPosition().y;
 			int j = entity.getPosition().x;
-			// Ensure Entity is within domain and range of tiles
-			if (!(0 <= j && j < Board.COLUMNS && 0 <= i && i < Board.ROWS)) return;
-			if (Action.SPAWN_ENTITY == type) {
-				if (entity instanceof Zombie) tiles[i][j].setIcon(Zombie.IMAGE);
-				else if (entity instanceof PeaShooter) tiles[i][j].setIcon(PeaShooter.IMAGE);
-				else if (entity instanceof Sunflower) tiles[i][j].setIcon(Sunflower.IMAGE);
-				else if (entity instanceof Bullet) tiles[i][j].setIcon(Bullet.IMAGE);
-			} else tiles[i][j].setIcon(null); 
+			if (!Board.isValidLocation(i, j)) return;
+			if (entity instanceof Zombie) tiles[i][j].setIcon(Zombie.IMAGE);
+			else if (entity instanceof PeaShooter) tiles[i][j].setIcon(PeaShooter.IMAGE);
+			else if (entity instanceof Sunflower) tiles[i][j].setIcon(Sunflower.IMAGE);
+			else if (entity instanceof Bullet) tiles[i][j].setIcon(Bullet.IMAGE);
 			break;
+		}
+		case REMOVE_ENTITY: {
+			Entity entity = (Entity) payload;
+			int i = entity.getPosition().y;
+			int j = entity.getPosition().x;
+			if (!Board.isValidLocation(i, j)) return;
+			if (!(0 <= j && j < Board.COLUMNS && 0 <= i && i < Board.ROWS)) return;
+			tiles[i][j].setIcon(null); 
+			break;
+		}
 		case UPDATE_SUN_POINTS:
 			sunPointsLabel.setText("Sun Points: " + (int) payload);
 			break;
@@ -177,10 +186,11 @@ public class View extends JFrame implements Listener {
 			JOptionPane.showMessageDialog(null, (String) payload);
 			break;
 		case TOGGLE_SUNFLOWER:
-			System.out.println((boolean) payload);
+			System.out.println("Sunflower " +(boolean) payload);
 			addSunflowerButton.setEnabled((boolean) payload);
 			break;
 		case TOGGLE_PEASHOOTER:
+			System.out.println("PeaShooter " + (boolean) payload);
 			addPeaShooterButton.setEnabled((boolean) payload);
 			break;
 		default:

@@ -20,8 +20,8 @@ public interface Board {
 	/**
 	 * Apply an update to Board location.
 	 * 
-	 * @param i The i coordinate of the tile.
-	 * @param j The j coordinate of the tile.
+	 * @param i The i coordinate of the Board.
+	 * @param j The j coordinate of the Board.
 	 */
 	public void update(int i, int j);
 	
@@ -36,6 +36,17 @@ public interface Board {
 				board.update(i, j);
 			}
 		}	 
+	}
+	
+	/**
+	 * Whether a location is valid on the Board.
+	 * 
+	 * @param i The i coordinate of the Board.
+	 * @param j The j coordinate of the Board.
+	 * @return boolean True if it is a valid location.
+	 */
+	public static boolean isValidLocation(int i, int j) {
+		return (0 <= j && j < COLUMNS && 0 <= i && i < ROWS);
 	}
 }
 

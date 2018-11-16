@@ -8,11 +8,10 @@ import java.util.Random;
  * 
  * @author kylehorne
  * @version 29 Oct 18
- * @param <R>
  */
 public class Model {
 	
-	private Action plantType;
+	private Action plantToggled;
 	
 	private LinkedList<Listener> listeners;
 
@@ -21,12 +20,12 @@ public class Model {
 	 */
 	private LinkedList<Entity> entities;
   	
-	private boolean isGameOver;
+	private boolean isRunning;
 	
 	/**
 	 * Game balance.
 	 */
-	private int sunPoints;
+	private int balance;
 	
 	/**
 	 * Current game iteration.
@@ -52,36 +51,17 @@ public class Model {
 	 * Constructor.
 	 */
 	public Model() {
-		listeners =  new LinkedList<Listener>();
-		isGameOver = false;
-		entities = new LinkedList<Entity>();
-		sunPoints = INITIAL_BALANCE; 
-		gameCounter = 0;
-		spawnZombies(1);
-		plantType = null;
+		listeners = new LinkedList<Listener>();
+		init();
 	}	
 	
-	public void initialize() {
-		
-
-		
-		isGameOver = false;
+	public void init() {
+		isRunning = true;
 		entities = new LinkedList<Entity>();
-		sunPoints = INITIAL_BALANCE; 
+		balance = INITIAL_BALANCE; 
 		gameCounter = 0;
 		spawnZombies(1);
-		plantType = null;
-		
-		PeaShooter.resetNextDeployable();
-		Sunflower.resetNextDeployable();
-		
-		boolean isSunflowerPurchasable = sunPoints >= Sunflower.COST && Sunflower.isDeployable(gameCounter);
-		boolean isPeaShooterPurchasable = sunPoints >= PeaShooter.COST && PeaShooter.isDeployable(gameCounter);
-		
-		notifyListeners(Action.TOGGLE_PEASHOOTER, isPeaShooterPurchasable);
-		notifyListeners(Action.TOGGLE_SUNFLOWER, isSunflowerPurchasable);
-		
-		notifyListeners(Action.UPDATE_SUN_POINTS, INITIAL_BALANCE); 
+		plantToggled = null;
 	}
 
 	private boolean isOccupied(Point location) {
@@ -96,7 +76,7 @@ public class Model {
 	private boolean isGameOver() {
 		for(Entity e : entities) {
 			if (e instanceof Zombie && e.getPosition().x == 0) {
-				isGameOver =  true;
+				isRunning = false;
 				return true;
 			}
 		}
@@ -107,7 +87,7 @@ public class Model {
 		for(Entity e : entities) {
 			if (e instanceof Zombie) return false;
 		}
-		isGameOver = true;
+		isRunning = false;
 		return true;
 	}
 
@@ -115,7 +95,7 @@ public class Model {
 		for (int i = 0; i < n; i ++) {
 			Entity zombie = new Zombie(new Point(Board.COLUMNS, new Random().nextInt(Board.ROWS)));
 			entities.add(zombie);
-			notifyListeners(Action.SPAWN_ENTITY, zombie);
+			notifyOfSpawn(zombie);
 		}
 	}
 	
@@ -139,67 +119,53 @@ public class Model {
 		return false;
 	}
 	
-	private void spawn(Point location) {
-		if (isGameOver || plantType == null || isOccupied(location)) return;
-		
-		boolean isSunflowerPurchasable = sunPoints >= Sunflower.COST && Sunflower.isDeployable(gameCounter);
-		boolean isPeaShooterPurchasable = sunPoints >= PeaShooter.COST && PeaShooter.isDeployable(gameCounter);
+	private boolean isSunflowerPurchasable() {
+		return Sunflower.COST <= balance && Sunflower.isDeployable(gameCounter);
+	}
+	
+	private boolean isPeaShooterPurchasable() {
+		return PeaShooter.COST <= balance && PeaShooter.isDeployable(gameCounter);
+	}
+	
+	private void spawnPlant(Point location) {
+		// Check default conditions to execute
+		if (!isRunning || plantToggled == null || isOccupied(location)) return;
+		// Ensure toggled plant is purchasable
 		boolean hasPurchased = false;
-		
-		if (isPeaShooterPurchasable && plantType == Action.TOGGLE_PEASHOOTER) {
-			sunPoints -= PeaShooter.COST;
+		if (plantToggled == Action.TOGGLE_PEASHOOTER && isPeaShooterPurchasable()) {
+			balance -= PeaShooter.COST;
 			entities.add(new PeaShooter(location));
 			PeaShooter.setNextDeployable(gameCounter);
 			hasPurchased = true;
-		} else if (isSunflowerPurchasable && plantType == Action.TOGGLE_SUNFLOWER) {
-			sunPoints -= Sunflower.COST;
+		} else if (plantToggled == Action.TOGGLE_SUNFLOWER && isSunflowerPurchasable()) {
+			balance -= Sunflower.COST;
 			entities.add(new Sunflower(location));
 			Sunflower.setNextDeployable(gameCounter);
 			hasPurchased = true;
-		}
-		
+		} 
+		// If successful purchase spawn plant and update new balance
 		if (hasPurchased) {
-			notifyListeners(Action.SPAWN_ENTITY, entities.getLast());
-			notifyListeners(Action.UPDATE_SUN_POINTS, sunPoints);
+			notifyOfSpawn(entities.getLast());
+			notifyOfBalance();
+			plantToggled = null;
 		}
-		
-		 isSunflowerPurchasable = sunPoints >= Sunflower.COST && Sunflower.isDeployable(gameCounter);
-		 isPeaShooterPurchasable = sunPoints >= PeaShooter.COST && PeaShooter.isDeployable(gameCounter);
-		
-		notifyListeners(Action.TOGGLE_PEASHOOTER, isPeaShooterPurchasable);
-		notifyListeners(Action.TOGGLE_SUNFLOWER, isSunflowerPurchasable);
 	}
 	
-	
-
-
-	private void nextIteration() {	
-		if (isGameOver) return;
-		
-		boolean isSunflowerPurchasable = sunPoints >= Sunflower.COST && Sunflower.isDeployable(gameCounter);
-		boolean isPeaShooterPurchasable = sunPoints >= PeaShooter.COST && PeaShooter.isDeployable(gameCounter);
-		
-		notifyListeners(Action.TOGGLE_PEASHOOTER, isPeaShooterPurchasable);
-		notifyListeners(Action.TOGGLE_SUNFLOWER, isSunflowerPurchasable);
-		
-		// Clear Entities from board
-		for(Entity e: entities) notifyListeners(Action.REMOVE_ENTITY, e);
-
+	private void updateShooters() {
 		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
 		for(Entity entity: entities) {
 			if (entity instanceof Shooter && ((Shooter) entity).canShoot())  {
 				// If PeaShooter can fire add new bullet to Entity list
 				if (entity instanceof PeaShooter) tempEntities.add(new Bullet(new Point(entity.getPosition().x, entity.getPosition().y), PeaShooter.DAMAGE));
 				// If sunflower can fire add sun reward.
-				else if (entity instanceof Sunflower) sunPoints += Sun.REWARD;
+				else if (entity instanceof Sunflower) balance += Sun.REWARD;
 			}
 		}
-		entities.addAll(tempEntities); // Add new Entities to Entities list	
-		
-
-		
-		// Update position of Moveable Entities
-		tempEntities = new LinkedList<Entity>();
+		entities.addAll(tempEntities);
+	}
+	
+	private void updateMoveables() {
+		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
 		for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
 			Entity entity = iter.next();
 			// Ensure Entity is Moveable and is not waiting to be delete
@@ -210,9 +176,7 @@ public class Model {
 				if (!isCollision(m)) { 
 					m.updatePosition(); // Update position if there is no collision
 					// Remove bullet if domain is greater than game board columns
-					if (isBullet && entity.getPosition().x >= Board.COLUMNS) {
-						iter.remove();
-					}
+					if (isBullet && entity.getPosition().x >= Board.COLUMNS) iter.remove();
 				} else if (isBullet) { 
 					// Remove bullet on impact
 					tempEntities.add(entity);
@@ -220,52 +184,81 @@ public class Model {
 				} 
 			}
 		}
-		entities.removeAll(tempEntities);	
-		
-		// Check for dead Entities
-		tempEntities = new LinkedList<Entity>();
+		entities.removeAll(tempEntities);
+	}
+	
+	private void checkForDead() {
+		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
 		for(Entity entity: entities) {	
 			if (entity instanceof Alive) {	
 				// Check if Entity is dead 
-				if (((Alive) entity).getHealth() <= 0) {
-					System.out.println(entity.getClass().getName() + " died");	
-					tempEntities.add(entity);
-				} else {
-					// Print health of Entity if still alive
-					System.out.println(entity.getClass().getName() + " health: " + ((Alive) entity).getHealth());
-				}
+				if (((Alive) entity).getHealth() <= 0)tempEntities.add(entity);
 			}
 		}
-		entities.removeAll(tempEntities);	
-		
-		// Add entities to board
-		for(Entity e: entities) notifyListeners(Action.SPAWN_ENTITY, e);
+		entities.removeAll(tempEntities);
+	}
+	
+	private void nextIteration() { 
+		if (!isRunning) return; // Check if game is running
+		clearBoard();		
+		updateShooters();
+		updateMoveables();
+		checkForDead();
+		spawnEntities();
 		gameCounter++;
 		// Add automatic welfare if payment period has elapsed 
-		if (gameCounter % Model.PAYMENT_PERIOD == 0) sunPoints += Model.WELFARE;	
-		notifyListeners(Action.UPDATE_SUN_POINTS, sunPoints);
-		
-		if (isRoundOver()) notifyListeners(Action.LOG_MESSAGE, "Congratulations, you beat the round!");
-		if (isGameOver()) notifyListeners(Action.LOG_MESSAGE, "You lost!");
+		if (gameCounter % Model.PAYMENT_PERIOD == 0) balance += Model.WELFARE;	
+		notifyOfBalance();
+		// Check if game is still runnable
+		boolean isRoundOver = isRoundOver();
+		boolean isGameOver = isGameOver();
+		if (isRoundOver || isGameOver) {
+			isRunning = false;
+			if (isRoundOver) notifyOfMessage("Congratulations, you beat the round!");
+			else notifyOfMessage("You lost the round!");
+		}
+	}
+	
+	private void notifyOfMessage(String message) {
+		notifyListeners(Action.LOG_MESSAGE, message);
+	} 
+	
+	private void notifyOfBalance() {
+		notifyListeners(Action.UPDATE_SUN_POINTS, balance);
+		notifyListeners(Action.TOGGLE_PEASHOOTER, isPeaShooterPurchasable());
+		notifyListeners(Action.TOGGLE_SUNFLOWER, isSunflowerPurchasable());
+	}
+	
+	private void notifyOfSpawn(Entity e) {
+		notifyListeners(Action.SPAWN_ENTITY, e);
+	}
+	
+	private void spawnEntities() {
+		for(Entity e: entities) notifyOfSpawn(e);
+	}
+	
+	private void clearBoard() {
+		for(Entity e: entities) notifyListeners(Action.REMOVE_ENTITY, e);
 	}
 	
 	public void reducer(Event event) {
-		Action type = event.getType();
-		Object payload = event.getPayload();
-		switch(type) {
+		switch(event.getType()) {
 		case NEXT_ITERATION:
 			nextIteration(); 
 			break;
 		case TOGGLE_PEASHOOTER:
 		case TOGGLE_SUNFLOWER:
-			plantType = type;
+			plantToggled = event.getType();
 			break;
 		case SPAWN_ENTITY:
-			spawn((Point) payload);
+			spawnPlant((Point) event.getPayload());
 			break;
 		case RESTART_GAME:
-			for(Entity e: entities) notifyListeners(Action.REMOVE_ENTITY, e);
-			initialize();
+			clearBoard();
+			PeaShooter.resetNextDeployable();
+			Sunflower.resetNextDeployable();
+			init();
+			notifyOfBalance();
 			break;
 		default:
 			break;
@@ -279,7 +272,7 @@ public class Model {
 	public void addActionListener(Listener listener) {
 		listeners.add(listener);
 		// Notify listener of initial balance
-		notifyListeners(Action.UPDATE_SUN_POINTS, INITIAL_BALANCE); 
+		notifyOfBalance();
 	}
 	
 }
