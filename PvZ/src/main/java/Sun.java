@@ -18,7 +18,7 @@ public class Sun extends Entity {
 	/**
 	 * Icon image of Sun objects.
 	 */
-	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/customsun.png");
+	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/customSun.png");
 	
 	/**
 	 * Constructor.
