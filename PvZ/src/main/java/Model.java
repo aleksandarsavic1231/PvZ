@@ -150,7 +150,6 @@ public class Model {
 			// Zombie hit by bullet
 			if (e instanceof Zombie && m instanceof Bullet && (hasCollided || willCollide)) {
 				((Zombie) e).takeDamage(((Bullet) m).getDamage());
-				((Zombie) e).updateImage();
 				return true;
 			}
 			// Zombie collided with plant 

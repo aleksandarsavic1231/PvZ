@@ -19,9 +19,11 @@ public class AllTests extends TestCase {
 		TestSuite suite = new TestSuite(); 
 		suite.addTest(new TestSuite(AliveTest.class)); 	
 		suite.addTest(new TestSuite(BulletTest.class)); 
-		suite.addTest(new TestSuite(EntityTest.class)); 
+		suite.addTest(new TestSuite(EntityTest.class));
+		suite.addTest(new TestSuite(EventTest.class)); 	
+		suite.addTest(new TestSuite(ModelTest.class)); 	
 		suite.addTest(new TestSuite(PeaShooterTest.class)); 
-		suite.addTest(new TestSuite(SunflowerTest.class)); 
+		suite.addTest(new TestSuite(SunflowerTest.class)); 	
 		suite.addTest(new TestSuite(ZombieTest.class)); 
 		return suite;
 	} 

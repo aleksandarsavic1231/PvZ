@@ -28,7 +28,7 @@ public class Bullet extends Entity implements Moveable {
 	/**
 	 * Icon image of Bullet objects.
 	 */
-	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/custombullet.png");
+	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/Bullet.png");
 	
 	/**
 	 * Constructor.

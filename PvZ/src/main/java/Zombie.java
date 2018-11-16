@@ -21,9 +21,15 @@ public class Zombie extends Alive implements Moveable {
 	public static final int VELOCITY = 1;
 	
 	/**
-	 * Image icon of Zombie objects.
+	 * Custom images of Zombie objects.
 	 */
-	public ImageIcon IMAGE = new ImageIcon("src/main/resources/healthyzombie.png");
+	public static final ImageIcon HEALTHY_ZOMBIE = new ImageIcon("src/main/resources/healthyzombie.png");
+	public static final ImageIcon HURT_ZOMBIE = new ImageIcon("src/main/resources/brokenzombie.png");
+	
+	/**
+	 * Default health of Zombie objects.
+	 */
+	public static final int INITIAL_HEALTH = 5;
 	
 	/**
 	 * Whether this is locked from moving.
@@ -36,7 +42,7 @@ public class Zombie extends Alive implements Moveable {
 	 * @param position The spawn location of this.
 	 */
 	public Zombie(Point position) {
-		super(position, 5);
+		super(position, INITIAL_HEALTH);
 		locked = false;
 	}
 
@@ -56,12 +62,6 @@ public class Zombie extends Alive implements Moveable {
 		this.locked = false;
 	}	
 	
-	public void updateImage() {
-		if (this.getHealth() < 3) {
-			IMAGE = new ImageIcon("src/main/resources/brokenzombie.png");
-		}
-	}
-
 }
 
 

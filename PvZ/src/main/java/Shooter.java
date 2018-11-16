@@ -27,7 +27,7 @@ public abstract class Shooter extends Alive {
 	/**
 	 * Set the fire rate of this.
 	 * 
-	 * @param fireRate
+	 * @param fireRate The new fire rate.
 	 */
 	public void setFireRate(int fireRate) {
 		this.fireRate = fireRate;
@@ -36,14 +36,13 @@ public abstract class Shooter extends Alive {
 	/**
 	 * Whether this can fire.
 	 * 
-	 * @return
+	 * @return boolean True if the Shooter can shoot.
 	 */
 	public boolean canShoot() {
-		if (fireRate == 0) {
+		if (--fireRate == 0) {
 			resetFireRate();
 			return true;
 		} 
-		this.fireRate--;
 		return false;
 	}
 	
