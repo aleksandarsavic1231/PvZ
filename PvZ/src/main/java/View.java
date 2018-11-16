@@ -20,28 +20,59 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+/**
+ * The View of the PvZ game.
+ * 
+ * @author aleksandarsavic1231
+ * @version 16 Nov 18
+ */
 public class View extends JFrame implements Listener {
 
+	/**
+	 * Default serial version UID.
+	 */
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * The tiles making up the PvZ Board.
+	 */
 	private JButton[][] tiles;
 	
+	/**
+	 * The sun points balance label.
+	 */
 	private JLabel sunPointsLabel;
 	
+	/**
+	 * The buttons to add a Plant to PvZ board.
+	 */
 	private JButton addPeaShooterButton, addSunflowerButton;
 		
+	/**
+	 * The PvZ model.
+	 */
 	private Model model;
 	
+	/**
+	 * The View width.
+	 */
 	public static final int WIDTH = 1000;
 	
+	/** 
+	 * The View height.
+	 */
 	public static final int HEIGHT = 600;
 
+	/**
+	 * Custom colors used on View.
+	 */
 	public static final Color LIGHT_GREEN = new Color(0,255,51);
-	
 	public static final Color GREEN = new Color(0,153,0);
-	
 	public static final Color DARK_GREEN = new Color(0,102,0);
 		
+	/**
+	 * Constructor.
+	 */
 	public View() {
 		super("Plant vs. Zombies");
 		// Initialize model
@@ -59,6 +90,11 @@ public class View extends JFrame implements Listener {
 		setVisible(true);	
 	}
 	
+	/**
+	 * Instantiate the menu bar.
+	 * 
+	 * @return JMenuBar MenuBar containing the PvZ menu.
+	 */
 	private JMenuBar addMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("Menu");
@@ -67,6 +103,8 @@ public class View extends JFrame implements Listener {
 		restart.addActionListener(initController(Action.RESTART_GAME, null));
 		
 		JMenuItem quit = new JMenuItem("Quit Game");
+		// Brute force quit
+		// Will need to change for future milestones as we will need to store the model state 
 		quit.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) { 
 				System.exit(0);  
@@ -80,6 +118,11 @@ public class View extends JFrame implements Listener {
 		return menuBar;
 	}
 	
+	/**
+	 * Instantiate the PvZ board.
+	 * 
+	 * @return JPanel Panel containing the PvZ board.
+	 */
 	private JPanel addBoard() {		
 		JPanel boardPanel = new JPanel();
 		boardPanel.setLayout(new GridLayout(Board.ROWS, Board.COLUMNS));
@@ -114,6 +157,11 @@ public class View extends JFrame implements Listener {
 		return boardPanel;	
 	}
 	
+	/**
+	 * Instantiate the footer of PvZ frame.
+	 * 
+	 * @return JPanel Panel containing the footer.
+	 */
 	private JPanel addFooter() {
 		Border defaultBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 		
@@ -151,6 +199,13 @@ public class View extends JFrame implements Listener {
 		return footerPanel;
 	}
 	
+	/**
+	 * Instantiate a new Controller.
+	 * 
+	 * @param action The action triggered.
+	 * @param payload The payload coupled with the action.
+	 * @return controller The instantiated Controller.
+	 */
 	private Controller initController(Action action, Object payload) {
 		return new Controller(model, new Event(action, payload)); 
 	} 
@@ -163,7 +218,10 @@ public class View extends JFrame implements Listener {
 			Entity entity = (Entity) payload;
 			int i = entity.getPosition().y;
 			int j = entity.getPosition().x;
+			// Ensure valid location on View
+			// A Entity may have location outside the view (Zombies spawn outside Board domain for instance) 
 			if (!Board.isValidLocation(i, j)) return;
+			// Set icon of button based on Entity type
 			if (entity instanceof Zombie) tiles[i][j].setIcon(Zombie.IMAGE);
 			else if (entity instanceof PeaShooter) tiles[i][j].setIcon(PeaShooter.IMAGE);
 			else if (entity instanceof Sunflower) tiles[i][j].setIcon(Sunflower.IMAGE);
@@ -177,8 +235,8 @@ public class View extends JFrame implements Listener {
 			int j = entity.getPosition().x;
 			if (!Board.isValidLocation(i, j)) return;
 			if (!(0 <= j && j < Board.COLUMNS && 0 <= i && i < Board.ROWS)) return;
-			tiles[i][j].setIcon(null); 
-			break;
+			tiles[i][j].setIcon(null); // Set icon to default
+			break; 
 		}
 		case UPDATE_SUN_POINTS:
 			sunPointsLabel.setText("Sun Points: " + (int) payload);
@@ -197,6 +255,11 @@ public class View extends JFrame implements Listener {
 		}  
 	}
 
+	/**
+	 * Main method.
+	 * 
+	 * @param args Arguments from standard out.
+	 */
 	public static void main(String args[]) {
 		new View();
 	}

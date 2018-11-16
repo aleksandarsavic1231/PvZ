@@ -4,26 +4,35 @@ import java.util.ListIterator;
 import java.util.Random;
 
 /** 
- * The Model contains the game state and logic of PvZ.
+ * The Model contains the game state and logic.
  * 
  * @author kylehorne
  * @version 29 Oct 18
  */
 public class Model {
 	
+	/**
+	 * The currently toggled plant from View.
+	 */
 	private Action plantToggled;
 	
+	/**
+	 * List of Model listeners.
+	 */
 	private LinkedList<Listener> listeners;
 
 	/**
-	 * Spawned entities. 
+	 * Spawned entities.
 	 */
 	private LinkedList<Entity> entities;
   	
+	/**
+	 * Whether the game is running.
+	 */
 	private boolean isRunning;
 	
 	/**
-	 * Game balance.
+	 * Sun point balance.
 	 */
 	private int balance;
 	
@@ -38,7 +47,7 @@ public class Model {
 	public static final int PAYMENT_PERIOD = 4;
 	
 	/**
-	 * The sun points automatically deposited every payment period
+	 * The sun points automatically deposited every payment period.
 	 */
 	public static final int WELFARE = 25;
 	
@@ -55,6 +64,9 @@ public class Model {
 		init();
 	}	
 	
+	/**
+	 * Initialize fields to default state.
+	 */
 	public void init() {
 		isRunning = true;
 		entities = new LinkedList<Entity>();
@@ -64,6 +76,12 @@ public class Model {
 		plantToggled = null;
 	}
 
+	/**
+	 * Whether a position is currently occupied by another Entity excluding Bullets.
+	 * 
+	 * @param location The location to check.
+	 * @return boolean True if location is occupied.
+	 */
 	private boolean isOccupied(Point location) {
 		for(Entity e : entities) {
 			if (!(e instanceof Bullet) && e.getPosition().x == location.x && e.getPosition().y == location.y) {
@@ -73,16 +91,26 @@ public class Model {
 		return false;
 	}
 
+	/**
+	 * Check whether the game is over. The game is over when a Zombie has traversed the board (0, y).
+	 * 
+	 * @return boolean True if the game is over.
+	 */
 	private boolean isGameOver() {
 		for(Entity e : entities) {
 			if (e instanceof Zombie && e.getPosition().x == 0) {
-				isRunning = false;
+				isRunning = false; 
 				return true;
 			}
 		}
 		return false;
 	}
 
+	/**
+	 * Check whether the round is over. The round is over when no zombies remain.
+	 * 
+	 * @return boolean True if the round is over.
+	 */
 	private boolean isRoundOver() {
 		for(Entity e : entities) {
 			if (e instanceof Zombie) return false;
@@ -91,6 +119,11 @@ public class Model {
 		return true;
 	}
 
+	/**
+	 * Spawn n Zombies at a random position greater than the board domain and within board range.
+	 *  
+	 * @param n The number of Zombies to spawn.
+	 */
 	private void spawnZombies(int n) {
 		for (int i = 0; i < n; i ++) {
 			// Spawn further than columns so player has time to increase balance
@@ -102,6 +135,12 @@ public class Model {
 		}
 	}
 	
+	/**
+	 * Check if there is a collision between a Moveable object and another Entity.
+	 * 
+	 * @param m The Moveable object to check for collision.
+	 * @return boolean True if there is a collision.
+	 */
 	private boolean isCollision(Moveable m) {
 		for(Entity e: entities) {
 			// A collision will occur if the next position of Moveable is currently occupied.
@@ -122,11 +161,23 @@ public class Model {
 		return false;
 	}
 	
+	/**
+	 * Check if the Sunflower is purchasable.
+	 * 
+	 * @return boolean True if the Sunflower is purchasable.
+	 */
 	private boolean isSunflowerPurchasable() {
+		// Sunflower is purchasable if player has sufficient balance and Sunflower is deployable.
 		return Sunflower.COST <= balance && Sunflower.isDeployable(gameCounter);
 	}
 	
+	/**
+	 * Check if the PeaShooter is purchasable.
+	 * 
+	 * @return boolean True if the PeaShooter is purchasable.
+	 */
 	private boolean isPeaShooterPurchasable() {
+		// PeaShooter is purchasable if player has sufficient balance and Sunflower is deployable.
 		return PeaShooter.COST <= balance && PeaShooter.isDeployable(gameCounter);
 	}
 	
@@ -154,19 +205,25 @@ public class Model {
 		}
 	}
 	
+	/**
+	 * Check if a Shooter object can shoot.
+	 */
 	private void updateShooters() {
 		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
 		for(Entity entity: entities) {
 			if (entity instanceof Shooter && ((Shooter) entity).canShoot())  {
-				// If PeaShooter can fire add new bullet to Entity list
+				// If PeaShooter can fire add new bullet at PeaShooter location
 				if (entity instanceof PeaShooter) tempEntities.add(new Bullet(new Point(entity.getPosition().x, entity.getPosition().y), PeaShooter.DAMAGE));
-				// If Sunflower can fire spawn Sun 
+				// If Sunflower can fire spawn Sun randomly on board
 				else if (entity instanceof Sunflower) tempEntities.add(new Sun(new Point(new Random().nextInt(Board.COLUMNS), new Random().nextInt(Board.ROWS))));
 			}
 		}
 		entities.addAll(tempEntities);
 	}
 	
+	/**
+	 * Update all Moveable objects.
+	 */
 	private void updateMoveables() {
 		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
 		for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
@@ -190,17 +247,20 @@ public class Model {
 		entities.removeAll(tempEntities);
 	}
 	
+	/**
+	 * Check for dead Entities.
+	 */
 	private void checkForDead() {
 		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
 		for(Entity entity: entities) {	
-			if (entity instanceof Alive) {	
-				// Check if Entity is dead 
-				if (((Alive) entity).getHealth() <= 0) tempEntities.add(entity);
-			}
+			if (entity instanceof Alive && ((Alive) entity).getHealth() <= 0) tempEntities.add(entity);
 		}
-		entities.removeAll(tempEntities);
+		entities.removeAll(tempEntities); // Remove dead
 	}
 	
+	/**
+	 * Update game state.
+	 */
 	private void nextIteration() { 
 		if (!isRunning) return; // Check if game is running
 		clearBoard();		
@@ -222,32 +282,63 @@ public class Model {
 		}
 	}
 	
+	/**
+	 * Notify listeners of message.
+	 * 
+	 * @param message The message to notify listeners.
+	 */
 	private void notifyOfMessage(String message) {
 		notifyListeners(Action.LOG_MESSAGE, message);
 	} 
 	
+	/**
+	 * Notify listeners of balance.
+	 */
 	private void notifyOfBalance() {
 		notifyListeners(Action.UPDATE_SUN_POINTS, balance);
+		// Purchasable plants may changed on new balance.
 		notifyListeners(Action.TOGGLE_PEASHOOTER, isPeaShooterPurchasable());
 		notifyListeners(Action.TOGGLE_SUNFLOWER, isSunflowerPurchasable());
 	}
 	
+	/**
+	 * Notify listeners of newly spawned Entity.
+	 * 
+	 * @param e The Entity spawned.
+	 */
 	private void notifyOfSpawn(Entity e) {
 		notifyListeners(Action.SPAWN_ENTITY, e);
 	}
 	
+	/**
+	 * Spawn all Entities.
+	 */
 	private void spawnEntities() {
 		for(Entity e: entities) notifyOfSpawn(e);
 	}
 	
+	/**
+	 * Notify listeners of deleted Entity.
+	 * 
+	 * @param e The Entity to be removed.
+	 */
 	private void removeEntity(Entity e) {
 		 notifyListeners(Action.REMOVE_ENTITY, e);
 	} 
 	
+	/**
+	 * Notify listeners to clear board.
+	 */
 	private void clearBoard() {
 		for(Entity e: entities) removeEntity(e);
 	}
 	
+	/**
+	 * Check if location contains Sun.
+	 * 
+	 * @param location The location to check.
+	 * @return boolean True if the location contains Sun.
+	 */
 	private boolean containsSun(Point location) {
 		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
 		boolean foundSun = false;
@@ -265,6 +356,11 @@ public class Model {
 		return foundSun;
 	}
 	
+	/**
+	 * The reducer handles Events.
+	 * 
+	 * @param event The event to handle.
+	 */
 	public void reducer(Event event) {
 		if (!isRunning && event.getType() != Action.RESTART_GAME) return;
 		switch(event.getType()) {
@@ -292,14 +388,24 @@ public class Model {
 		}
 	}
 	
+	/**
+	 * Notify listeners of Event.
+	 * 
+	 * @param type The Action type.
+	 * @param payload The payload coupled to action.
+	 */
 	private void notifyListeners(Action type, Object payload) {
 		for(Listener listener : listeners) listener.handleEvent(new Event(type, payload));
 	}
 
+	/**
+	 * Add listener to this.
+	 *  
+	 * @param listener The listener to add.
+	 */
 	public void addActionListener(Listener listener) {
 		listeners.add(listener);
-		// Notify listener of initial balance
-		notifyOfBalance();
+		notifyOfBalance(); // Notify listener of initial balance
 	}
 	
 }
