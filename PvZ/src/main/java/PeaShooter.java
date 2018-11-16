@@ -38,7 +38,7 @@ public class PeaShooter extends Shooter {
 	/**
 	 * Icon image of PeaShooter objects.
 	 */
-	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/PeaShooter.png");
+	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/custompea.png");
 	
 	/**
 	 * Constructor.
