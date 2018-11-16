@@ -7,8 +7,15 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 @RunWith(Suite.class)
-@SuiteClasses({ AliveTest.class, BulletTest.class, 
-	PeaShooterTest.class, SunflowerTest.class, ZombieTest.class })
+@SuiteClasses({ 
+	AliveTest.class, 
+	BulletTest.class, 
+	EntityTest.class, 
+	EventTest.class, 
+	PeaShooterTest.class, 
+	SunflowerTest.class, 
+	ZombieTest.class 
+})
 public class AllTests extends TestCase {
 	
 	public static void main(String[] args) { 
@@ -21,7 +28,6 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(BulletTest.class)); 
 		suite.addTest(new TestSuite(EntityTest.class));
 		suite.addTest(new TestSuite(EventTest.class)); 	
-		suite.addTest(new TestSuite(ModelTest.class)); 	
 		suite.addTest(new TestSuite(PeaShooterTest.class)); 
 		suite.addTest(new TestSuite(SunflowerTest.class)); 	
 		suite.addTest(new TestSuite(ZombieTest.class)); 
