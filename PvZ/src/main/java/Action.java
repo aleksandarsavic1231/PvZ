@@ -6,6 +6,8 @@
  */
 public enum Action {
 	
+	TILE_CLICKED,
+	
 	SPAWN_ENTITY,
 	
 	REMOVE_ENTITY,

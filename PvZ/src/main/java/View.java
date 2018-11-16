@@ -88,7 +88,7 @@ public class View extends JFrame implements Listener {
 		// Initialize tiles	
 		Board.iterate((i, j) -> {
 			tiles[i][j] = new JButton();
-			tiles[i][j].addActionListener(initController(Action.SPAWN_ENTITY, new Point(j, i)));
+			tiles[i][j].addActionListener(initController(Action.TILE_CLICKED, new Point(j, i)));
 			tiles[i][j].setOpaque(true); // Required for OSX
 			tiles[i][j].setBorderPainted(false);
 			// Set tile color
@@ -168,6 +168,7 @@ public class View extends JFrame implements Listener {
 			else if (entity instanceof PeaShooter) tiles[i][j].setIcon(PeaShooter.IMAGE);
 			else if (entity instanceof Sunflower) tiles[i][j].setIcon(Sunflower.IMAGE);
 			else if (entity instanceof Bullet) tiles[i][j].setIcon(Bullet.IMAGE);
+			else if (entity instanceof Sun) tiles[i][j].setIcon(Sun.IMAGE);
 			break;
 		}
 		case REMOVE_ENTITY: {
@@ -186,11 +187,9 @@ public class View extends JFrame implements Listener {
 			JOptionPane.showMessageDialog(null, (String) payload);
 			break;
 		case TOGGLE_SUNFLOWER:
-			System.out.println("Sunflower " +(boolean) payload);
 			addSunflowerButton.setEnabled((boolean) payload);
 			break;
 		case TOGGLE_PEASHOOTER:
-			System.out.println("PeaShooter " + (boolean) payload);
 			addPeaShooterButton.setEnabled((boolean) payload);
 			break;
 		default:

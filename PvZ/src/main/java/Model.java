@@ -157,8 +157,8 @@ public class Model {
 			if (entity instanceof Shooter && ((Shooter) entity).canShoot())  {
 				// If PeaShooter can fire add new bullet to Entity list
 				if (entity instanceof PeaShooter) tempEntities.add(new Bullet(new Point(entity.getPosition().x, entity.getPosition().y), PeaShooter.DAMAGE));
-				// If sunflower can fire add sun reward.
-				else if (entity instanceof Sunflower) balance += Sun.REWARD;
+				// If Sunflower can fire spawn Sun 
+				else if (entity instanceof Sunflower) tempEntities.add(new Sun(new Point(new Random().nextInt(Board.COLUMNS), new Random().nextInt(Board.ROWS))));
 			}
 		}
 		entities.addAll(tempEntities);
@@ -192,7 +192,7 @@ public class Model {
 		for(Entity entity: entities) {	
 			if (entity instanceof Alive) {	
 				// Check if Entity is dead 
-				if (((Alive) entity).getHealth() <= 0)tempEntities.add(entity);
+				if (((Alive) entity).getHealth() <= 0) tempEntities.add(entity);
 			}
 		}
 		entities.removeAll(tempEntities);
@@ -237,11 +237,32 @@ public class Model {
 		for(Entity e: entities) notifyOfSpawn(e);
 	}
 	
+	private void removeEntity(Entity e) {
+		 notifyListeners(Action.REMOVE_ENTITY, e);
+	} 
+	
 	private void clearBoard() {
-		for(Entity e: entities) notifyListeners(Action.REMOVE_ENTITY, e);
+		for(Entity e: entities) removeEntity(e);
+	}
+	
+	private boolean containsSun(Point location) {
+		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
+		boolean foundSun = false;
+		for(Entity e: entities) {
+			if (e instanceof Sun && e.getPosition().x == location.x && e.getPosition().y == location.y) {
+				removeEntity(e);
+				balance += Sun.REWARD;
+				notifyOfBalance();
+				foundSun = true;
+				tempEntities.add(e);
+			}
+		}
+		entities.removeAll(tempEntities);
+		return foundSun;
 	}
 	
 	public void reducer(Event event) {
+		if (!isRunning && event.getType() != Action.RESTART_GAME) return;
 		switch(event.getType()) {
 		case NEXT_ITERATION:
 			nextIteration(); 
@@ -250,8 +271,10 @@ public class Model {
 		case TOGGLE_SUNFLOWER:
 			plantToggled = event.getType();
 			break;
-		case SPAWN_ENTITY:
-			spawnPlant((Point) event.getPayload());
+		case TILE_CLICKED:
+			Point location = (Point) event.getPayload();
+			// Spawn plant only if tile clicked does not contain Sun
+			if (!containsSun(location)) spawnPlant(location);
 			break;
 		case RESTART_GAME:
 			clearBoard();
