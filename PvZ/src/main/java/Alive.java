@@ -34,12 +34,12 @@ public class Alive extends Entity {
 	}
 	
 	/**
-	 * Set this health .
+	 * Set health after taking damage.
 	 * 
-	 * @param health New health this.
+	 * @param damage The damage received.
 	 */
-	public void setHealth(int health) {
-		this.health -= health;
+	public void takeDamage(int damage) {
+		this.health -= damage;
 	}
 	
 }

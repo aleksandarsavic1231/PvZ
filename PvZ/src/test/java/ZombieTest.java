@@ -3,39 +3,40 @@ import static org.junit.Assert.*;
 import java.awt.Point;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ZombieTest {
+import junit.framework.TestCase;
+
+public class ZombieTest extends TestCase  {
 	
-	private Zombie z;
-
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+	private Zombie zombie;
 
 	@Before
 	public void setUp() throws Exception {
-		Point p = new Point(2,3);
-		this.z = new Zombie(p);
+		this.zombie = new Zombie(new Point(0, 0));
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		this.z = null;
+		this.zombie = null;
 	}
 
 	@Test
-	public void test() {
-		z.unlock();
-		Point pTest = new Point(1, 3);
-		assertEquals(z.nextPosition(), pTest);
+	public void testUpdatePosition() {
+		// Test update position when unlocked
+		zombie.unlock();
+		zombie.updatePosition();
+		assertEquals(zombie.getPosition(), new Point(-1, 0));
+		
+		// Test update position when locked
+		zombie.updatePosition();
+		assertEquals(zombie.getPosition(), new Point(-1, 0));
+	}
+	
+	@Test
+	public void testNextPosition() {
+		assertEquals(zombie.nextPosition(), new Point(-1, 0));
 	}
 
 }

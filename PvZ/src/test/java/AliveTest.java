@@ -1,45 +1,34 @@
-import static org.junit.Assert.*;
-
 import java.awt.Point;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import junit.framework.TestCase;
 
-public class AliveTest extends TestCase{
+public class AliveTest extends TestCase {
 	
-	private Alive a;
-	 
-
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+	private Alive alive;
 
 	@Before
 	public void setUp() throws Exception {
-		Point p = new Point(2,3);
-		int Health = 5;
-		this.a = new Alive(p, Health);
-		
+		alive = new Alive(new Point(0, 0), 100);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		this.a = null;
+		alive = null;
 	}
-
+	
 	@Test
-	public void test() {
-		assertEquals(a.getHealth(), 5);
-		//assertEquals(a.setHealth(1),1);
+	public void testGetHealth() {
+		assertEquals(alive.getHealth(), 100);
+	}
+	
+	@Test
+	public void testTakeDamage() {
+		alive.takeDamage(20);
+		assertEquals(alive.getHealth(), 80);
 	}
 
 }

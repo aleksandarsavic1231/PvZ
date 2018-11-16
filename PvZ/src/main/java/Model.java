@@ -110,12 +110,12 @@ public class Model {
 			boolean hasCollided = e.getPosition().x == ((Entity) m).getPosition().x && e.getPosition().y == ((Entity) m).getPosition().y;
 			// Zombie hit by bullet
 			if (e instanceof Zombie && m instanceof Bullet && (hasCollided || willCollide)) {
-				((Zombie) e).setHealth(((Bullet) m).getDamage());
+				((Zombie) e).takeDamage(((Bullet) m).getDamage());
 				return true;
 			}
 			// Zombie collided with plant 
 			if ((e instanceof PeaShooter || e instanceof Sunflower) && m instanceof Zombie && willCollide) {
-				((Alive) e).setHealth(Zombie.DAMAGE);		
+				((Alive) e).takeDamage(Zombie.DAMAGE);		
 				return true;
 			}
 		}
