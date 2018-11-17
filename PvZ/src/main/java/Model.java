@@ -57,6 +57,21 @@ public class Model {
 	public static final int INITIAL_BALANCE = 100;
 	
 	/**
+	 * The lower bound a Zombie can spawn.
+	 */
+	public static final int LOWER_BOUND = 5 + Board.COLUMNS;
+	
+	/**
+	 * The randomness between Zombie separation. 
+	 */
+	public static final int NOICE = 8;
+	
+	/**
+	 * The number of Zombies to spawn.
+	 */
+	public static final int NUM_ZOMBIES = 3;
+	
+	/**
 	 * Constructor.
 	 */
 	public Model() {
@@ -72,7 +87,7 @@ public class Model {
 		entities = new LinkedList<Entity>();
 		balance = INITIAL_BALANCE; 
 		gameCounter = 0;
-		spawnZombies(3);
+		spawnZombies(NUM_ZOMBIES);
 		plantToggled = null;
 	}
 
@@ -127,9 +142,7 @@ public class Model {
 	private void spawnZombies(int n) {
 		for (int i = 0; i < n; i ++) {
 			// Spawn further than columns so player has time to increase balance
-			int lowerBound = 3 + Board.COLUMNS;
-			int delay = 6;
-			Entity zombie = new Zombie(new Point(new Random().nextInt(delay) + lowerBound , new Random().nextInt(Board.ROWS)));
+			Entity zombie = new Zombie(new Point(new Random().nextInt(NOICE) + LOWER_BOUND , new Random().nextInt(Board.ROWS)));
 			entities.add(zombie);
 			notifyOfSpawn(zombie);
 		}
@@ -181,6 +194,11 @@ public class Model {
 		return PeaShooter.COST <= balance && PeaShooter.isDeployable(gameCounter);
 	}
 	
+	/**
+	 * Spawn plant at location based on toggled button.
+	 * 
+	 * @param location The location to spawn a plant.
+	 */
 	private void spawnPlant(Point location) {
 		// Check default conditions to execute
 		if (!isRunning || plantToggled == null || isOccupied(location)) return;
