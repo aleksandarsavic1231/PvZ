@@ -21,7 +21,7 @@ public abstract class Shooter extends Alive {
 	 */
 	public Shooter(Point position, int health) {
 		super(position, health);
-		this.fireRate = 0;	
+		fireRate = 0;	
 	}
 	
 	/**
@@ -39,11 +39,10 @@ public abstract class Shooter extends Alive {
 	 * @return boolean True if the Shooter can shoot.
 	 */
 	public boolean canShoot() {
-		if (fireRate == 0) {
+		if (fireRate-- == 0) {
 			resetFireRate();
 			return true;
 		} 
-		this.fireRate--;
 		return false;
 	}
 	
