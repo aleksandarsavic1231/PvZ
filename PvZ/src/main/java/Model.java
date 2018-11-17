@@ -243,7 +243,6 @@ public class Model {
 	 * Update all Moveable objects.
 	 */
 	private void updateMoveables() {
-		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
 		for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
 			Entity entity = iter.next();
 			// Ensure Entity is Moveable and is not waiting to be delete
@@ -253,27 +252,21 @@ public class Model {
 				m.unlock(); // Unlock to allow update position on this game iteration
 				if (!isCollision(m)) { 
 					m.updatePosition(); // Update position if there is no collision
-					// Remove bullet if domain is greater than game board columns
-					if (isBullet && entity.getPosition().x >= Board.COLUMNS) iter.remove();
-				} else if (isBullet) { 
-					// Remove bullet on impact
-					tempEntities.add(entity);
-					iter.remove();
-				} 
+					// Remove bullet if location is greater than board domain
+					if (isBullet && Board.COLUMNS < entity.getPosition().x) iter.remove();
+				} else if (isBullet) iter.remove(); // Remove bullet on impact
 			}
 		}
-		entities.removeAll(tempEntities);
 	}
 	
 	/**
 	 * Check for dead Entities.
 	 */
 	private void checkForDead() {
-		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
-		for(Entity entity: entities) {	
-			if (entity instanceof Alive && ((Alive) entity).getHealth() <= 0) tempEntities.add(entity);
+		for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext();) {	
+			Entity entity = iter.next();
+			if (entity instanceof Alive && ((Alive) entity).getHealth() <= 0) iter.remove(); // Remove dead
 		}
-		entities.removeAll(tempEntities); // Remove dead
 	}
 	
 	/**
