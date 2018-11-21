@@ -140,9 +140,14 @@ public class Model {
 	 * @param n The number of Zombies to spawn.
 	 */
 	private void spawnZombies(int n) {
+		// The number of Regular Zombies to spawn.
+		int numRegular = n - new Random().nextInt(n) + 1;
 		for (int i = 0; i < n; i ++) {
+			Entity zombie;
 			// Spawn further than columns so player has time to increase balance
-			Entity zombie = new Zombie(new Point(new Random().nextInt(NOICE) + LOWER_BOUND , new Random().nextInt(Board.ROWS)));
+			Point spawnLocation = new Point(new Random().nextInt(NOICE) + LOWER_BOUND , new Random().nextInt(Board.ROWS));
+			if (i < numRegular) zombie = new RegularZombie(spawnLocation);
+			else zombie = new PylonZombie(spawnLocation);
 			entities.add(zombie);
 			notifyOfSpawn(zombie);
 		}

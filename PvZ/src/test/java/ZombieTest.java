@@ -12,7 +12,7 @@ public class ZombieTest extends TestCase  {
 
 	@Before
 	public void setUp() throws Exception {
-		this.zombie = new Zombie(new Point(0, 0));
+		this.zombie = new RegularZombie(new Point(0, 0));
 	}
 
 	@After

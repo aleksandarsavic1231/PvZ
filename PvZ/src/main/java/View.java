@@ -234,9 +234,12 @@ public class View extends JFrame implements Listener {
 			// A Entity may have location outside the view (Zombies spawn outside Board domain for instance) 
 			if (!Board.isValidLocation(i, j)) return;
 			// Set icon of button based on Entity type
-			if (entity instanceof Zombie) {
-				if (((Zombie) entity).getHealth() == Zombie.INITIAL_HEALTH) tiles[i][j].setIcon(Zombie.HEALTHY_ZOMBIE);
-				else tiles[i][j].setIcon(Zombie.HURT_ZOMBIE);
+			if (entity instanceof RegularZombie) {
+				if (((RegularZombie) entity).getHealth() == RegularZombie.INITIAL_HEALTH) tiles[i][j].setIcon(RegularZombie.HEALTHY_ZOMBIE);
+				else tiles[i][j].setIcon(RegularZombie.HURT_ZOMBIE);
+			} else if (entity instanceof PylonZombie) {
+				if (((PylonZombie) entity).getHealth() == PylonZombie.INITIAL_HEALTH) tiles[i][j].setIcon(PylonZombie.HEALTHY_PYLON);
+				else tiles[i][j].setIcon(PylonZombie.DAMAGED_PYLON);
 			}
 			else if (entity instanceof PeaShooter) tiles[i][j].setIcon(PeaShooter.IMAGE);
 			else if (entity instanceof Sunflower) tiles[i][j].setIcon(Sunflower.IMAGE);
