@@ -226,7 +226,7 @@ public class Model {
 		} else if (plantToggled == Action.TOGGLE_WALLNUT && isWallnutPurchasable()) {
 			balance -= Wallnut.COST;
 			entities.add(new Wallnut(location));
-			Sunflower.setNextDeployable(gameCounter);
+			Wallnut.setNextDeployable(gameCounter);
 			hasPurchased = true;
 		}
 		// If successful purchase spawn plant and update new balance
