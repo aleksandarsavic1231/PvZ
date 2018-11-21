@@ -192,6 +192,16 @@ public class View extends JFrame implements Listener {
 		nextIterationButton.setBorder(defaultBorder);
 		nextIterationButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		nextIterationButton.addActionListener(initController(Action.NEXT_ITERATION, null));
+		
+		JButton undoButton = new JButton("Undo");
+		undoButton.setBorder(defaultBorder);
+		undoButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		undoButton.addActionListener(initController(Action.UNDO_BUTTON, null));
+		
+		JButton redoButton = new JButton("Redo");
+		redoButton.setBorder(defaultBorder);
+		redoButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		redoButton.addActionListener(initController(Action.REDO_BUTTON, null));
 			
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -199,7 +209,9 @@ public class View extends JFrame implements Listener {
 		buttonPanel.add(addSunflowerButton);
 		buttonPanel.add(addWallnutButton);
 		buttonPanel.add(nextIterationButton);
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 540, 10, 0));
+		buttonPanel.add(undoButton);
+		buttonPanel.add(redoButton);
+		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 400, 10, 0));
 		buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 				
 		JPanel footerPanel = new JPanel();
@@ -271,6 +283,7 @@ public class View extends JFrame implements Listener {
 			break;
 		case TOGGLE_WALLNUT:
 			addWallnutButton.setEnabled((boolean) payload);
+			break;
 		default:
 			break;
 		}  

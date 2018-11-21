@@ -24,6 +24,10 @@ public enum Action {
 	
 	RESTART_GAME,
 	
-	LOG_MESSAGE
+	LOG_MESSAGE,
+	
+	UNDO_BUTTON,
+	
+	REDO_BUTTON
 	
 }
