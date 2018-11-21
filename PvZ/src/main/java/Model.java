@@ -166,7 +166,7 @@ public class Model {
 				return true;
 			}
 			// Zombie collided with plant 
-			if ((e instanceof PeaShooter || e instanceof Sunflower) && m instanceof Zombie && willCollide) {
+			if ((e instanceof PeaShooter || e instanceof Sunflower || e instanceof Wallnut) && m instanceof Zombie && willCollide) {
 				((Alive) e).takeDamage(Zombie.DAMAGE);		
 				return true;
 			}
@@ -194,6 +194,10 @@ public class Model {
 		return PeaShooter.COST <= balance && PeaShooter.isDeployable(gameCounter);
 	}
 	
+	private boolean isWallnutPurchasable() {
+		return Wallnut.COST <= balance && Wallnut.isDeployable(gameCounter);
+	}
+	
 	/**
 	 * Spawn plant at location based on toggled button.
 	 * 
@@ -214,7 +218,12 @@ public class Model {
 			entities.add(new Sunflower(location));
 			Sunflower.setNextDeployable(gameCounter);
 			hasPurchased = true;
-		} 
+		} else if (plantToggled == Action.TOGGLE_WALLNUT && isWallnutPurchasable()) {
+			balance -= Wallnut.COST;
+			entities.add(new Wallnut(location));
+			Sunflower.setNextDeployable(gameCounter);
+			hasPurchased = true;
+		}
 		// If successful purchase spawn plant and update new balance
 		if (hasPurchased) {
 			notifyOfSpawn(entities.getLast());
@@ -310,6 +319,7 @@ public class Model {
 		// Purchasable plants may changed on new balance.
 		notifyListeners(Action.TOGGLE_PEASHOOTER, isPeaShooterPurchasable());
 		notifyListeners(Action.TOGGLE_SUNFLOWER, isSunflowerPurchasable());
+		notifyListeners(Action.TOGGLE_WALLNUT, isWallnutPurchasable());
 	}
 	
 	/**
@@ -380,6 +390,7 @@ public class Model {
 			break;
 		case TOGGLE_PEASHOOTER:
 		case TOGGLE_SUNFLOWER:
+		case TOGGLE_WALLNUT:
 			plantToggled = event.getType();
 			break;
 		case TILE_CLICKED:

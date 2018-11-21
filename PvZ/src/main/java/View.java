@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -46,7 +47,7 @@ public class View extends JFrame implements Listener {
 	/**
 	 * The buttons to add a Plant to PvZ board.
 	 */
-	private JButton addPeaShooterButton, addSunflowerButton;
+	private JButton addPeaShooterButton, addSunflowerButton, addWallnutButton;
 		
 	/**
 	 * The PvZ model.
@@ -168,15 +169,25 @@ public class View extends JFrame implements Listener {
 		sunPointsLabel = new JLabel();
 		sunPointsLabel.setBorder(defaultBorder);
 		sunPointsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-		addPeaShooterButton = new JButton("Add PeaShooter");
-		addPeaShooterButton.setBorder(defaultBorder);
+		
+		ImageIcon peashooterLogo = new ImageIcon("src/main/resources/peaIcon.png");
+		addPeaShooterButton = new JButton(peashooterLogo);
+		addPeaShooterButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addPeaShooterButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		addPeaShooterButton.addActionListener(initController(Action.TOGGLE_PEASHOOTER, null));
-		addSunflowerButton = new JButton("Add Sunflower");
-		addSunflowerButton.setBorder(defaultBorder);
+		
+		ImageIcon sunflowerLogo = new ImageIcon("src/main/resources/sunFlowerIcon.png");
+		addSunflowerButton = new JButton(sunflowerLogo);
+		addSunflowerButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addSunflowerButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		addSunflowerButton.addActionListener(initController(Action.TOGGLE_SUNFLOWER, null));
+		
+		ImageIcon wallnutLogo = new ImageIcon("src/main/resources/wallnutIcon.png");
+		addWallnutButton = new JButton(wallnutLogo);
+		addWallnutButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		addWallnutButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		addWallnutButton.addActionListener(initController(Action.TOGGLE_WALLNUT, null));
+		
 		JButton nextIterationButton = new JButton("Next Iteration");
 		nextIterationButton.setBorder(defaultBorder);
 		nextIterationButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -186,6 +197,7 @@ public class View extends JFrame implements Listener {
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		buttonPanel.add(addPeaShooterButton);
 		buttonPanel.add(addSunflowerButton);
+		buttonPanel.add(addWallnutButton);
 		buttonPanel.add(nextIterationButton);
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 540, 10, 0));
 		buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -230,6 +242,7 @@ public class View extends JFrame implements Listener {
 			else if (entity instanceof Sunflower) tiles[i][j].setIcon(Sunflower.IMAGE);
 			else if (entity instanceof Bullet) tiles[i][j].setIcon(Bullet.IMAGE);
 			else if (entity instanceof Sun) tiles[i][j].setIcon(Sun.IMAGE);
+			else if (entity instanceof Wallnut) tiles[i][j].setIcon(Wallnut.IMAGE);
 			break;
 		}
 		case REMOVE_ENTITY: {
@@ -253,6 +266,8 @@ public class View extends JFrame implements Listener {
 		case TOGGLE_PEASHOOTER:
 			addPeaShooterButton.setEnabled((boolean) payload);
 			break;
+		case TOGGLE_WALLNUT:
+			addWallnutButton.setEnabled((boolean) payload);
 		default:
 			break;
 		}  
