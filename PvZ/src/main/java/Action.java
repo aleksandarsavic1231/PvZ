@@ -1,33 +1,19 @@
-/**
- * Actions implemented in PvZ.
- * 
- * @author kylehorne
- * @version 6 Nov 18
- */
 public enum Action {
-	
-	TILE_CLICKED,
 	
 	SPAWN_ENTITY,
 	
 	REMOVE_ENTITY,
 	
-	NEXT_ITERATION,
+	UPDATE_BALANCE,
+	
+	ROUND_OVER,
+	
+	GAME_OVER,
 
 	TOGGLE_SUNFLOWER,
 	
 	TOGGLE_PEASHOOTER,
 	
-	TOGGLE_WALLNUT,
-	
-	UPDATE_SUN_POINTS,
-	
-	RESTART_GAME,
-	
-	LOG_MESSAGE,
-	
-	UNDO_BUTTON,
-	
-	REDO_BUTTON
+	TOGGLE_WALLNUT
 	
 }
