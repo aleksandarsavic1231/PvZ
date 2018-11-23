@@ -59,7 +59,9 @@ public class Model {
 	/**
 	 * The lower bound a Zombie can spawn.
 	 */
-	public static final int LOWER_BOUND = 5 + Board.COLUMNS;
+	public static final int Regular_LOWER_BOUND = 5 + Board.COLUMNS;
+	public static final int Pylon_LOWER_BOUND = 15 + Board.COLUMNS;
+
 	
 	/**
 	 * The randomness between Zombie separation. 
@@ -69,7 +71,7 @@ public class Model {
 	/**
 	 * The number of Zombies to spawn.
 	 */
-	public static final int NUM_ZOMBIES = 3;
+	public static final int NUM_ZOMBIES = 4;
 	
 	/**
 	 * Constructor.
@@ -141,13 +143,15 @@ public class Model {
 	 */
 	private void spawnZombies(int n) {
 		// The number of Regular Zombies to spawn.
-		int numRegular = n - new Random().nextInt(n) + 1;
 		for (int i = 0; i < n; i ++) {
 			Entity zombie;
 			// Spawn further than columns so player has time to increase balance
-			Point spawnLocation = new Point(new Random().nextInt(NOICE) + LOWER_BOUND , new Random().nextInt(Board.ROWS));
-			if (i < numRegular) zombie = new RegularZombie(spawnLocation);
-			else zombie = new PylonZombie(spawnLocation);
+			Point spawnLocation = new Point(new Random().nextInt(NOICE) + Regular_LOWER_BOUND , new Random().nextInt(Board.ROWS));
+			Point spawnLocation2 = new Point(new Random().nextInt(NOICE) + Pylon_LOWER_BOUND , new Random().nextInt(Board.ROWS));
+			if (i < (n-1)) zombie = new RegularZombie(spawnLocation);
+			else {
+				zombie = new PylonZombie(spawnLocation2);
+			}
 			entities.add(zombie);
 			notifyOfSpawn(zombie);
 		}
