@@ -1,27 +1,38 @@
+import java.awt.Point;
 import java.util.LinkedList;
 
 public class NextCommand extends Controller implements Executable {
 	
-	private LinkedList<Entity> lastState;
+	private LinkedList<Entity> lastEntities;
+	
+	private int lastBalance;
   	 
 	public NextCommand(Model model) {
 		super(model);	
+		lastEntities = new LinkedList<Entity>();
 	}
 
 	@Override
 	public void execute() {
-		lastState = getModel().getEntities();
-		for(Entity e: lastState) System.out.println(e.getClass().getName() + ": "+ e.getPosition().x + ", " + e.getPosition().y);
+		System.out.println("Execute Called (next):");
+		
+		lastBalance = getModel().getBalance();
+		System.out.println("Last Balance: " + lastBalance);
+		lastEntities.addAll(getModel().getEntities());
+		for(Entity e: lastEntities) System.out.println("Last Entities: (" + e.getPosition().x + ", " + e.getPosition().y + ")");
+		
 		getModel().nextIteration();
+		System.out.println("Updated Balance: " + getModel().getBalance());
+		for(Entity e: getModel().getEntities()) System.out.println("New Entities: (" + e.getPosition().x + ", " + e.getPosition().y + ")");
+		for(Entity e: lastEntities) System.out.println("Last Entities: (" + e.getPosition().x + ", " + e.getPosition().y + ")");
 	}
 
 	@Override
 	public void undo() {
-		System.out.println("Undo Next Iteration:");
-		for(Entity e: lastState) System.out.println(e.getClass().getName() + ": "+ e.getPosition().x + ", " + e.getPosition().y);
+		System.out.println("Undo Called (next):");
 		
-		getModel().setEntities(lastState);
-		getModel().lastIteration();  
+		getModel().setEntities(lastEntities);
+		getModel().setBalance(lastBalance);
 	}
 
 	@Override
