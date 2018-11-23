@@ -302,7 +302,11 @@ public class Model {
 		if (isGameOver()) notifyListeners(Action.GAME_OVER);
 	}
 	
-	
+	public void lastIteration() {
+		clearBoard();		
+		spawnEntities();
+	}
+	 
 	/**
 	 * Notify listeners of balance.
 	 */
@@ -381,6 +385,15 @@ public class Model {
 	public int getBalance() {
 		return balance;
 	}
+	
+	public LinkedList<Entity> getEntities() {
+		return entities;
+	}
+	
+	public void setEntities(LinkedList<Entity> entities) {
+		this.entities = entities;
+	}
+  	
 	
 	public void setTogglePlant(Plant plant) {
 		plantToggled = plant;

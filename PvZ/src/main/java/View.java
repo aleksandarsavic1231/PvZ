@@ -71,6 +71,8 @@ public class View extends JFrame implements Listener {
 	public static final Color GREEN = new Color(0,153,0);
 	public static final Color DARK_GREEN = new Color(0,102,0);
 		
+	private UndoManager undoManager = new UndoManager();
+	
 	/**
 	 * Constructor.
 	 */
@@ -191,17 +193,17 @@ public class View extends JFrame implements Listener {
 		JButton nextIterationButton = new JButton("Next Iteration");
 		nextIterationButton.setBorder(defaultBorder);
 		nextIterationButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		nextIterationButton.addActionListener(new NextAction(model));
+		nextIterationButton.addActionListener(new NextAction(undoManager, model));
 		
 		JButton undoButton = new JButton("Undo");
 		undoButton.setBorder(defaultBorder);
 		undoButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		undoButton.addActionListener(null);
+		undoButton.addActionListener(e -> { undoManager.undo(); });
 		
 		JButton redoButton = new JButton("Redo");
 		redoButton.setBorder(defaultBorder);
 		redoButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		redoButton.addActionListener(null);
+		redoButton.addActionListener(e -> { undoManager.redo(); });
 			
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));

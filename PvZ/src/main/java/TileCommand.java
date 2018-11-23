@@ -26,4 +26,16 @@ public class TileCommand extends Controller implements Executable {
 		
 	}
 
+	@Override
+	public boolean isCollapsible(Executable command) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void collapse(Executable command) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
