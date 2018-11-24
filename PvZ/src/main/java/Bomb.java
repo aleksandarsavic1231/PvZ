@@ -3,7 +3,13 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-public class Bomb extends Shooter{
+/**
+ * A Bomb is a device that randomly blows up.
+ * 
+ * @author Aleksandar1231 
+ * @version 24 Nov 18
+ */
+public class Bomb extends Shooter {
 	
 	/**
 	 * Sun points required to buy this.
@@ -19,6 +25,7 @@ public class Bomb extends Shooter{
 	 * Min turns for bomb to randomly blow up
 	 */
 	private static final int MIN = 10;
+	
 	/**
 	 * Random turn for bomb to randomly blow up
 	 */
@@ -47,7 +54,7 @@ public class Bomb extends Shooter{
 	/**
 	 * Icon image of Bomb objects.
 	 */
-	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/customBullet.png");
+	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/potatomine.png");
 	
 	/**
 	 * Constructor.
@@ -86,9 +93,9 @@ public class Bomb extends Shooter{
 		nextDeployable = 0;
 	}
 	
-	
 	@Override
 	public void resetFireRate() {
 		this.setFireRate(RECHARGE_TIME);
 	}
+	
 }

@@ -179,7 +179,7 @@ public class Model {
 			entities.add(new Bomb(location));
 			Bomb.setNextDeployable(gameCounter);
 			hasPurchased = true;
-		
+		}
 		// If successful purchase spawn plant and update new balance
 		if (hasPurchased) {
 			notifyOfSpawn(entities.getLast());
@@ -203,18 +203,15 @@ public class Model {
 					for(int i = entity.getPosition().x-1; i <= entity.getPosition().x+1; i++) {
 						for(int j = entity.getPosition().y-1; j <= entity.getPosition().y+1; j++) {
 							if(Board.isValidLocation(j, i)){
-								System.out.println("x:"+i+"y:"+j);
 								for(Entity e : entities) {
-									//set damage to zombies
-									if (e instanceof Zombie && e.getPosition().x == i && e.getPosition().y == j) {
-										((Zombie) e).takeDamage((Bomb.DAMAGE));
-									} 
+									// Set damage to Zombie objects
+									if (e instanceof Zombie && e.getPosition().x == i && e.getPosition().y == j) ((Zombie) e).takeDamage((Bomb.DAMAGE));
 								}
 							}
 						}
 							
 					}	
-					//bomb explodes and removes itself
+					// Bomb explodes and removes itself
 					((Bomb) entity).takeDamage(Bomb.DAMAGE);
 				}
 			}

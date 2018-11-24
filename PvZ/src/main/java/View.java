@@ -192,7 +192,7 @@ public class View extends JFrame implements Listener {
 		addWallnutButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		addWallnutButton.addActionListener(new TogglePlantAction(model, Plant.WALNUT));
 		
-		ImageIcon bombLogo = new ImageIcon("src/main/resources/wallnutIcon.png");
+		ImageIcon bombLogo = new ImageIcon("src/main/resources/potatomine.png");
 		addBombButton = new JButton(bombLogo);
 		addBombButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addBombButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
