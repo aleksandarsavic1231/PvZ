@@ -14,7 +14,7 @@ public class Model {
 	/**
 	 * The currently toggled plant from View.
 	 */
-	private Action plantToggled;
+	private Plant plantToggled;
 	
 	/**
 	 * List of Model listeners.
@@ -179,6 +179,8 @@ public class Model {
 				((Alive) e).takeDamage(Zombie.DAMAGE);		
 				return true;
 			}
+			// Zombie walks past bomb
+			if((e instanceof Bomb) && m instanceof Zombie && (hasCollided || willCollide)) return false;
 		}
 		return false;
 	}
@@ -188,7 +190,7 @@ public class Model {
 	 * 
 	 * @return boolean True if the Sunflower is purchasable.
 	 */
-	private boolean isSunflowerPurchasable() {
+	public boolean isSunflowerPurchasable() {
 		// Sunflower is purchasable if player has sufficient balance and Sunflower is deployable.
 		return Sunflower.COST <= balance && Sunflower.isDeployable(gameCounter);
 	}
@@ -198,13 +200,27 @@ public class Model {
 	 * 
 	 * @return boolean True if the PeaShooter is purchasable.
 	 */
-	private boolean isPeaShooterPurchasable() {
+	public boolean isPeaShooterPurchasable() {
 		// PeaShooter is purchasable if player has sufficient balance and Sunflower is deployable.
 		return PeaShooter.COST <= balance && PeaShooter.isDeployable(gameCounter);
 	}
 	
-	private boolean isWallnutPurchasable() {
+	/**
+	 * Check if the Wallnut is purchasable.
+	 * 
+	 * @return boolean True if the Walnut is purchasable.
+	 */
+	public boolean isWallnutPurchasable() {
 		return Wallnut.COST <= balance && Wallnut.isDeployable(gameCounter);
+	}
+	
+	/**
+	 * Check if the Bomb is purchasable.
+	 * 
+	 * @return boolean True if the Bomb is purchasable.
+	 */
+	public boolean isBombPurchasable() {
+		return Bomb.COST <= balance && Bomb.isDeployable(gameCounter);
 	}
 	
 	/**
@@ -212,25 +228,30 @@ public class Model {
 	 * 
 	 * @param location The location to spawn a plant.
 	 */
-	private void spawnPlant(Point location) {
+	public void spawnPlant(Point location) {
 		// Check default conditions to execute
 		if (!isRunning || plantToggled == null || isOccupied(location)) return;
 		// Ensure toggled plant is purchasable
 		boolean hasPurchased = false;
-		if (plantToggled == Action.TOGGLE_PEASHOOTER && isPeaShooterPurchasable()) {
+		if (plantToggled == Plant.PEA_SHOOTER && isPeaShooterPurchasable()) {
 			balance -= PeaShooter.COST;
 			entities.add(new PeaShooter(location));
 			PeaShooter.setNextDeployable(gameCounter);
 			hasPurchased = true;
-		} else if (plantToggled == Action.TOGGLE_SUNFLOWER && isSunflowerPurchasable()) {
+		} else if (plantToggled == Plant.SUNFLOWER && isSunflowerPurchasable()) {
 			balance -= Sunflower.COST;
 			entities.add(new Sunflower(location));
 			Sunflower.setNextDeployable(gameCounter);
 			hasPurchased = true;
-		} else if (plantToggled == Action.TOGGLE_WALLNUT && isWallnutPurchasable()) {
+		} else if (plantToggled == Plant.WALNUT && isWallnutPurchasable()) {
 			balance -= Wallnut.COST;
 			entities.add(new Wallnut(location));
 			Wallnut.setNextDeployable(gameCounter);
+			hasPurchased = true;
+		}else if(plantToggled == Plant.BOMB && isBombPurchasable()) {
+			balance -= Bomb.COST;
+			entities.add(new Bomb(location));
+			Bomb.setNextDeployable(gameCounter);
 			hasPurchased = true;
 		}
 		// If successful purchase spawn plant and update new balance
@@ -252,7 +273,26 @@ public class Model {
 				if (entity instanceof PeaShooter) tempEntities.add(new Bullet(new Point(entity.getPosition().x, entity.getPosition().y), PeaShooter.DAMAGE));
 				// If Sunflower can fire spawn Sun randomly on board
 				else if (entity instanceof Sunflower) tempEntities.add(new Sun(new Point(new Random().nextInt(Board.COLUMNS), new Random().nextInt(Board.ROWS))));
+				//if Bomb can explode, set damage to all Zombies in 3x3 range
+				else if (entity instanceof Bomb) {
+					for(int i = entity.getPosition().x-1; i <= entity.getPosition().x+1; i++) {
+						for(int j = entity.getPosition().y-1; j <= entity.getPosition().y+1; j++) {
+							if(Board.isValidLocation(j, i)){
+								for(Entity e : entities) {
+									//set damage to zombies
+									if (e instanceof Zombie && e.getPosition().x == i && e.getPosition().y == j) {
+										((Zombie) e).takeDamage((Bomb.DAMAGE));
+									} 
+								}
+							}
+						}
+							
+					}	
+					//bomb explodes and removes itself
+					((Bomb) entity).takeDamage(Bomb.DAMAGE);
+				}
 			}
+			
 		}
 		entities.addAll(tempEntities);
 	}
@@ -290,7 +330,7 @@ public class Model {
 	/**
 	 * Update game state.
 	 */
-	private void nextIteration() { 
+	public void nextIteration() { 
 		if (!isRunning) return; // Check if game is running
 		clearBoard();		
 		updateShooters();
@@ -302,33 +342,25 @@ public class Model {
 		if (gameCounter % Model.PAYMENT_PERIOD == 0) balance += Model.WELFARE;	
 		notifyOfBalance();
 		// Check if game is still runnable
-		boolean isRoundOver = isRoundOver();
-		boolean isGameOver = isGameOver();
-		if (isRoundOver || isGameOver) {
-			isRunning = false;
-			if (isRoundOver) notifyOfMessage("Congratulations, you beat the round!");
-			else notifyOfMessage("You lost the round!");
-		}
+		if (isRoundOver()) notifyListeners(Action.ROUND_OVER);
+		if (isGameOver()) notifyListeners(Action.GAME_OVER);
 	}
 	
-	/**
-	 * Notify listeners of message.
-	 * 
-	 * @param message The message to notify listeners.
-	 */
-	private void notifyOfMessage(String message) {
-		notifyListeners(Action.LOG_MESSAGE, message);
-	} 
-	
+	public void lastIteration() {
+		clearBoard();		
+		spawnEntities();
+	}
+	 
 	/**
 	 * Notify listeners of balance.
 	 */
 	private void notifyOfBalance() {
-		notifyListeners(Action.UPDATE_SUN_POINTS, balance);
+		notifyListeners(Action.UPDATE_BALANCE);
 		// Purchasable plants may changed on new balance.
-		notifyListeners(Action.TOGGLE_PEASHOOTER, isPeaShooterPurchasable());
-		notifyListeners(Action.TOGGLE_SUNFLOWER, isSunflowerPurchasable());
-		notifyListeners(Action.TOGGLE_WALLNUT, isWallnutPurchasable());
+		notifyListeners(Action.TOGGLE_PEASHOOTER);
+		notifyListeners(Action.TOGGLE_SUNFLOWER);
+		notifyListeners(Action.TOGGLE_WALLNUT);
+		notifyListeners(Action.TOGGLE_BOMB);
 	}
 	
 	/**
@@ -345,6 +377,13 @@ public class Model {
 	 */
 	private void spawnEntities() {
 		for(Entity e: entities) notifyOfSpawn(e);
+	}
+	
+	private void resetDeployables() {
+		PeaShooter.resetNextDeployable();
+		Sunflower.resetNextDeployable();
+		Wallnut.resetNextDeployable();
+		Bomb.resetNextDeployable();
 	}
 	
 	/**
@@ -369,7 +408,7 @@ public class Model {
 	 * @param location The location to check.
 	 * @return boolean True if the location contains Sun.
 	 */
-	private boolean containsSun(Point location) {
+	public boolean containsSun(Point location) {
 		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
 		boolean foundSun = false;
 		for(Entity e: entities) {
@@ -386,37 +425,33 @@ public class Model {
 		return foundSun;
 	}
 	
-	/**
-	 * The reducer handles Events.
-	 * 
-	 * @param event The event to handle.
-	 */
-	public void reducer(Event event) {
-		if (!isRunning && event.getType() != Action.RESTART_GAME) return;
-		switch(event.getType()) {
-		case NEXT_ITERATION:
-			nextIteration(); 
-			break;
-		case TOGGLE_PEASHOOTER:
-		case TOGGLE_SUNFLOWER:
-		case TOGGLE_WALLNUT:
-			plantToggled = event.getType();
-			break;
-		case TILE_CLICKED:
-			Point location = (Point) event.getPayload();
-			// Spawn plant only if tile clicked does not contain Sun
-			if (!containsSun(location)) spawnPlant(location);
-			break;
-		case RESTART_GAME:
-			clearBoard();
-			PeaShooter.resetNextDeployable();
-			Sunflower.resetNextDeployable();
-			init();
-			notifyOfBalance();
-			break;
-		default:
-			break;
-		}
+	public void restart() {
+		clearBoard();
+		resetDeployables();
+		init();
+		notifyOfBalance();
+	}
+	
+	public void setBalance(int balance) {
+		this.balance=balance;
+		notifyOfBalance();
+	}
+	
+	public int getBalance() {
+		return balance;
+	}
+	
+	public LinkedList<Entity> getEntities() {
+		return entities;
+	}
+	
+	public void setEntities(LinkedList<Entity> entities) {
+		this.entities = entities;
+	}
+  	
+	
+	public void setTogglePlant(Plant plant) {
+		plantToggled = plant;
 	}
 	
 	/**
@@ -425,8 +460,12 @@ public class Model {
 	 * @param type The Action type.
 	 * @param payload The payload coupled to action.
 	 */
-	private void notifyListeners(Action type, Object payload) {
-		for(Listener listener : listeners) listener.handleEvent(new Event(type, payload));
+	private void notifyListeners(Action type) {
+		for(Listener listener : listeners) listener.handleEvent(new Event(type));
+	}
+	
+	private void notifyListeners(Action type, Entity entity) {
+		for(Listener listener : listeners) listener.handleEvent(new EntityEvent(type, entity));
 	}
 
 	/**

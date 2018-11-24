@@ -51,7 +51,7 @@ public class View extends JFrame implements Listener {
 	/**
 	 * The buttons to add a Plant to PvZ board.
 	 */
-	private JButton addPeaShooterButton, addSunflowerButton, addWallnutButton;
+	private JButton addPeaShooterButton, addSunflowerButton, addWallnutButton, addBombButton;
 		
 	/**
 	 * The PvZ model.
@@ -75,6 +75,8 @@ public class View extends JFrame implements Listener {
 	public static final Color GREEN = new Color(0,153,0);
 	public static final Color DARK_GREEN = new Color(0,102,0);
 		
+	private UndoManager undoManager = new UndoManager();
+	
 	/**
 	 * Constructor.
 	 */
@@ -105,7 +107,7 @@ public class View extends JFrame implements Listener {
 		JMenu menu = new JMenu("Menu");
  
 		JMenuItem restart = new JMenuItem("Restart");
-		restart.addActionListener(initController(Action.RESTART_GAME, null));
+		restart.addActionListener(new RestartAction(model));
 		
 		JMenuItem quit = new JMenuItem("Quit Game");
 		// Brute force quit
@@ -136,7 +138,7 @@ public class View extends JFrame implements Listener {
 		// Initialize tiles	
 		Board.iterate((i, j) -> {
 			tiles[i][j] = new JButton();
-			tiles[i][j].addActionListener(initController(Action.TILE_CLICKED, new Point(j, i)));
+			tiles[i][j].addActionListener(new TileAction(model, new Point(j, i)));
 			tiles[i][j].setOpaque(true); // Required for OSX
 			tiles[i][j].setBorderPainted(false);
 			// Set tile color
@@ -178,40 +180,47 @@ public class View extends JFrame implements Listener {
 		addPeaShooterButton = new JButton(peashooterLogo);
 		addPeaShooterButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addPeaShooterButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addPeaShooterButton.addActionListener(initController(Action.TOGGLE_PEASHOOTER, null));
+		addPeaShooterButton.addActionListener(new TogglePlantAction(model, Plant.PEA_SHOOTER));
 		
 		ImageIcon sunflowerLogo = new ImageIcon("src/main/resources/sunFlowerIcon.png");
 		addSunflowerButton = new JButton(sunflowerLogo);
 		addSunflowerButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addSunflowerButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addSunflowerButton.addActionListener(initController(Action.TOGGLE_SUNFLOWER, null));
+		addSunflowerButton.addActionListener(new TogglePlantAction(model, Plant.SUNFLOWER));
 		
 		ImageIcon wallnutLogo = new ImageIcon("src/main/resources/wallnutIcon.png");
 		addWallnutButton = new JButton(wallnutLogo);
 		addWallnutButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addWallnutButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addWallnutButton.addActionListener(initController(Action.TOGGLE_WALLNUT, null));
+		addWallnutButton.addActionListener(new TogglePlantAction(model, Plant.WALNUT));
+		
+		ImageIcon bombLogo = new ImageIcon("src/main/resources/wallnutIcon.png");
+		addBombButton = new JButton(bombLogo);
+		addBombButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		addBombButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		addBombButton.addActionListener(new TogglePlantAction(model, Plant.BOMB));
 		
 		JButton nextIterationButton = new JButton("Next Iteration");
 		nextIterationButton.setBorder(defaultBorder);
 		nextIterationButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		nextIterationButton.addActionListener(initController(Action.NEXT_ITERATION, null));
+		nextIterationButton.addActionListener(new NextAction(undoManager, model));
 		
 		JButton undoButton = new JButton("Undo");
 		undoButton.setBorder(defaultBorder);
 		undoButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		undoButton.addActionListener(initController(Action.UNDO_BUTTON, null));
+		undoButton.addActionListener(e -> { undoManager.undo(); });
 		
 		JButton redoButton = new JButton("Redo");
 		redoButton.setBorder(defaultBorder);
 		redoButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		redoButton.addActionListener(initController(Action.REDO_BUTTON, null));
+		redoButton.addActionListener(e -> { undoManager.redo(); });
 			
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		buttonPanel.add(addPeaShooterButton);
 		buttonPanel.add(addSunflowerButton);
 		buttonPanel.add(addWallnutButton);
+		buttonPanel.add(addBombButton);
 		buttonPanel.add(nextIterationButton);
 		buttonPanel.add(undoButton);
 		buttonPanel.add(redoButton);
@@ -227,23 +236,12 @@ public class View extends JFrame implements Listener {
 		return footerPanel;
 	}
 	
-	/**
-	 * Instantiate a new Controller.
-	 * 
-	 * @param action The action triggered.
-	 * @param payload The payload coupled with the action.
-	 * @return controller The instantiated Controller.
-	 */
-	private Controller initController(Action action, Object payload) {
-		return new Controller(model, new Event(action, payload)); 
-	} 
-	
 	@Override
 	public void handleEvent(Event event) {
-		Object payload = event.getPayload();
+	
 		switch(event.getType()) {
 		case SPAWN_ENTITY: {
-			Entity entity = (Entity) payload;
+			Entity entity = ((EntityEvent) event).getEntity();
 			int i = entity.getPosition().y;
 			int j = entity.getPosition().x;
 			// Ensure valid location on View
@@ -262,10 +260,11 @@ public class View extends JFrame implements Listener {
 			else if (entity instanceof Bullet) tiles[i][j].setIcon(Bullet.IMAGE);
 			else if (entity instanceof Sun) tiles[i][j].setIcon(Sun.IMAGE);
 			else if (entity instanceof Wallnut) tiles[i][j].setIcon(Wallnut.IMAGE);
+			else if (entity instanceof Bomb) tiles[i][j].setIcon(Bomb.IMAGE);
 			break;
 		}
 		case REMOVE_ENTITY: {
-			Entity entity = (Entity) payload;
+			Entity entity = ((EntityEvent) event).getEntity();
 			int i = entity.getPosition().y;
 			int j = entity.getPosition().x;
 			if (!Board.isValidLocation(i, j)) return;
@@ -273,20 +272,26 @@ public class View extends JFrame implements Listener {
 			tiles[i][j].setIcon(null); // Set icon to default
 			break; 
 		}
-		case UPDATE_SUN_POINTS:
-			sunPointsLabel.setText("Sun Points: " + (int) payload);
+		case UPDATE_BALANCE:
+			sunPointsLabel.setText("Sun Points: " + model.getBalance());
 			break;
-		case LOG_MESSAGE:
-			JOptionPane.showMessageDialog(null, (String) payload);
+		case ROUND_OVER:
+			JOptionPane.showMessageDialog(null, "Congratulations, you beat the round!");
+			break;
+		case GAME_OVER:
+			JOptionPane.showMessageDialog(null, "You lost the round!");
 			break;
 		case TOGGLE_SUNFLOWER:
-			addSunflowerButton.setEnabled((boolean) payload);
+			addSunflowerButton.setEnabled(model.isSunflowerPurchasable());
 			break;
 		case TOGGLE_PEASHOOTER:
-			addPeaShooterButton.setEnabled((boolean) payload);
+			addPeaShooterButton.setEnabled(model.isSunflowerPurchasable());
 			break;
 		case TOGGLE_WALLNUT:
-			addWallnutButton.setEnabled((boolean) payload);
+			addWallnutButton.setEnabled(model.isWallnutPurchasable());
+			break;
+		case TOGGLE_BOMB:
+			addBombButton.setEnabled(model.isBombPurchasable());
 			break;
 		default:
 			break;
