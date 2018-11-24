@@ -30,7 +30,7 @@ public class TileCommand extends Controller implements Undoable {
 		for(Entity entity: model.getEntities()) {
 			Point position = entity.getPosition();
 			if (entity instanceof Sun && position.x == tile.x && position.y == tile.y) {
-				lastEntity = entity;
+				lastEntity = Entity.clone(entity);
 				model.removeEntity(entity);
 				model.increaseBalance(Sun.REWARD);
 				model.spawnEntities();
@@ -41,7 +41,7 @@ public class TileCommand extends Controller implements Undoable {
 		// Spawn plant only if no sun was found.
 		if (!foundSun) {
 			lastPlantToggled = model.getTogglePlant();
-			lastEntity = model.spawnPlant(tile);
+			lastEntity = Entity.clone(model.spawnPlant(tile));
 		}
 
 	}

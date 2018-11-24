@@ -45,9 +45,8 @@ public class Entity implements Cloneable {
 	 * 
 	 * @param entity The Entity to be cloned.
 	 * @return Entity The cloned Entity.
-	 * @throws UnimplementedCloneableEntity 
 	 */
-	public static Entity clone(Entity entity) throws UnimplementedCloneableEntity {
+	public static Entity clone(Entity entity) {
 		Point spawnLocation = new Point(entity.getPosition());
 		if (entity instanceof RegularZombie) return new RegularZombie(spawnLocation);
 		else if (entity instanceof PylonZombie) return new PylonZombie(spawnLocation);
@@ -57,7 +56,7 @@ public class Entity implements Cloneable {
 		else if (entity instanceof Bullet) return new Bullet(spawnLocation, ((Bullet) entity).getDamage());
 		else if (entity instanceof Sun) return new Sun(spawnLocation);
 		else if (entity instanceof Bomb) return new Bomb(spawnLocation);
-		else throw new UnimplementedCloneableEntity(entity.getClass() + " is a unimplemented cloneable Entity.");
+		else return null;
 	}
 
 }
