@@ -7,5 +7,5 @@ public enum Plant {
 	
 	WALNUT,
 	
-
+	BOMB
 }

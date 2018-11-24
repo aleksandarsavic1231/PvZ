@@ -14,6 +14,8 @@ public enum Action {
 	
 	TOGGLE_PEASHOOTER,
 	
-	TOGGLE_WALLNUT
+	TOGGLE_WALLNUT,
+	
+	TOGGLE_BOMB
 	
 }

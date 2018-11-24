@@ -175,6 +175,8 @@ public class Model {
 				((Alive) e).takeDamage(Zombie.DAMAGE);		
 				return true;
 			}
+			// Zombie walks past bomb
+			if((e instanceof Bomb) && m instanceof Zombie && (hasCollided || willCollide)) return false;
 		}
 		return false;
 	}
@@ -199,8 +201,22 @@ public class Model {
 		return PeaShooter.COST <= balance && PeaShooter.isDeployable(gameCounter);
 	}
 	
+	/**
+	 * Check if the Wallnut is purchasable.
+	 * 
+	 * @return boolean True if the Walnut is purchasable.
+	 */
 	public boolean isWallnutPurchasable() {
 		return Wallnut.COST <= balance && Wallnut.isDeployable(gameCounter);
+	}
+	
+	/**
+	 * Check if the Bomb is purchasable.
+	 * 
+	 * @return boolean True if the Bomb is purchasable.
+	 */
+	public boolean isBombPurchasable() {
+		return Bomb.COST <= balance && Bomb.isDeployable(gameCounter);
 	}
 	
 	/**
@@ -228,6 +244,11 @@ public class Model {
 			entities.add(new Wallnut(location));
 			Wallnut.setNextDeployable(gameCounter);
 			hasPurchased = true;
+		}else if(plantToggled == Plant.BOMB && isBombPurchasable()) {
+			balance -= Bomb.COST;
+			entities.add(new Bomb(location));
+			Bomb.setNextDeployable(gameCounter);
+			hasPurchased = true;
 		}
 		// If successful purchase spawn plant and update new balance
 		if (hasPurchased) {
@@ -248,7 +269,29 @@ public class Model {
 				if (entity instanceof PeaShooter) tempEntities.add(new Bullet(new Point(entity.getPosition().x, entity.getPosition().y), PeaShooter.DAMAGE));
 				// If Sunflower can fire spawn Sun randomly on board
 				else if (entity instanceof Sunflower) tempEntities.add(new Sun(new Point(new Random().nextInt(Board.COLUMNS), new Random().nextInt(Board.ROWS))));
+				//if Bomb can explode, set damage to all Zombies in 3x3 range
+				else if (entity instanceof Bomb) {
+					System.out.println("EXPLODE!!");
+					for(int i = entity.getPosition().x-1; i <= entity.getPosition().x+1; i++) {
+						for(int j = entity.getPosition().y-1; j <= entity.getPosition().y+1; j++) {
+							if(Board.isValidLocation(j, i)){
+								System.out.println("x:"+i+"y:"+j);
+								for(Entity e : entities) {
+									//set damage to zombies
+									if (e instanceof Zombie && e.getPosition().x == i && e.getPosition().y == j) {
+										System.out.println("ZOMBIE HIT!!!");
+										((Zombie) e).takeDamage((Bomb.DAMAGE));
+									} 
+								}
+							}
+						}
+							
+					}	
+					//bomb explodes and removes itself
+					((Bomb) entity).takeDamage(Bomb.DAMAGE);
+				}
 			}
+			
 		}
 		entities.addAll(tempEntities);
 	}
@@ -316,6 +359,7 @@ public class Model {
 		notifyListeners(Action.TOGGLE_PEASHOOTER);
 		notifyListeners(Action.TOGGLE_SUNFLOWER);
 		notifyListeners(Action.TOGGLE_WALLNUT);
+		notifyListeners(Action.TOGGLE_BOMB);
 	}
 	
 	/**
@@ -332,6 +376,13 @@ public class Model {
 	 */
 	private void spawnEntities() {
 		for(Entity e: entities) notifyOfSpawn(e);
+	}
+	
+	private void resetDeployables() {
+		PeaShooter.resetNextDeployable();
+		Sunflower.resetNextDeployable();
+		Wallnut.resetNextDeployable();
+		Bomb.resetNextDeployable();
 	}
 	
 	/**
@@ -375,10 +426,13 @@ public class Model {
 	
 	public void restart() {
 		clearBoard();
-		PeaShooter.resetNextDeployable();
-		Sunflower.resetNextDeployable();
-		Wallnut.resetNextDeployable();
+		resetDeployables();
 		init();
+		notifyOfBalance();
+	}
+	
+	public void setBalance(int balance) {
+		this.balance=balance;
 		notifyOfBalance();
 	}
 	

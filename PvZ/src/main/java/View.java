@@ -47,7 +47,7 @@ public class View extends JFrame implements Listener {
 	/**
 	 * The buttons to add a Plant to PvZ board.
 	 */
-	private JButton addPeaShooterButton, addSunflowerButton, addWallnutButton;
+	private JButton addPeaShooterButton, addSunflowerButton, addWallnutButton, addBombButton;
 		
 	/**
 	 * The PvZ model.
@@ -190,6 +190,12 @@ public class View extends JFrame implements Listener {
 		addWallnutButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		addWallnutButton.addActionListener(new TogglePlantAction(model, Plant.WALNUT));
 		
+		ImageIcon bombLogo = new ImageIcon("src/main/resources/wallnutIcon.png");
+		addBombButton = new JButton(bombLogo);
+		addBombButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		addBombButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		addBombButton.addActionListener(new TogglePlantAction(model, Plant.BOMB));
+		
 		JButton nextIterationButton = new JButton("Next Iteration");
 		nextIterationButton.setBorder(defaultBorder);
 		nextIterationButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -210,6 +216,7 @@ public class View extends JFrame implements Listener {
 		buttonPanel.add(addPeaShooterButton);
 		buttonPanel.add(addSunflowerButton);
 		buttonPanel.add(addWallnutButton);
+		buttonPanel.add(addBombButton);
 		buttonPanel.add(nextIterationButton);
 		buttonPanel.add(undoButton);
 		buttonPanel.add(redoButton);
@@ -249,6 +256,7 @@ public class View extends JFrame implements Listener {
 			else if (entity instanceof Bullet) tiles[i][j].setIcon(Bullet.IMAGE);
 			else if (entity instanceof Sun) tiles[i][j].setIcon(Sun.IMAGE);
 			else if (entity instanceof Wallnut) tiles[i][j].setIcon(Wallnut.IMAGE);
+			else if (entity instanceof Bomb) tiles[i][j].setIcon(Bomb.IMAGE);
 			break;
 		}
 		case REMOVE_ENTITY: {
@@ -277,6 +285,9 @@ public class View extends JFrame implements Listener {
 			break;
 		case TOGGLE_WALLNUT:
 			addWallnutButton.setEnabled(model.isWallnutPurchasable());
+			break;
+		case TOGGLE_BOMB:
+			addBombButton.setEnabled(model.isBombPurchasable());
 			break;
 		default:
 			break;
