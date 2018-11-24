@@ -190,6 +190,23 @@ public class Model {
 		}
 		return null;
 	}
+	
+	private Entity getEntity(int i, int j) {
+		for(Entity e : entities) {
+			if (e.getPosition().x == i && e.getPosition().y == j) return e;
+		}
+		return null;
+	}
+	
+	private void explodeBomb(Point location) {
+		for(int i = location.x - 1; i <= location.x + 1; i++) {
+			for(int j = location.y - 1; j <= location.y+1; j++) {
+				Entity entity = getEntity(i, j);
+				if(Board.isValidLocation(j, i) && entity != null && entity instanceof Zombie) 
+					((Zombie) entity).takeDamage((Bomb.DAMAGE));
+			}
+		}
+	}
 
 	public void updateShooters() {
 		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
@@ -200,19 +217,8 @@ public class Model {
 				// If Sunflower can fire spawn Sun randomly on board
 				else if (entity instanceof Sunflower) tempEntities.add(new Sun(new Point(new Random().nextInt(Board.COLUMNS), new Random().nextInt(Board.ROWS))));
 				else if (entity instanceof Bomb) {
-					for(int i = entity.getPosition().x-1; i <= entity.getPosition().x+1; i++) {
-						for(int j = entity.getPosition().y-1; j <= entity.getPosition().y+1; j++) {
-							if(Board.isValidLocation(j, i)){
-								for(Entity e : entities) {
-									// Set damage to Zombie objects
-									if (e instanceof Zombie && e.getPosition().x == i && e.getPosition().y == j) ((Zombie) e).takeDamage((Bomb.DAMAGE));
-								}
-							}
-						}
-							
-					}	
-					// Bomb explodes and removes itself
-					((Bomb) entity).takeDamage(Bomb.DAMAGE);
+					explodeBomb(entity.getPosition());					
+					((Bomb) entity).selfDestruct(); // Bomb explodes 
 				}
 			}
 		}

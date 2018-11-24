@@ -3,8 +3,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -47,7 +45,13 @@ public class View extends JFrame implements Listener {
 	/**
 	 * The buttons to add a Plant to PvZ board.
 	 */
-	private JButton addPeaShooterButton, addSunflowerButton, addWallnutButton, addBombButton;
+	private JButton 
+		addPeaShooterButton, 
+		addSunflowerButton, 
+		addWallnutButton, 
+		addBombButton, 
+		undoButton, 
+		redoButton;
 		
 	/**
 	 * The PvZ model.
@@ -86,8 +90,9 @@ public class View extends JFrame implements Listener {
 		getContentPane().add(addBoard(), BorderLayout.CENTER);
 		getContentPane().add(addFooter(), BorderLayout.PAGE_END);
 		setJMenuBar(addMenuBar());
-		// Subscribe to model
+		// Subscribe to Events
 		model.addActionListener(this);
+		undoManager.addActionListener(this);
 		// Customize frame
 		setSize(WIDTH, HEIGHT);
 		setResizable(false);
@@ -105,16 +110,10 @@ public class View extends JFrame implements Listener {
 		JMenu menu = new JMenu("Menu");
  
 		JMenuItem restart = new JMenuItem("Restart");
-		restart.addActionListener(new RestartAction(model));
+		restart.addActionListener(new RestartAction(model, undoManager));
 		
 		JMenuItem quit = new JMenuItem("Quit Game");
-		// Brute force quit
-		// Will need to change for future milestones as we will need to store the model state 
-		quit.addActionListener(new ActionListener() { 
-			public void actionPerformed(ActionEvent e) { 
-				System.exit(0);  
-			}  
-		});
+		quit.addActionListener(e -> System.exit(0) );
 		
 		menu.add(restart);
 		menu.add(quit);
@@ -192,7 +191,7 @@ public class View extends JFrame implements Listener {
 		addWallnutButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		addWallnutButton.addActionListener(new TogglePlantAction(model, Plant.WALNUT));
 		
-		ImageIcon bombLogo = new ImageIcon("src/main/resources/potatomine.png");
+		ImageIcon bombLogo = new ImageIcon("src/main/resources/wallnutIcon.png");
 		addBombButton = new JButton(bombLogo);
 		addBombButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addBombButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -203,12 +202,12 @@ public class View extends JFrame implements Listener {
 		nextIterationButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		nextIterationButton.addActionListener(new NextAction(model, undoManager));
 		
-		JButton undoButton = new JButton("Undo");
+		undoButton = new JButton("Undo");
 		undoButton.setBorder(defaultBorder);
 		undoButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		undoButton.addActionListener(e -> { undoManager.undo(); });
 		
-		JButton redoButton = new JButton("Redo");
+		redoButton = new JButton("Redo");
 		redoButton.setBorder(defaultBorder);
 		redoButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		redoButton.addActionListener(e -> { undoManager.redo(); });
@@ -222,7 +221,7 @@ public class View extends JFrame implements Listener {
 		buttonPanel.add(nextIterationButton);
 		buttonPanel.add(undoButton);
 		buttonPanel.add(redoButton);
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 400, 10, 0));
+		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 330, 10, 0));
 		buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 				
 		JPanel footerPanel = new JPanel();
@@ -289,6 +288,12 @@ public class View extends JFrame implements Listener {
 			break;
 		case TOGGLE_BOMB:
 			addBombButton.setEnabled(model.isBombPurchasable());
+			break;
+		case UNDO:
+			undoButton.setEnabled(undoManager.isUndoAvailable());
+			break;
+		case REDO:
+			redoButton.setEnabled(undoManager.isRedoAvailable());
 			break;
 		default:
 			break;

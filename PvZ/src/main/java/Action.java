@@ -16,6 +16,10 @@ public enum Action {
 
 	TOGGLE_WALLNUT,
 	
-	TOGGLE_BOMB
+	TOGGLE_BOMB,
+	
+	UNDO,
+	
+	REDO
 
 }

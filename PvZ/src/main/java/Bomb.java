@@ -17,17 +17,17 @@ public class Bomb extends Shooter {
 	public static final int COST = 100;
 	
 	/**
-	 * Max turns for bomb to randomly blow up
+	 * Max turns for bomb to randomly blow up.
 	 */
 	private static final int MAX = 10;
 	
 	/**
-	 * Min turns for bomb to randomly blow up
+	 * Min turns for bomb to randomly blow up.
 	 */
 	private static final int MIN = 10;
 	
 	/**
-	 * Random turn for bomb to randomly blow up
+	 * Random turn for Bomb to randomly blow up.
 	 */
 	private static final int RANDOM_NUMBER = new Random().nextInt(MAX + 1 - MIN) + MIN;
 	
@@ -46,6 +46,8 @@ public class Bomb extends Shooter {
 	 */
 	public static final int SPAWN_COOLDOWN = 5;
 	
+	public static final int HEALTH = 2;
+	
 	/**
 	 * The next game iteration a Bomb can be deployed.
 	 */
@@ -62,9 +64,8 @@ public class Bomb extends Shooter {
 	 * @param position The spawn location of this.
 	 */
 	public Bomb(Point position) {
-		super(position, 2);
+		super(position, HEALTH);
 		nextDeployable = 0;
-		resetFireRate();
 	}
 	
 	/**
@@ -95,7 +96,11 @@ public class Bomb extends Shooter {
 	
 	@Override
 	public void resetFireRate() {
-		this.setFireRate(RECHARGE_TIME);
+		setFireRate(RECHARGE_TIME);
+	}
+	
+	public void selfDestruct() {
+		takeDamage(HEALTH);
 	}
 	
 }

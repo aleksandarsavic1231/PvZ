@@ -1,13 +1,15 @@
 
-public class RestartCommand extends Controller implements Executable {
-
-	public RestartCommand(Model model) {
-		super(model);
+public class RestartCommand extends Command implements Executable {
+	
+	public RestartCommand(Model model, UndoManager undoManager) {
+		super(model, undoManager);
 	}
 	
 	@Override
 	public void execute() {
 		Model model = getModel();
+		// Reset undo/redo on restart
+		getUndoManager().clearUndoManager();
 		model.clearBoard();
 		PeaShooter.resetNextDeployable();
 		Sunflower.resetNextDeployable();
