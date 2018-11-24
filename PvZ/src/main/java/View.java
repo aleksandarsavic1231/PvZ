@@ -7,10 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import sun.audio.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -51,7 +47,7 @@ public class View extends JFrame implements Listener {
 	/**
 	 * The buttons to add a Plant to PvZ board.
 	 */
-	private JButton addPeaShooterButton, addSunflowerButton, addWallnutButton, addBombButton;
+	private JButton addPeaShooterButton, addSunflowerButton, addWallnutButton;
 		
 	/**
 	 * The PvZ model.
@@ -75,7 +71,7 @@ public class View extends JFrame implements Listener {
 	public static final Color GREEN = new Color(0,153,0);
 	public static final Color DARK_GREEN = new Color(0,102,0);
 		
-	private UndoManager undoManager = new UndoManager();
+	private UndoManager undoManager;
 	
 	/**
 	 * Constructor.
@@ -84,6 +80,8 @@ public class View extends JFrame implements Listener {
 		super("Plant vs. Zombies");
 		// Initialize model
 		model = new Model();
+		// Initialize undo manager
+		undoManager = new UndoManager();
 		// Initialize content
 		getContentPane().add(addBoard(), BorderLayout.CENTER);
 		getContentPane().add(addFooter(), BorderLayout.PAGE_END);
@@ -138,7 +136,7 @@ public class View extends JFrame implements Listener {
 		// Initialize tiles	
 		Board.iterate((i, j) -> {
 			tiles[i][j] = new JButton();
-			tiles[i][j].addActionListener(new TileAction(model, new Point(j, i)));
+			tiles[i][j].addActionListener(new TileAction(model, undoManager, new Point(j, i)));
 			tiles[i][j].setOpaque(true); // Required for OSX
 			tiles[i][j].setBorderPainted(false);
 			// Set tile color
@@ -194,16 +192,10 @@ public class View extends JFrame implements Listener {
 		addWallnutButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		addWallnutButton.addActionListener(new TogglePlantAction(model, Plant.WALNUT));
 		
-		ImageIcon bombLogo = new ImageIcon("src/main/resources/wallnutIcon.png");
-		addBombButton = new JButton(bombLogo);
-		addBombButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		addBombButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addBombButton.addActionListener(new TogglePlantAction(model, Plant.BOMB));
-		
 		JButton nextIterationButton = new JButton("Next Iteration");
 		nextIterationButton.setBorder(defaultBorder);
 		nextIterationButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		nextIterationButton.addActionListener(new NextAction(undoManager, model));
+		nextIterationButton.addActionListener(new NextAction(model, undoManager));
 		
 		JButton undoButton = new JButton("Undo");
 		undoButton.setBorder(defaultBorder);
@@ -220,7 +212,6 @@ public class View extends JFrame implements Listener {
 		buttonPanel.add(addPeaShooterButton);
 		buttonPanel.add(addSunflowerButton);
 		buttonPanel.add(addWallnutButton);
-		buttonPanel.add(addBombButton);
 		buttonPanel.add(nextIterationButton);
 		buttonPanel.add(undoButton);
 		buttonPanel.add(redoButton);
@@ -238,7 +229,6 @@ public class View extends JFrame implements Listener {
 	
 	@Override
 	public void handleEvent(Event event) {
-	
 		switch(event.getType()) {
 		case SPAWN_ENTITY: {
 			Entity entity = ((EntityEvent) event).getEntity();
@@ -259,8 +249,7 @@ public class View extends JFrame implements Listener {
 			else if (entity instanceof Sunflower) tiles[i][j].setIcon(Sunflower.IMAGE);
 			else if (entity instanceof Bullet) tiles[i][j].setIcon(Bullet.IMAGE);
 			else if (entity instanceof Sun) tiles[i][j].setIcon(Sun.IMAGE);
-			else if (entity instanceof Wallnut) tiles[i][j].setIcon(Wallnut.IMAGE);
-			else if (entity instanceof Bomb) tiles[i][j].setIcon(Bomb.IMAGE);
+			else if (entity instanceof Walnut) tiles[i][j].setIcon(Walnut.IMAGE);
 			break;
 		}
 		case REMOVE_ENTITY: {
@@ -290,33 +279,17 @@ public class View extends JFrame implements Listener {
 		case TOGGLE_WALLNUT:
 			addWallnutButton.setEnabled(model.isWallnutPurchasable());
 			break;
-		case TOGGLE_BOMB:
-			addBombButton.setEnabled(model.isBombPurchasable());
-			break;
 		default:
 			break;
 		}  
 	}
 
-	public static void Music() {
-		
-		InputStream music;
-		
-		try {
-			music = new FileInputStream(new File("Medival.wav"));
-			AudioStream sound = new AudioStream(music);
-			AudioPlayer.player.start(sound);
-		}catch(Exception e) {}
-		
-	}
-	
 	/**
 	 * Main method.
 	 * 
 	 * @param args Arguments from standard out.
 	 */
 	public static void main(String args[]) {
-		Music();
 		new View();
 	}
 

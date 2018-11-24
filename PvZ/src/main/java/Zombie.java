@@ -50,5 +50,3 @@ public class Zombie extends Alive implements Moveable {
 	}	
 	
 }
-
-

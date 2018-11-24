@@ -7,7 +7,7 @@ import java.util.Random;
  * The Model contains the game state and logic.
  * 
  * @author kylehorne
- * @version 29 Oct 18
+ * @version 24 Nov 18
  */
 public class Model {
 	
@@ -59,9 +59,7 @@ public class Model {
 	/**
 	 * The lower bound a Zombie can spawn.
 	 */
-	public static final int Regular_LOWER_BOUND = 5 + Board.COLUMNS;
-	public static final int Pylon_LOWER_BOUND = 15 + Board.COLUMNS;
-
+	public static final int LOWER_BOUND = 5 + Board.COLUMNS;
 	
 	/**
 	 * The randomness between Zombie separation. 
@@ -69,10 +67,15 @@ public class Model {
 	public static final int NOICE = 8;
 	
 	/**
-	 * The number of Zombies to spawn.
+	 * The number of Regular Zombies to spawn.
 	 */
-	public static final int NUM_ZOMBIES = 4;
+	public static final int N_REGULAR_ZOMBIES = 3;
 	
+	/**
+	 * The number of Pylon Zombies to spawn.
+	 */
+	public static final int N_PYLON_ZOMBIES = 0;
+
 	/**
 	 * Constructor.
 	 */
@@ -82,19 +85,21 @@ public class Model {
 	}	
 	
 	/**
-	 * Initialize fields to default state.
+	 * Initialize fields to default game state.
 	 */
 	public void init() {
 		isRunning = true;
 		entities = new LinkedList<Entity>();
 		balance = INITIAL_BALANCE; 
 		gameCounter = 0;
-		spawnZombies(NUM_ZOMBIES);
+		spawnRegularZombies(N_REGULAR_ZOMBIES);
+		spawnPylonZombies(N_PYLON_ZOMBIES);
 		plantToggled = null;
 	}
 
 	/**
-	 * Whether a position is currently occupied by another Entity excluding Bullets.
+	 * Whether a position is currently occupied by another Entity excluding Bullet objects.
+	 * Bullets are excluded since our implementation allows you to spawn a Plant on top of a Bullet.
 	 * 
 	 * @param location The location to check.
 	 * @return boolean True if location is occupied.
@@ -108,62 +113,27 @@ public class Model {
 		return false;
 	}
 
-	/**
-	 * Check whether the game is over. The game is over when a Zombie has traversed the board (0, y).
-	 * 
-	 * @return boolean True if the game is over.
-	 */
-	private boolean isGameOver() {
-		for(Entity e : entities) {
-			if (e instanceof Zombie && e.getPosition().x == 0) {
-				isRunning = false; 
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Check whether the round is over. The round is over when no zombies remain.
-	 * 
-	 * @return boolean True if the round is over.
-	 */
-	private boolean isRoundOver() {
-		for(Entity e : entities) {
-			if (e instanceof Zombie) return false;
-		}
-		isRunning = false;
-		return true;
-	}
-
-	/**
-	 * Spawn n Zombies at a random position greater than the board domain and within board range.
-	 *  
-	 * @param n The number of Zombies to spawn.
-	 */
-	private void spawnZombies(int n) {
-		// The number of Regular Zombies to spawn.
+	// TODO: Make functional.
+	private void spawnRegularZombies(int n) {
 		for (int i = 0; i < n; i ++) {
-			Entity zombie;
 			// Spawn further than columns so player has time to increase balance
-			Point spawnLocation = new Point(new Random().nextInt(NOICE) + Regular_LOWER_BOUND , new Random().nextInt(Board.ROWS));
-			Point spawnLocation2 = new Point(new Random().nextInt(NOICE) + Pylon_LOWER_BOUND , new Random().nextInt(Board.ROWS));
-			if (i < (n-1)) zombie = new RegularZombie(spawnLocation);
-			else {
-				zombie = new PylonZombie(spawnLocation2);
-			}
+			Entity zombie = new RegularZombie(new Point(new Random().nextInt(NOICE) + LOWER_BOUND , new Random().nextInt(Board.ROWS)));
 			entities.add(zombie);
 			notifyOfSpawn(zombie);
 		}
 	}
 	
-	/**
-	 * Check if there is a collision between a Moveable object and another Entity.
-	 * 
-	 * @param m The Moveable object to check for collision.
-	 * @return boolean True if there is a collision.
-	 */
-	private boolean isCollision(Moveable m) {
+	// TODO: Make functional.
+	private void spawnPylonZombies(int n) {
+		for (int i = 0; i < n; i ++) {
+			// Spawn further than columns so player has time to increase balance
+			Entity zombie = new PylonZombie(new Point(new Random().nextInt(NOICE) + LOWER_BOUND , new Random().nextInt(Board.ROWS)));
+			entities.add(zombie);
+			notifyOfSpawn(zombie);
+		}
+	}
+	
+	public boolean isCollision(Moveable m) {
 		for(Entity e: entities) {
 			// A collision will occur if the next position of Moveable is currently occupied.
 			boolean willCollide = e.getPosition().x == m.nextPosition().x && e.getPosition().y == m.nextPosition().y;
@@ -175,62 +145,18 @@ public class Model {
 				return true;
 			}
 			// Zombie collided with plant 
-			if ((e instanceof PeaShooter || e instanceof Sunflower || e instanceof Wallnut) && m instanceof Zombie && willCollide) {
+			if ((e instanceof PeaShooter || e instanceof Sunflower || e instanceof Walnut) && m instanceof Zombie && willCollide) {
 				((Alive) e).takeDamage(Zombie.DAMAGE);		
 				return true;
 			}
-			// Zombie walks past bomb
-			if((e instanceof Bomb) && m instanceof Zombie && (hasCollided || willCollide)) return false;
 		}
 		return false;
 	}
 	
-	/**
-	 * Check if the Sunflower is purchasable.
-	 * 
-	 * @return boolean True if the Sunflower is purchasable.
-	 */
-	public boolean isSunflowerPurchasable() {
-		// Sunflower is purchasable if player has sufficient balance and Sunflower is deployable.
-		return Sunflower.COST <= balance && Sunflower.isDeployable(gameCounter);
-	}
-	
-	/**
-	 * Check if the PeaShooter is purchasable.
-	 * 
-	 * @return boolean True if the PeaShooter is purchasable.
-	 */
-	public boolean isPeaShooterPurchasable() {
-		// PeaShooter is purchasable if player has sufficient balance and Sunflower is deployable.
-		return PeaShooter.COST <= balance && PeaShooter.isDeployable(gameCounter);
-	}
-	
-	/**
-	 * Check if the Wallnut is purchasable.
-	 * 
-	 * @return boolean True if the Walnut is purchasable.
-	 */
-	public boolean isWallnutPurchasable() {
-		return Wallnut.COST <= balance && Wallnut.isDeployable(gameCounter);
-	}
-	
-	/**
-	 * Check if the Bomb is purchasable.
-	 * 
-	 * @return boolean True if the Bomb is purchasable.
-	 */
-	public boolean isBombPurchasable() {
-		return Bomb.COST <= balance && Bomb.isDeployable(gameCounter);
-	}
-	
-	/**
-	 * Spawn plant at location based on toggled button.
-	 * 
-	 * @param location The location to spawn a plant.
-	 */
-	public void spawnPlant(Point location) {
+	public Entity spawnPlant(Point location) {
+		Entity spawnedPlant = null;
 		// Check default conditions to execute
-		if (!isRunning || plantToggled == null || isOccupied(location)) return;
+		if (!isRunning || plantToggled == null || isOccupied(location)) return spawnedPlant;
 		// Ensure toggled plant is purchasable
 		boolean hasPurchased = false;
 		if (plantToggled == Plant.PEA_SHOOTER && isPeaShooterPurchasable()) {
@@ -244,14 +170,9 @@ public class Model {
 			Sunflower.setNextDeployable(gameCounter);
 			hasPurchased = true;
 		} else if (plantToggled == Plant.WALNUT && isWallnutPurchasable()) {
-			balance -= Wallnut.COST;
-			entities.add(new Wallnut(location));
-			Wallnut.setNextDeployable(gameCounter);
-			hasPurchased = true;
-		}else if(plantToggled == Plant.BOMB && isBombPurchasable()) {
-			balance -= Bomb.COST;
-			entities.add(new Bomb(location));
-			Bomb.setNextDeployable(gameCounter);
+			balance -= Walnut.COST;
+			entities.add(new Walnut(location));
+			Walnut.setNextDeployable(gameCounter);
 			hasPurchased = true;
 		}
 		// If successful purchase spawn plant and update new balance
@@ -259,13 +180,13 @@ public class Model {
 			notifyOfSpawn(entities.getLast());
 			notifyOfBalance();
 			plantToggled = null;
+			spawnedPlant = entities.getLast();
+			return spawnedPlant;
 		}
+		return null;
 	}
-	
-	/**
-	 * Check if a Shooter object can shoot.
-	 */
-	private void updateShooters() {
+
+	public void updateShooters() {
 		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
 		for(Entity entity: entities) {
 			if (entity instanceof Shooter && ((Shooter) entity).canShoot())  {
@@ -273,34 +194,12 @@ public class Model {
 				if (entity instanceof PeaShooter) tempEntities.add(new Bullet(new Point(entity.getPosition().x, entity.getPosition().y), PeaShooter.DAMAGE));
 				// If Sunflower can fire spawn Sun randomly on board
 				else if (entity instanceof Sunflower) tempEntities.add(new Sun(new Point(new Random().nextInt(Board.COLUMNS), new Random().nextInt(Board.ROWS))));
-				//if Bomb can explode, set damage to all Zombies in 3x3 range
-				else if (entity instanceof Bomb) {
-					for(int i = entity.getPosition().x-1; i <= entity.getPosition().x+1; i++) {
-						for(int j = entity.getPosition().y-1; j <= entity.getPosition().y+1; j++) {
-							if(Board.isValidLocation(j, i)){
-								for(Entity e : entities) {
-									//set damage to zombies
-									if (e instanceof Zombie && e.getPosition().x == i && e.getPosition().y == j) {
-										((Zombie) e).takeDamage((Bomb.DAMAGE));
-									} 
-								}
-							}
-						}
-							
-					}	
-					//bomb explodes and removes itself
-					((Bomb) entity).takeDamage(Bomb.DAMAGE);
-				}
 			}
-			
 		}
 		entities.addAll(tempEntities);
 	}
 	
-	/**
-	 * Update all Moveable objects.
-	 */
-	private void updateMoveables() {
+	public void updateMoveables() {
 		for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext(); ) {
 			Entity entity = iter.next();
 			// Ensure Entity is Moveable and is not waiting to be delete
@@ -317,162 +216,119 @@ public class Model {
 		}
 	}
 	
-	/**
-	 * Check for dead Entities.
-	 */
-	private void checkForDead() {
+	public void checkForDead() {
 		for(ListIterator<Entity> iter = entities.listIterator(); iter.hasNext();) {	
 			Entity entity = iter.next();
 			if (entity instanceof Alive && ((Alive) entity).getHealth() <= 0) iter.remove(); // Remove dead
 		}
 	}
-	
-	/**
-	 * Update game state.
-	 */
-	public void nextIteration() { 
-		if (!isRunning) return; // Check if game is running
-		clearBoard();		
-		updateShooters();
-		updateMoveables();
-		checkForDead();
-		spawnEntities();
-		gameCounter++;
-		// Add automatic welfare if payment period has elapsed 
-		if (gameCounter % Model.PAYMENT_PERIOD == 0) balance += Model.WELFARE;	
-		notifyOfBalance();
-		// Check if game is still runnable
-		if (isRoundOver()) notifyListeners(Action.ROUND_OVER);
-		if (isGameOver()) notifyListeners(Action.GAME_OVER);
-	}
-	
-	public void lastIteration() {
-		clearBoard();		
-		spawnEntities();
-	}
-	 
-	/**
-	 * Notify listeners of balance.
-	 */
-	private void notifyOfBalance() {
+
+	public void notifyOfBalance() {
 		notifyListeners(Action.UPDATE_BALANCE);
 		// Purchasable plants may changed on new balance.
+		updatePurchasablePlants();
+	}
+	
+	private void updatePurchasablePlants() {
 		notifyListeners(Action.TOGGLE_PEASHOOTER);
 		notifyListeners(Action.TOGGLE_SUNFLOWER);
 		notifyListeners(Action.TOGGLE_WALLNUT);
-		notifyListeners(Action.TOGGLE_BOMB);
+	}
+
+	public boolean isSunflowerPurchasable() {
+		return Sunflower.COST <= balance && Sunflower.isDeployable(gameCounter);
+	}
+
+	public boolean isPeaShooterPurchasable() {
+		return PeaShooter.COST <= balance && PeaShooter.isDeployable(gameCounter);
 	}
 	
-	/**
-	 * Notify listeners of newly spawned Entity.
-	 * 
-	 * @param e The Entity spawned.
-	 */
-	private void notifyOfSpawn(Entity e) {
-		notifyListeners(Action.SPAWN_ENTITY, e);
+	public boolean isWallnutPurchasable() {
+		return Walnut.COST <= balance && Walnut.isDeployable(gameCounter);
 	}
 	
-	/**
-	 * Spawn all Entities.
-	 */
-	private void spawnEntities() {
-		for(Entity e: entities) notifyOfSpawn(e);
-	}
-	
-	private void resetDeployables() {
-		PeaShooter.resetNextDeployable();
-		Sunflower.resetNextDeployable();
-		Wallnut.resetNextDeployable();
-		Bomb.resetNextDeployable();
-	}
-	
-	/**
-	 * Notify listeners of deleted Entity.
-	 * 
-	 * @param e The Entity to be removed.
-	 */
-	private void removeEntity(Entity e) {
-		 notifyListeners(Action.REMOVE_ENTITY, e);
-	} 
-	
-	/**
-	 * Notify listeners to clear board.
-	 */
-	private void clearBoard() {
-		for(Entity e: entities) removeEntity(e);
-	}
-	
-	/**
-	 * Check if location contains Sun.
-	 * 
-	 * @param location The location to check.
-	 * @return boolean True if the location contains Sun.
-	 */
-	public boolean containsSun(Point location) {
-		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
-		boolean foundSun = false;
-		for(Entity e: entities) {
-			if (e instanceof Sun && e.getPosition().x == location.x && e.getPosition().y == location.y) {
-				removeEntity(e);
-				balance += Sun.REWARD;
-				notifyOfBalance();
-				foundSun = true;
-				tempEntities.add(e);
+	private boolean isGameOver() {
+		for(Entity e : entities) {
+			if (e instanceof Zombie && e.getPosition().x == 0) {
+				notifyListeners(Action.GAME_OVER);
+				return true;
 			}
 		}
-		entities.removeAll(tempEntities);
-		if (foundSun) spawnEntities(); // If Sun was clicked, there may be an Entity underneath that we need to spawn.
-		return foundSun;
+		return false;
+	}
+
+	private boolean isRoundOver() {
+		for(Entity e : entities) if (e instanceof Zombie) return false;
+		notifyListeners(Action.ROUND_OVER);
+		return true;
 	}
 	
-	public void restart() {
+	public void updateRunnable() { if (isGameOver() || isRoundOver()) isRunning = false; }
+	
+	public boolean isRunning() { return isRunning; }
+	
+	public void incrementGameCounter()  { gameCounter++; } 
+
+	public void spawnEntities() { for(Entity entity: entities) notifyOfSpawn(entity); }
+	
+	private void notifyOfSpawn(Entity entity) { notifyListeners(Action.SPAWN_ENTITY, entity); }
+	
+	private void notifyOfRemove(Entity entity) { notifyListeners(Action.REMOVE_ENTITY, entity); } 
+	
+	public void clearBoard() { for(Entity entity: entities) notifyOfRemove(entity); }
+	
+	public LinkedList<Entity> getEntities() { return entities; }
+
+	public void setEntities(LinkedList<Entity> entities) { 
 		clearBoard();
-		resetDeployables();
-		init();
+		this.entities = entities; 	
+		spawnEntities();
+	}
+	
+	public void addEntity(Entity entity) { 
+		entities.add(entity); 
+		notifyOfSpawn(entity);
+	}
+	
+	public void removeEntity(Entity entity) { 
+		entities.remove(entity); 
+		notifyOfRemove(entity);
+	} 
+ 
+	public void removeEntities(LinkedList<Entity> entities) { 
+		this.entities.removeAll(entities); 
+		clearBoard();
+		spawnEntities();
+	}
+	
+	public void setTogglePlant(Plant plant) { plantToggled = plant; }
+	
+	public Plant getTogglePlant() { return plantToggled; }
+
+	public int getBalance() { return balance; }
+	
+	public void setBalance(int balance) { 
+		this.balance = balance; 
 		notifyOfBalance();
 	}
 	
-	public void setBalance(int balance) {
-		this.balance=balance;
-		notifyOfBalance();
+	public void increaseBalance(int delta) { setBalance(balance + delta); }
+	
+	public int getGameCounter() { return gameCounter; }
+	
+	public void setGameCounter(int gameCounter) { 
+		this.gameCounter = gameCounter; 
+		updatePurchasablePlants();
 	}
 	
-	public int getBalance() {
-		return balance;
-	}
-	
-	public LinkedList<Entity> getEntities() {
-		return entities;
-	}
-	
-	public void setEntities(LinkedList<Entity> entities) {
-		this.entities = entities;
-	}
-  	
-	
-	public void setTogglePlant(Plant plant) {
-		plantToggled = plant;
-	}
-	
-	/**
-	 * Notify listeners of Event.
-	 * 
-	 * @param type The Action type.
-	 * @param payload The payload coupled to action.
-	 */
-	private void notifyListeners(Action type) {
+	public void notifyListeners(Action type) {
 		for(Listener listener : listeners) listener.handleEvent(new Event(type));
 	}
 	
-	private void notifyListeners(Action type, Entity entity) {
+	public void notifyListeners(Action type, Entity entity) {
 		for(Listener listener : listeners) listener.handleEvent(new EntityEvent(type, entity));
 	}
 
-	/**
-	 * Add listener to this.
-	 *  
-	 * @param listener The listener to add.
-	 */
 	public void addActionListener(Listener listener) {
 		listeners.add(listener);
 		notifyOfBalance(); // Notify listener of initial balance

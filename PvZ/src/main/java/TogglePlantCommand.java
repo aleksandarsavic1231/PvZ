@@ -13,28 +13,4 @@ public class TogglePlantCommand extends Controller implements Executable {
 		getModel().setTogglePlant(plant);
 	}
 
-	@Override
-	public void undo() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void redo() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isCollapsible(Executable command) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void collapse(Executable command) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

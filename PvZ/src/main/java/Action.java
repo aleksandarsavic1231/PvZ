@@ -1,21 +1,21 @@
 public enum Action {
-	
+
 	SPAWN_ENTITY,
-	
+
 	REMOVE_ENTITY,
-	
+
 	UPDATE_BALANCE,
-	
+
 	ROUND_OVER,
-	
+
 	GAME_OVER,
 
 	TOGGLE_SUNFLOWER,
-	
+
 	TOGGLE_PEASHOOTER,
-	
+
 	TOGGLE_WALLNUT,
 	
 	TOGGLE_BOMB
-	
+
 }

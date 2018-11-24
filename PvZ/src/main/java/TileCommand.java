@@ -1,41 +1,66 @@
 import java.awt.Point;
 
-public class TileCommand extends Controller implements Executable {
+public class TileCommand extends Controller implements Undoable {
 	
-	private Point tileClicked;
+	private Point tile;
 	
-	public TileCommand(Model model, Point tileClicked) {
+	private Entity lastEntity;
+	
+	private int lastBalance;
+	
+	private int lastGameCounter;
+	
+	private Plant lastPlantToggled;
+	
+	private boolean foundSun;
+	
+	public TileCommand(Model model, Point tile) {
 		super(model);
-		this.tileClicked = tileClicked;
+		this.tile = tile;
 	}
 
 	@Override
-	public void execute() {
-		if (!getModel().containsSun(tileClicked)) getModel().spawnPlant(tileClicked);
+	public void execute() {	
+		Model model = getModel();
+		// Set last balance and game counter
+		lastBalance = model.getBalance();
+		lastGameCounter = model.getGameCounter();	
+		// Spawn plant only if the tile clicked contains no Sun.
+		foundSun = false;
+		for(Entity entity: model.getEntities()) {
+			Point position = entity.getPosition();
+			if (entity instanceof Sun && position.x == tile.x && position.y == tile.y) {
+				lastEntity = entity;
+				model.removeEntity(entity);
+				model.increaseBalance(Sun.REWARD);
+				model.spawnEntities();
+				foundSun = true;
+				break;
+			}
+		}
+		// Spawn plant only if no sun was found.
+		if (!foundSun) {
+			lastPlantToggled = model.getTogglePlant();
+			lastEntity = model.spawnPlant(tile);
+		}
+
 	}
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
-		
+		Model model = getModel();
+		// Last execution was collecting Sun reward
+		if (foundSun) model.addEntity(lastEntity);
+		// Last execution was spawning a plant
+		else model.removeEntity(lastEntity);
+		model.setGameCounter(lastGameCounter);
+		model.setBalance(lastBalance);
+		model.setTogglePlant(lastPlantToggled);
 	}
 
 	@Override
 	public void redo() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isCollapsible(Executable command) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void collapse(Executable command) {
-		// TODO Auto-generated method stub
-		
+		execute();
 	}
 
 }

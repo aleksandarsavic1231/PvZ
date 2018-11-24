@@ -1,68 +1,44 @@
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.Stack;
 
 public class UndoManager {
 
-	private Stack<Executable> undoStack = new Stack<Executable>();
-	private Stack<Executable> redoStack = new Stack<Executable>();
+ 	private Stack<Undoable> undoStack;
+	private Stack<Undoable> redoStack;
 	
-	private class OldState {
-		private boolean undoAvailable = isUndoAvailable();
-		private boolean redoAvailable = isRedoAvailable();
+	public UndoManager() {
+		undoStack = new Stack<Undoable>();
+		redoStack = new Stack<Undoable>();
 	}
 	
-	public void execute(Executable command) {
-		try {
-			OldState oldState = new OldState();
-			command.execute();
-			if (isUndoAvailable() && undoStack.peek().isCollapsible(command)) {
-				undoStack.peek().collapse(command);
-			} else {
-				undoStack.push(command);
-			}
-			redoStack.clear();
-			// fireChanges(oldState);
-		} catch (IllegalStateException e) {
-			// report and log
-		}
+	public void execute(Undoable command) {
+		command.execute();
+		undoStack.push(command);
+		// Reset redo stack on execution of new command
+		redoStack.clear();
 	}
+	
+ 	public void undo() {
+		if (undoStack.isEmpty()) return;
 
-	public void undo() {
-		if (!undoStack.isEmpty()) {
-			try {
-				OldState oldState = new OldState();
-				Executable command = undoStack.pop();
-				command.undo();
-				redoStack.push(command);
-				System.out.println("Undo stack size: "+ undoStack.size());
-				// fireChanges(oldState);
-			} catch (IllegalStateException e) {
-				// report and log
-			}
-		}
+		Undoable command = undoStack.pop();
+		command.undo();
+		redoStack.push(command);
 	}
 	
 	public void redo() {
-		if (!redoStack.isEmpty()) {
-			try {
-				OldState oldState = new OldState();
-				Executable command = redoStack.pop();
-				command.redo();
-				undoStack.push(command);
-				// fireChanges(oldState);
-			} catch (IllegalStateException e) {
-				// report and log
-			}
-		}
+		if (redoStack.isEmpty()) return;
+		
+		Undoable command = redoStack.pop();
+		command.redo();
+		undoStack.push(command);
 	}
-	
 
-	public boolean isUndoAvailable() {
+ 	public boolean isUndoAvailable() {
 		return !undoStack.isEmpty();
 	}
+ 	
 	public boolean isRedoAvailable() {
 		return !redoStack.isEmpty();
 	}
 	
-}
+ }

@@ -6,7 +6,7 @@ import java.awt.Point;
  * @author kylehorne
  * @version 28 Oct 18
  */
-public class Entity {
+public class Entity implements Cloneable {
 	
 	/**
 	 * The position of this.
@@ -19,7 +19,7 @@ public class Entity {
 	 * @param position The position of this.
 	 */
 	public Entity(Point position) {
-		this.setPosition(position);
+		setPosition(position);
 	}
 
 	/**
@@ -38,6 +38,25 @@ public class Entity {
 	 */
 	public void setPosition(Point position) {
 		this.position = position;
+	}
+	
+	/**
+	 * Deep clone Entity.
+	 * 
+	 * @param entity The Entity to be cloned.
+	 * @return Entity The cloned Entity.
+	 * @throws UnimplementedCloneableEntity 
+	 */
+	public static Entity clone(Entity entity) throws UnimplementedCloneableEntity {
+		Point spawnLocation = new Point(entity.getPosition());
+		if (entity instanceof RegularZombie) return new RegularZombie(spawnLocation);
+		else if (entity instanceof PylonZombie) return new PylonZombie(spawnLocation);
+		else if (entity instanceof PeaShooter) return new PeaShooter(spawnLocation);
+		else if (entity instanceof Walnut) return new Walnut(spawnLocation);
+		else if (entity instanceof Sunflower) return new Sunflower(spawnLocation);
+		else if (entity instanceof Bullet) return new Bullet(spawnLocation, ((Bullet) entity).getDamage());
+		else if (entity instanceof Sun) return new Sun(spawnLocation);
+		else throw new UnimplementedCloneableEntity(entity.getClass() + " is a unimplemented cloneable Entity.");
 	}
 
 }

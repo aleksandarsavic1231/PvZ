@@ -2,7 +2,7 @@ import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
-public class Wallnut extends Alive {
+public class Walnut extends Alive {
 	
 	public static final int INITIAL_HEALTH = 20;
 	
@@ -14,7 +14,7 @@ public class Wallnut extends Alive {
 	
 	private static int nextDeployable;
 	
-	public Wallnut(Point position) {
+	public Walnut(Point position) {
 		super(position, 20);
 		nextDeployable = 0;
 	}

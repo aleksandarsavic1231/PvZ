@@ -1,18 +1,15 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NextAction extends Controller implements ActionListener {
+public class NextAction extends Command implements ActionListener {
 	
-	private UndoManager undoManager;
-
-	public NextAction(UndoManager undoManager, Model model) {
-		super(model);
-		this.undoManager = undoManager;
+	public NextAction(Model model, UndoManager undoManager) {
+		super(model, undoManager);
 	} 
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		undoManager.execute(new NextCommand(getModel()));
+		getUndoManager().execute(new NextCommand(getModel()));
 	}
 	
 }
