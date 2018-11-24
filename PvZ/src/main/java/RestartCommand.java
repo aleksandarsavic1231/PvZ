@@ -12,6 +12,7 @@ public class RestartCommand extends Controller implements Executable {
 		PeaShooter.resetNextDeployable();
 		Sunflower.resetNextDeployable();
 		Walnut.resetNextDeployable();
+		Bomb.resetNextDeployable();
 		model.init();
 		model.notifyOfBalance();
 	}

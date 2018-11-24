@@ -174,7 +174,12 @@ public class Model {
 			entities.add(new Walnut(location));
 			Walnut.setNextDeployable(gameCounter);
 			hasPurchased = true;
-		}
+		} else if(plantToggled == Plant.BOMB && isBombPurchasable()) {
+			balance -= Bomb.COST;
+			entities.add(new Bomb(location));
+			Bomb.setNextDeployable(gameCounter);
+			hasPurchased = true;
+		
 		// If successful purchase spawn plant and update new balance
 		if (hasPurchased) {
 			notifyOfSpawn(entities.getLast());
@@ -194,6 +199,24 @@ public class Model {
 				if (entity instanceof PeaShooter) tempEntities.add(new Bullet(new Point(entity.getPosition().x, entity.getPosition().y), PeaShooter.DAMAGE));
 				// If Sunflower can fire spawn Sun randomly on board
 				else if (entity instanceof Sunflower) tempEntities.add(new Sun(new Point(new Random().nextInt(Board.COLUMNS), new Random().nextInt(Board.ROWS))));
+				else if (entity instanceof Bomb) {
+					for(int i = entity.getPosition().x-1; i <= entity.getPosition().x+1; i++) {
+						for(int j = entity.getPosition().y-1; j <= entity.getPosition().y+1; j++) {
+							if(Board.isValidLocation(j, i)){
+								System.out.println("x:"+i+"y:"+j);
+								for(Entity e : entities) {
+									//set damage to zombies
+									if (e instanceof Zombie && e.getPosition().x == i && e.getPosition().y == j) {
+										((Zombie) e).takeDamage((Bomb.DAMAGE));
+									} 
+								}
+							}
+						}
+							
+					}	
+					//bomb explodes and removes itself
+					((Bomb) entity).takeDamage(Bomb.DAMAGE);
+				}
 			}
 		}
 		entities.addAll(tempEntities);
@@ -233,6 +256,7 @@ public class Model {
 		notifyListeners(Action.TOGGLE_PEASHOOTER);
 		notifyListeners(Action.TOGGLE_SUNFLOWER);
 		notifyListeners(Action.TOGGLE_WALLNUT);
+		notifyListeners(Action.TOGGLE_BOMB);
 	}
 
 	public boolean isSunflowerPurchasable() {
@@ -245,6 +269,15 @@ public class Model {
 	
 	public boolean isWallnutPurchasable() {
 		return Walnut.COST <= balance && Walnut.isDeployable(gameCounter);
+	}
+	
+	/**
+	 * Check if the Bomb is purchasable.
+	 * 
+	 * @return boolean True if the Bomb is purchasable.
+	 */
+	public boolean isBombPurchasable() {
+		return Bomb.COST <= balance && Bomb.isDeployable(gameCounter);
 	}
 	
 	private boolean isGameOver() {
