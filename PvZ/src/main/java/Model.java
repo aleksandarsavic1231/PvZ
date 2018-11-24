@@ -271,15 +271,12 @@ public class Model {
 				else if (entity instanceof Sunflower) tempEntities.add(new Sun(new Point(new Random().nextInt(Board.COLUMNS), new Random().nextInt(Board.ROWS))));
 				//if Bomb can explode, set damage to all Zombies in 3x3 range
 				else if (entity instanceof Bomb) {
-					System.out.println("EXPLODE!!");
 					for(int i = entity.getPosition().x-1; i <= entity.getPosition().x+1; i++) {
 						for(int j = entity.getPosition().y-1; j <= entity.getPosition().y+1; j++) {
 							if(Board.isValidLocation(j, i)){
-								System.out.println("x:"+i+"y:"+j);
 								for(Entity e : entities) {
 									//set damage to zombies
 									if (e instanceof Zombie && e.getPosition().x == i && e.getPosition().y == j) {
-										System.out.println("ZOMBIE HIT!!!");
 										((Zombie) e).takeDamage((Bomb.DAMAGE));
 									} 
 								}
