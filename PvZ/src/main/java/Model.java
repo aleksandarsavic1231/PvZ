@@ -145,7 +145,7 @@ public class Model {
 				return true;
 			}
 			// Zombie collided with plant 
-			if ((e instanceof PeaShooter || e instanceof Sunflower || e instanceof Walnut) && m instanceof Zombie && willCollide) {
+			if ((e instanceof PeaShooter || e instanceof Sunflower || e instanceof Walnut || e instanceof Repeater) && m instanceof Zombie && willCollide) {
 				((Alive) e).takeDamage(Zombie.DAMAGE);		
 				return true;
 			}
@@ -220,7 +220,7 @@ public class Model {
 				else if (entity instanceof Bomb) {
 					explodeBomb(entity.getPosition());					
 					((Bomb) entity).selfDestruct(); // Bomb explodes 
-				}
+				} else if (entity instanceof Repeater) tempEntities.add(new Bullet(new Point(entity.getPosition().x, entity.getPosition().y), Repeater.DAMAGE));
 			}
 		}
 		entities.addAll(tempEntities);
@@ -279,6 +279,7 @@ public class Model {
 	public boolean isRepeaterPurchasable() {
 		return Repeater.COST <= balance && Repeater.isDeployable(gameCounter);
 	}
+	
 	public boolean isBombPurchasable() {
 		return Bomb.COST <= balance && Bomb.isDeployable(gameCounter);
 	}
