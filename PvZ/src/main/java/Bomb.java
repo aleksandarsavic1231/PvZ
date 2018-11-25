@@ -13,21 +13,21 @@ public class Bomb extends Shooter{
 	/**
 	 * Max turns for bomb to randomly blow up
 	 */
-	private static final int MAX = 10;
+	//private static final int MAX = 10;
 	
 	/**
 	 * Min turns for bomb to randomly blow up
 	 */
-	private static final int MIN = 10;
+	//private static final int MIN = 10;
 	/**
 	 * Random turn for bomb to randomly blow up
 	 */
-	private static final int RANDOM_NUMBER = new Random().nextInt(MAX + 1 - MIN) + MIN;
+	//private static final int RANDOM_NUMBER = new Random().nextInt(MAX + 1 - MIN) + MIN;
 	
 	/**
 	 * Recharge time required by a Bomb objects to explode.
 	 */
-	public static final int RECHARGE_TIME = RANDOM_NUMBER;
+	public static final int RECHARGE_TIME = 3;
 	
 	/**
 	 * Damaged caused from this.
