@@ -102,7 +102,7 @@ public class TileCommand extends Controller implements Undoable {
 		model.setEntities(lastEntities);
 		model.setBalance(lastBalance);
 		model.setTogglePlant(lastToggledPlant);
-		model.decrementGameCounter();
+
 		// Switch on plant was spawned and set next deployable to last deployable state.
 		if (lastToggledPlant == Plant.BOMB) Bomb.hardSetNextDeployable(lastDeployable);
 		else if (lastToggledPlant == Plant.PEA_SHOOTER) PeaShooter.hardSetNextDeployable(lastDeployable);
