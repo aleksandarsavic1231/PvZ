@@ -54,7 +54,7 @@ public class Model {
 	/**
 	 * The initial sun point balance.
 	 */
-	public static final int INITIAL_BALANCE = 100;
+	public static final int INITIAL_BALANCE = 400;
 	
 	/**
 	 * The lower bound a Zombie can spawn.
@@ -173,6 +173,11 @@ public class Model {
 			entities.add(new Walnut(location));
 			Walnut.setNextDeployable(gameCounter);
 			hasPurchased = true;
+		} else if (plantToggled == Plant.REPEATER && isRepeaterPurchasable()){
+			balance -= Repeater.COST;
+			entities.add(new Repeater(location));
+			Repeater.setNextDeployable(gameCounter);
+			hasPurchased = true;
 		} else if(plantToggled == Plant.BOMB && isBombPurchasable()) {
 			balance -= Bomb.COST;
 			entities.add(new Bomb(location));
@@ -255,6 +260,7 @@ public class Model {
 		notifyListeners(Action.TOGGLE_PEASHOOTER);
 		notifyListeners(Action.TOGGLE_SUNFLOWER);
 		notifyListeners(Action.TOGGLE_WALLNUT);
+		notifyListeners(Action.TOGGLE_REPEATER);
 		notifyListeners(Action.TOGGLE_BOMB);
 	}
 
@@ -270,6 +276,9 @@ public class Model {
 		return Walnut.COST <= balance && Walnut.isDeployable(gameCounter);
 	}
 	
+	public boolean isRepeaterPurchasable() {
+		return Repeater.COST <= balance && Repeater.isDeployable(gameCounter);
+	}
 	public boolean isBombPurchasable() {
 		return Bomb.COST <= balance && Bomb.isDeployable(gameCounter);
 	}

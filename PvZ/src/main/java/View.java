@@ -49,6 +49,7 @@ public class View extends JFrame implements Listener {
 		addPeaShooterButton, 
 		addSunflowerButton, 
 		addWallnutButton, 
+		addRepeaterButton,
 		addBombButton, 
 		undoButton, 
 		redoButton;
@@ -191,7 +192,13 @@ public class View extends JFrame implements Listener {
 		addWallnutButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		addWallnutButton.addActionListener(new TogglePlantAction(model, Plant.WALNUT));
 		
-		ImageIcon bombLogo = new ImageIcon("src/main/resources/wallnutIcon.png");
+		ImageIcon repeaterLogo = new ImageIcon("src/main/resources/repeaterIcon.png");
+		addRepeaterButton = new JButton(repeaterLogo);
+		addRepeaterButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		addRepeaterButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		addRepeaterButton.addActionListener(new TogglePlantAction(model, Plant.REPEATER));
+		
+		ImageIcon bombLogo = new ImageIcon("src/main/resources/cherryBombIcon.png");
 		addBombButton = new JButton(bombLogo);
 		addBombButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addBombButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -217,6 +224,7 @@ public class View extends JFrame implements Listener {
 		buttonPanel.add(addPeaShooterButton);
 		buttonPanel.add(addSunflowerButton);
 		buttonPanel.add(addWallnutButton);
+		buttonPanel.add(addRepeaterButton);
 		buttonPanel.add(addBombButton);
 		buttonPanel.add(nextIterationButton);
 		buttonPanel.add(undoButton);
@@ -256,6 +264,7 @@ public class View extends JFrame implements Listener {
 			else if (entity instanceof Bullet) tiles[i][j].setIcon(Bullet.IMAGE);
 			else if (entity instanceof Sun) tiles[i][j].setIcon(Sun.IMAGE);
 			else if (entity instanceof Walnut) tiles[i][j].setIcon(Walnut.IMAGE);
+			else if (entity instanceof Repeater) tiles[i][j].setIcon(Repeater.IMAGE);
 			else if (entity instanceof Bomb) tiles[i][j].setIcon(Bomb.IMAGE);
 			break;
 		}
@@ -286,6 +295,8 @@ public class View extends JFrame implements Listener {
 		case TOGGLE_WALLNUT:
 			addWallnutButton.setEnabled(model.isWallnutPurchasable());
 			break;
+		case TOGGLE_REPEATER:
+			addRepeaterButton.setEnabled(model.isRepeaterPurchasable());
 		case TOGGLE_BOMB:
 			addBombButton.setEnabled(model.isBombPurchasable());
 			break;

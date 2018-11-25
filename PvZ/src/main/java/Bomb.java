@@ -13,7 +13,7 @@ public class Bomb extends Shooter {
 	/**
 	 * Sun points required to buy this.
 	 */
-	public static final int COST = 100;
+	public static final int COST = 150;
 	
 	/**
 	 * Recharge time required by a Bomb objects to explode.
@@ -38,7 +38,7 @@ public class Bomb extends Shooter {
 	/**
 	 * Icon image of Bomb objects.
 	 */
-	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/potatomine.png");
+	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/cherryBomb.png");
 	
 	/**
 	 * Constructor.
