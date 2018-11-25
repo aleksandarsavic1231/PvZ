@@ -314,6 +314,11 @@ public class Model {
 		entities.add(entity); 
 		notifyOfSpawn(entity);
 	}
+	
+	public void removeEntity(Entity entity) {
+		entities.remove(entity);
+		notifyOfRemove(entity);
+	}
 
 	public void removeEntities(LinkedList<Entity> entities) { 
 		this.entities.removeAll(entities); 

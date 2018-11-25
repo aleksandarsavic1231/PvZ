@@ -11,6 +11,8 @@ public class TileCommand extends Controller implements Undoable {
 	
 	private int lastDeployable;
 	
+	private boolean foundSun;
+	
 	/**
 	 * The last state of Entities before spawning a new Plant.
 	 * 
@@ -32,6 +34,48 @@ public class TileCommand extends Controller implements Undoable {
 	@Override
 	public void execute() {	
 		Model model = getModel();
+		// Only spawn plant if tile contains no sun.
+		foundSun = false;
+		for(Entity entity: getModel().getEntities()) {
+			Point position = entity.getPosition();
+			if (entity instanceof Sun && position.x == tile.x && position.y == tile.y) {
+				foundSun = true;
+				lastToggledPlant = model.getTogglePlant();
+				lastBalance = model.getBalance();
+				model.removeEntity(entity);
+				model.increaseBalance(Sun.REWARD);
+			}
+		}
+		if (!foundSun) {
+			executeSpawnPlant(model);
+		} else {
+			model.setTogglePlant(lastToggledPlant);
+			for(Entity entity: getModel().getEntities()) lastEntities.add(Entity.clone(entity)); 
+		}
+		
+	}
+
+	@Override
+	public void undo() {
+		Model model = getModel();
+		if (foundSun) {
+			lastEntities.add(new Sun(tile));
+			model.setBalance(lastBalance);
+			model.setEntities(lastEntities);
+			model.setTogglePlant(lastToggledPlant);
+
+		} else {
+			undoSpawnPlant(model);	
+		}
+	}
+
+	@Override
+	public void redo() {
+		lastEntities = new LinkedList<Entity>();
+		execute();
+	}
+	
+	private void executeSpawnPlant(Model model) {
 		// Set last balance and game counter
 		lastToggledPlant = model.getTogglePlant();
 		if (lastToggledPlant == null) return; // No plant selected 
@@ -53,37 +97,19 @@ public class TileCommand extends Controller implements Undoable {
 		lastBalance = model.getBalance();	
 		model.spawnPlant(tile);
 	}
-
-	@Override
-	public void undo() {
-		Model model = getModel();
+	
+	private void undoSpawnPlant(Model model) {
 		model.setEntities(lastEntities);
 		model.setBalance(lastBalance);
 		model.setTogglePlant(lastToggledPlant);
 		model.decrementGameCounter();
 		// Switch on plant was spawned and set next deployable to last deployable state.
-		switch(lastToggledPlant) {
-		case BOMB:
-			Bomb.hardSetNextDeployable(lastDeployable);
-			break;
-		case PEA_SHOOTER:
-			PeaShooter.hardSetNextDeployable(lastDeployable);
-			break;
-		case SUNFLOWER:
-			Sunflower.hardSetNextDeployable(lastDeployable);
-			break;
-		case WALNUT:
-			Walnut.hardSetNextDeployable(lastDeployable);
-			break;
-		}
+		if (lastToggledPlant == Plant.BOMB) Bomb.hardSetNextDeployable(lastDeployable);
+		else if (lastToggledPlant == Plant.PEA_SHOOTER) PeaShooter.hardSetNextDeployable(lastDeployable);
+		else if (lastToggledPlant == Plant.SUNFLOWER) Sunflower.hardSetNextDeployable(lastDeployable);
+		else if (lastToggledPlant == Plant.WALNUT) Walnut.hardSetNextDeployable(lastDeployable);
 		// Update purchasable plants because next deployable has changed
-		model.updatePurchasablePlants();	
-	}
-
-	@Override
-	public void redo() {
-		lastEntities = new LinkedList<Entity>();
-		execute();
+		model.updatePurchasablePlants();
 	}
 
 }
