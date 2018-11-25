@@ -47,16 +47,17 @@ public class Entity implements Cloneable {
 	 * @return Entity The cloned Entity.
 	 */
 	public static Entity clone(Entity entity) {
-		Point spawnLocation = new Point(entity.getPosition());
-		if (entity instanceof RegularZombie) return new RegularZombie(spawnLocation);
-		else if (entity instanceof PylonZombie) return new PylonZombie(spawnLocation);
-		else if (entity instanceof PeaShooter) return new PeaShooter(spawnLocation);
-		else if (entity instanceof Walnut) return new Walnut(spawnLocation);
-		else if (entity instanceof Sunflower) return new Sunflower(spawnLocation);
-		else if (entity instanceof Bullet) return new Bullet(spawnLocation, ((Bullet) entity).getDamage());
-		else if (entity instanceof Sun) return new Sun(spawnLocation);
-		else if (entity instanceof Bomb) return new Bomb(spawnLocation);
-		else return null;
+		if (entity != null) {
+			Point spawnLocation = new Point(entity.getPosition());
+			if (entity instanceof RegularZombie) return new RegularZombie(spawnLocation);
+			else if (entity instanceof PylonZombie) return new PylonZombie(spawnLocation);
+			else if (entity instanceof PeaShooter) return new PeaShooter(spawnLocation);
+			else if (entity instanceof Walnut) return new Walnut(spawnLocation);
+			else if (entity instanceof Sunflower) return new Sunflower(spawnLocation);
+			else if (entity instanceof Bullet) return new Bullet(spawnLocation, ((Bullet) entity).getDamage());
+			else if (entity instanceof Sun) return new Sun(spawnLocation);
+			else if (entity instanceof Bomb) return new Bomb(spawnLocation);
+		} return null;
 	}
 
 }

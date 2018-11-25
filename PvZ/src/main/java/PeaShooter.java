@@ -47,7 +47,6 @@ public class PeaShooter extends Shooter {
 	 */
 	public PeaShooter(Point position) {
 		super(position, 5);
-		nextDeployable = 0;
 	}
 	
 	/**
@@ -57,6 +56,14 @@ public class PeaShooter extends Shooter {
 	 */
 	public static void setNextDeployable(int gameCounter) {
 		nextDeployable = gameCounter + SPAWN_COOLDOWN;
+	}
+	
+	public static void hardSetNextDeployable(int newDeployable) {
+		nextDeployable = newDeployable;
+	}
+	
+	public static int getNextDeployable() {
+		return nextDeployable;
 	}
 	
 	/**

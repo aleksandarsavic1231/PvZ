@@ -65,7 +65,6 @@ public class Bomb extends Shooter {
 	 */
 	public Bomb(Point position) {
 		super(position, HEALTH);
-		nextDeployable = 0;
 	}
 	
 	/**
@@ -103,4 +102,12 @@ public class Bomb extends Shooter {
 		takeDamage(HEALTH);
 	}
 	
+	public static void hardSetNextDeployable(int newDeployable) {
+		nextDeployable = newDeployable;
+	}
+	
+	public static int getNextDeployable() {
+		return nextDeployable;
+	}
+
 }

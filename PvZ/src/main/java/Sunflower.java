@@ -42,7 +42,6 @@ public class Sunflower extends Shooter {
 	 */
 	public Sunflower(Point position) {
 		super(position, 8);
-		nextDeployable = 0;
 	}
 	
 	/**
@@ -75,5 +74,13 @@ public class Sunflower extends Shooter {
 	public void resetFireRate() {
 		this.setFireRate(RECHARGE_TIME);
 	}	
+	
+	public static void hardSetNextDeployable(int newDeployable) {
+		nextDeployable = newDeployable;
+	}
+	
+	public static int getNextDeployable() {
+		return nextDeployable;
+	}
 
 }

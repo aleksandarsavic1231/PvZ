@@ -5,8 +5,6 @@ public class NextCommand extends Controller implements Undoable {
 	private LinkedList<Entity> lastEntities;
 	
 	private int lastBalance;
-	
-	private int lastGameCounter;
 
 	public NextCommand(Model model) {
 		super(model);	
@@ -20,7 +18,6 @@ public class NextCommand extends Controller implements Undoable {
 		if (!model.isRunning()) return;
 		// Save last state of current Model.
 		lastBalance = model.getBalance();
-		lastGameCounter = model.getGameCounter();
 		for(Entity entity: model.getEntities()) lastEntities.add(Entity.clone(entity)); 
 		// Update to next game iteration.
 		model.clearBoard();		
@@ -29,6 +26,7 @@ public class NextCommand extends Controller implements Undoable {
 		model.checkForDead();
 		model.spawnEntities();
 		model.incrementGameCounter();
+		model.updatePurchasablePlants();
 		// Add automatic welfare if payment period has elapsed 
 		if (model.getGameCounter() % Model.PAYMENT_PERIOD == 0) model.increaseBalance(Model.WELFARE);	
 		// Check if game is still runnable
@@ -43,7 +41,8 @@ public class NextCommand extends Controller implements Undoable {
 		// Set Model to last game state.
 		model.setEntities(lastEntities);
 		model.setBalance(lastBalance);
-		model.setGameCounter(lastGameCounter);
+		model.decrementGameCounter();
+		model.updatePurchasablePlants();
 	}
 
 	@Override

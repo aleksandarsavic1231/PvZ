@@ -281,7 +281,7 @@ public class View extends JFrame implements Listener {
 			addSunflowerButton.setEnabled(model.isSunflowerPurchasable());
 			break;
 		case TOGGLE_PEASHOOTER:
-			addPeaShooterButton.setEnabled(model.isSunflowerPurchasable());
+			addPeaShooterButton.setEnabled(model.isPeaShooterPurchasable());
 			break;
 		case TOGGLE_WALLNUT:
 			addWallnutButton.setEnabled(model.isWallnutPurchasable());

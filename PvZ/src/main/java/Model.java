@@ -113,7 +113,7 @@ public class Model {
 		return false;
 	}
 
-	// TODO: Make functional.
+	// TODO: Make lambda function
 	private void spawnRegularZombies(int n) {
 		for (int i = 0; i < n; i ++) {
 			// Spawn further than columns so player has time to increase balance
@@ -123,7 +123,7 @@ public class Model {
 		}
 	}
 	
-	// TODO: Make functional.
+	// TODO: Make lambda function
 	private void spawnPylonZombies(int n) {
 		for (int i = 0; i < n; i ++) {
 			// Spawn further than columns so player has time to increase balance
@@ -153,12 +153,11 @@ public class Model {
 		return false;
 	}
 	
-	public Entity spawnPlant(Point location) {
-		Entity spawnedPlant = null;
+	public void spawnPlant(Point location) {
 		// Check default conditions to execute
-		if (!isRunning || plantToggled == null || isOccupied(location)) return spawnedPlant;
-		// Ensure toggled plant is purchasable
+		if (!isRunning || plantToggled == null || isOccupied(location)) return;
 		boolean hasPurchased = false;
+		// Ensure toggled plant is purchasable
 		if (plantToggled == Plant.PEA_SHOOTER && isPeaShooterPurchasable()) {
 			balance -= PeaShooter.COST;
 			entities.add(new PeaShooter(location));
@@ -185,10 +184,7 @@ public class Model {
 			notifyOfSpawn(entities.getLast());
 			notifyOfBalance();
 			plantToggled = null;
-			spawnedPlant = entities.getLast();
-			return spawnedPlant;
 		}
-		return null;
 	}
 	
 	private Entity getEntity(int i, int j) {
@@ -255,7 +251,7 @@ public class Model {
 		updatePurchasablePlants();
 	}
 	
-	private void updatePurchasablePlants() {
+	public void updatePurchasablePlants() {
 		notifyListeners(Action.TOGGLE_PEASHOOTER);
 		notifyListeners(Action.TOGGLE_SUNFLOWER);
 		notifyListeners(Action.TOGGLE_WALLNUT);
@@ -274,11 +270,6 @@ public class Model {
 		return Walnut.COST <= balance && Walnut.isDeployable(gameCounter);
 	}
 	
-	/**
-	 * Check if the Bomb is purchasable.
-	 * 
-	 * @return boolean True if the Bomb is purchasable.
-	 */
 	public boolean isBombPurchasable() {
 		return Bomb.COST <= balance && Bomb.isDeployable(gameCounter);
 	}
@@ -302,8 +293,6 @@ public class Model {
 	public void updateRunnable() { if (isGameOver() || isRoundOver()) isRunning = false; }
 	
 	public boolean isRunning() { return isRunning; }
-	
-	public void incrementGameCounter()  { gameCounter++; } 
 
 	public void spawnEntities() { for(Entity entity: entities) notifyOfSpawn(entity); }
 	
@@ -325,12 +314,7 @@ public class Model {
 		entities.add(entity); 
 		notifyOfSpawn(entity);
 	}
-	
-	public void removeEntity(Entity entity) { 
-		entities.remove(entity); 
-		notifyOfRemove(entity);
-	} 
- 
+
 	public void removeEntities(LinkedList<Entity> entities) { 
 		this.entities.removeAll(entities); 
 		clearBoard();
@@ -352,10 +336,9 @@ public class Model {
 	
 	public int getGameCounter() { return gameCounter; }
 	
-	public void setGameCounter(int gameCounter) { 
-		this.gameCounter = gameCounter; 
-		updatePurchasablePlants();
-	}
+	public void decrementGameCounter() { gameCounter--; }
+	
+	public void incrementGameCounter()  { gameCounter++; } 
 	
 	public void notifyListeners(Action type) {
 		for(Listener listener : listeners) listener.handleEvent(new Event(type));

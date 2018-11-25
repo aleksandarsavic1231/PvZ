@@ -16,7 +16,6 @@ public class Walnut extends Alive {
 	
 	public Walnut(Point position) {
 		super(position, 20);
-		nextDeployable = 0;
 	}
 	
 	public static void setNextDeployable(int gameCounter) {
@@ -30,4 +29,13 @@ public class Walnut extends Alive {
 	public static void resetNextDeployable() {
 		nextDeployable = 0;
 	}
+	
+	public static int getNextDeployable() {
+		return nextDeployable;
+	}
+	
+	public static void hardSetNextDeployable(int newDeployable) {
+		nextDeployable = newDeployable;
+	}
+	
 }
