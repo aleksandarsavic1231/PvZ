@@ -22,6 +22,8 @@ public enum Action {
 	
 	UNDO,
 	
-	REDO
+	REDO,
+	
+	RESTART_GAME
 
 }

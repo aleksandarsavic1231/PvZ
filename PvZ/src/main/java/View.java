@@ -46,6 +46,7 @@ public class View extends JFrame implements Listener {
 	 * The buttons to add a Plant to PvZ board.
 	 */
 	private JButton 
+		nextIterationButton,
 		addPeaShooterButton, 
 		addSunflowerButton, 
 		addWallnutButton, 
@@ -204,7 +205,7 @@ public class View extends JFrame implements Listener {
 		addBombButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		addBombButton.addActionListener(new TogglePlantAction(model, Plant.BOMB));
 		
-		JButton nextIterationButton = new JButton("Next Iteration");
+		nextIterationButton = new JButton("Next Iteration");
 		nextIterationButton.setBorder(defaultBorder);
 		nextIterationButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		nextIterationButton.addActionListener(new NextAction(model, undoManager));
@@ -229,7 +230,7 @@ public class View extends JFrame implements Listener {
 		buttonPanel.add(nextIterationButton);
 		buttonPanel.add(undoButton);
 		buttonPanel.add(redoButton);
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 330, 10, 0));
+		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 260, 10, 0));
 		buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 				
 		JPanel footerPanel = new JPanel();
@@ -281,9 +282,11 @@ public class View extends JFrame implements Listener {
 			sunPointsLabel.setText("Sun Points: " + model.getBalance());
 			break;
 		case ROUND_OVER:
+			disableAllButtons();
 			JOptionPane.showMessageDialog(null, "Congratulations, you beat the round!");
 			break;
 		case GAME_OVER:
+			disableAllButtons();
 			JOptionPane.showMessageDialog(null, "You lost the round!");
 			break;
 		case TOGGLE_SUNFLOWER:
@@ -306,9 +309,23 @@ public class View extends JFrame implements Listener {
 		case REDO:
 			redoButton.setEnabled(undoManager.isRedoAvailable());
 			break;
+		case RESTART_GAME:
+			nextIterationButton.setEnabled(true);
+			break;
 		default:
 			break;
 		}  
+	}
+	
+	private void disableAllButtons() {
+		addPeaShooterButton.setEnabled(false); 
+		addSunflowerButton.setEnabled(false);
+		addWallnutButton.setEnabled(false);
+		addRepeaterButton.setEnabled(false);
+		addBombButton.setEnabled(false);
+		undoButton.setEnabled(false);
+		redoButton.setEnabled(false);
+		nextIterationButton.setEnabled(false);
 	}
 
 	/**

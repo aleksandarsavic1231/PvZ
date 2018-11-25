@@ -95,6 +95,7 @@ public class Model {
 		spawnRegularZombies(N_REGULAR_ZOMBIES);
 		spawnPylonZombies(N_PYLON_ZOMBIES);
 		plantToggled = null;
+		notifyListeners(Action.RESTART_GAME);
 	}
 
 	/**
