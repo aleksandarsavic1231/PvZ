@@ -19,7 +19,7 @@ public class TileCommand extends Controller implements Undoable {
 	 * We store all Entities instead of just the newly spawned Plant because 
 	 * NextCommand stores a deep clone of all Entities. Therefore if we tried 
 	 * to remove only the newly spawned Plant it would fail since the deep clone
-	 * has a different address in memory. Thus, we need to store the state of all 
+	 * has a different memory address. Thus, we need to store the state of all 
 	 * Entities prior to spawning the plant so we can revert back to the previous 
 	 * state.
 	 */

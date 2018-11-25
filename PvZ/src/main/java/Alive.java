@@ -30,7 +30,7 @@ public class Alive extends Entity {
 	 * @return int Health of this.
 	 */
 	public int getHealth() {
-		return this.health;
+		return health;
 	}
 	
 	/**
@@ -39,7 +39,11 @@ public class Alive extends Entity {
 	 * @param damage The damage received.
 	 */
 	public void takeDamage(int damage) {
-		this.health -= damage;
+		health -= damage;
+	}
+	
+	public void selfDestruct() {
+		health = 0;
 	}
 	
 }

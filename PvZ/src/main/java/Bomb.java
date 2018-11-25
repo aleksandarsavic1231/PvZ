@@ -1,10 +1,9 @@
 import java.awt.Point;
-import java.util.Random;
 
 import javax.swing.ImageIcon;
 
 /**
- * A Bomb is a device that randomly blows up.
+ * A Bomb is a device that randomly blows up after three game iterations.
  * 
  * @author Aleksandar1231 
  * @version 24 Nov 18
@@ -17,24 +16,9 @@ public class Bomb extends Shooter {
 	public static final int COST = 100;
 	
 	/**
-	 * Max turns for bomb to randomly blow up.
-	 */
-	private static final int MAX = 10;
-	
-	/**
-	 * Min turns for bomb to randomly blow up.
-	 */
-	private static final int MIN = 10;
-	
-	/**
-	 * Random turn for Bomb to randomly blow up.
-	 */
-	private static final int RANDOM_NUMBER = new Random().nextInt(MAX + 1 - MIN) + MIN;
-	
-	/**
 	 * Recharge time required by a Bomb objects to explode.
 	 */
-	public static final int RECHARGE_TIME = RANDOM_NUMBER;
+	public static final int RECHARGE_TIME = 3;
 	
 	/**
 	 * Damaged caused from this.
@@ -45,8 +29,6 @@ public class Bomb extends Shooter {
 	 * Cooldown time required to spawn a new Bomb object.
 	 */
 	public static final int SPAWN_COOLDOWN = 5;
-	
-	public static final int HEALTH = 2;
 	
 	/**
 	 * The next game iteration a Bomb can be deployed.
@@ -64,7 +46,8 @@ public class Bomb extends Shooter {
 	 * @param position The spawn location of this.
 	 */
 	public Bomb(Point position) {
-		super(position, HEALTH);
+		super(position, 1);
+		resetFireRate();
 	}
 	
 	/**
@@ -96,10 +79,6 @@ public class Bomb extends Shooter {
 	@Override
 	public void resetFireRate() {
 		setFireRate(RECHARGE_TIME);
-	}
-	
-	public void selfDestruct() {
-		takeDamage(HEALTH);
 	}
 	
 	public static void hardSetNextDeployable(int newDeployable) {
