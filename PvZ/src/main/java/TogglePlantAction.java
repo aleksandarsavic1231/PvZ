@@ -12,6 +12,8 @@ public class TogglePlantAction extends Controller implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// Only execute if game is running.
+		if (!getModel().isRunning()) return; 
 		new TogglePlantCommand(getModel(), plant).execute();
 	}
 

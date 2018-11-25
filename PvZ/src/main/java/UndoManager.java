@@ -18,6 +18,8 @@ public class UndoManager {
 	public void execute(Undoable command) {
 		command.execute();
 		undoStack.push(command);
+		// Reset undo stack if execution causes game to end
+		if(!((NextCommand)command).getModel().isRunning()) undoStack.clear();
 		// Reset redo stack on execution of new command
 		redoStack.clear();
 		notifyListeners();

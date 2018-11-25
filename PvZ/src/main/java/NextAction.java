@@ -9,6 +9,8 @@ public class NextAction extends Command implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// Only execute if game is running.
+		if (!getModel().isRunning()) return; 
 		getUndoManager().execute(new NextCommand(getModel()));
 	}
 	

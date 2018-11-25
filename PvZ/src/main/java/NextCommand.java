@@ -14,8 +14,6 @@ public class NextCommand extends Controller implements Undoable {
 	@Override
 	public void execute() {
 		Model model = getModel();
-		// Only execute if game is running.
-		if (!model.isRunning()) return;
 		// Save last state of current Model.
 		lastBalance = model.getBalance();
 		for(Entity entity: model.getEntities()) lastEntities.add(Entity.clone(entity)); 
