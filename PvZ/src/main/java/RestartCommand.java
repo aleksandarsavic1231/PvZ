@@ -15,6 +15,7 @@ public class RestartCommand extends Command implements Executable {
 		Sunflower.resetNextDeployable();
 		Walnut.resetNextDeployable();
 		CherryBomb.resetNextDeployable();
+		Repeater.resetNextDeployable();
 		model.init();
 		model.notifyOfBalance();
 	}
