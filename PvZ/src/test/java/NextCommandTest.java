@@ -26,42 +26,74 @@ public class NextCommandTest extends TestCase {
 	
 	@Test
 	public void testNextCommand() {
-		Zombie zombie = new RegularZombie(new Point(3, 0));
+		Zombie zombie = new RegularZombie(new Point(5, 0));
 		PeaShooter peaShooter = new PeaShooter(new Point(0, 0));
 		model.addEntity(zombie);
 		model.addEntity(peaShooter);
 		
 		nextCommand.execute();
-		// Test Bullet spawn 
-		boolean bulletSpawned = false;
+		boolean bulletSpawned = false; // Test Bullet spawn 
+		// Test correct location of PeaShooter
+		boolean isCorrectPeaShooterLocation = false;  
+		// Test correct location of PeaShooter
+		boolean isCorrectZombieLocation = false; 
 		for(Entity entity: model.getEntities()) {
-			if (entity instanceof Bullet) bulletSpawned = true;
+			Point location = entity.getPosition();
+			if (entity instanceof Bullet && location.x == 1 && location.y == 0) bulletSpawned = true;
+			if (entity instanceof PeaShooter && location.x == 0 && location.y == 0) isCorrectPeaShooterLocation = true;
+			if (entity instanceof Zombie && location.x == 4 && location.y == 0) isCorrectZombieLocation = true;
 		}
 		assertTrue(bulletSpawned);
+		assertTrue(isCorrectPeaShooterLocation);
+		assertTrue(isCorrectZombieLocation);
 		// Game counter should increase
 		assertEquals(model.getGameCounter(), 1);
 		// Test game is still running
 		assertTrue(model.getIsRunning());
-		
+		// Asert Zombie and PeaShooter health is default
+		assertEquals(zombie.getHealth(), RegularZombie.INITIAL_HEALTH);
+		assertEquals(peaShooter.getHealth(), PeaShooter.INITIAL_HEALTH);
+
 		nextCommand.undo();
-		// Test Bullet spawn 
-		bulletSpawned = false;
+		// Test undo of Bullet spawn 
+		boolean bulletRemoved = true;
+		// Test correct location of PeaShooter
+		isCorrectPeaShooterLocation = false;  
+		// Test correct location of PeaShooter
+		isCorrectZombieLocation = false; 
 		for(Entity entity: model.getEntities()) {
-			if (entity instanceof Bullet) bulletSpawned = true;
+			Point location = entity.getPosition();
+			if (entity instanceof Bullet) bulletRemoved = false;
+			if (entity instanceof PeaShooter && location.x == 0 && location.y == 0) isCorrectPeaShooterLocation = true;
+			if (entity instanceof Zombie && location.x == 5 && location.y == 0) isCorrectZombieLocation = true;
 		}
-		assertFalse(bulletSpawned);
-		// Game counter should increase
+		assertTrue(bulletRemoved);
+		assertTrue(isCorrectPeaShooterLocation);
+		assertTrue(isCorrectZombieLocation);
+		// Game counter should decrease
 		assertEquals(model.getGameCounter(), 0);
 		// Test game is still running
 		assertTrue(model.getIsRunning());
+		// Asert Zombie and PeaShooter health is default
+		assertEquals(zombie.getHealth(), RegularZombie.INITIAL_HEALTH);
+		assertEquals(peaShooter.getHealth(), PeaShooter.INITIAL_HEALTH);
 
 		nextCommand.redo();
-		// Test Bullet spawn 
+		// Test redo of Bullet spawn 
 		bulletSpawned = false;
+		// Test correct location of PeaShooter
+		isCorrectPeaShooterLocation = false;  
+		// Test correct location of PeaShooter
+		isCorrectZombieLocation = false; 
 		for(Entity entity: model.getEntities()) {
-			if (entity instanceof Bullet) bulletSpawned = true;
+			Point location = entity.getPosition();
+			if (entity instanceof Bullet && location.x == 1 && location.y == 0) bulletSpawned = true;
+			if (entity instanceof PeaShooter && location.x == 0 && location.y == 0) isCorrectPeaShooterLocation = true;
+			if (entity instanceof Zombie && location.x == 4 && location.y == 0) isCorrectZombieLocation = true;
 		}
 		assertTrue(bulletSpawned);
+		assertTrue(isCorrectPeaShooterLocation);
+		assertTrue(isCorrectZombieLocation);
 		// Game counter should increase
 		assertEquals(model.getGameCounter(), 1);
 		// Test game is still running
