@@ -1,16 +1,37 @@
 import java.awt.Point;
 import java.util.LinkedList;
 
+/**
+ * Tile command causes Sun to be collected or a Plant to spawn.
+ * 
+ * @author kylehorne
+ * @version 25 Nov 18
+ */
 public class TileCommand extends Controller implements Undoable {
 	
+	/**
+	 * The location of the tile selected.
+	 */
 	private Point tile;
 	
+	/**
+	 * The last state of Model balance.
+	 */
 	private int lastBalance;
 
+	/**
+	 * The last state of toggled plant.
+	 */
 	private Plant lastToggledPlant;
 	
+	/**
+	 * The last deployable time of toggled plant.
+	 */
 	private int lastDeployable;
 	
+	/**
+	 * Whether sun was found.
+	 */
 	private boolean foundSun;
 	
 	/**
@@ -25,6 +46,12 @@ public class TileCommand extends Controller implements Undoable {
 	 */
 	private LinkedList<Entity> lastEntities;
 	
+	/**
+	 * Constructor.
+	 * 
+	 * @param model The Model to this NextCommand Object.
+	 * @param tile The location of the tile selected.
+	 */
 	public TileCommand(Model model, Point tile) {
 		super(model);
 		this.tile = tile;
