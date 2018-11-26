@@ -20,7 +20,9 @@ public class UndoManagerTest extends TestCase {
 	
 	@Test
 	public void testExecute() {
-		
+		Undoable command = null;
+		undoManager.execute(command);
+		assertTrue(undoManager.isUndoAvailable());
 	}
 	
 	@Test
@@ -29,18 +31,23 @@ public class UndoManagerTest extends TestCase {
 	}
 	
 	@Test
-	public void TestRedo() {
-		
+	public void testRedo() {
+		Undoable command = null;
+		undoManager.execute(command);
+		undoManager.undo();
 	}
 	
 	@Test
-	public void TestClear() {
-		
+	public void testClear() {
+		undoManager.clearUndoManager();
+		assertFalse(undoManager.isRedoAvailable() && undoManager.isRedoAvailable());
 	}
 	
 	@Test
 	public void testIsUndoAvailable() {
-		
+		Undoable command = null;
+		undoManager.execute(command);
+		assertTrue(undoManager.isUndoAvailable());
 	}
 	
 	@Test
