@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
-public class TogglePlantCommandTest extends TestCase {
+public class ToggleCommandTest extends TestCase {
 	
 	private Sunflower sunflower;
 
