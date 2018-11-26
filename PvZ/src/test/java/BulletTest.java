@@ -38,15 +38,10 @@ public class BulletTest extends TestCase {
 		bullet.updatePosition();
 		assertEquals(bullet.getPosition(), new Point(1, 0));
 		
-		// Test for unexpected position on update position when unlocked
-		assertNotEquals(bullet.getPosition(), new Point(-1, 0));
-		
-		// Test update position when locked
+		// Test for broken code
+		// Update position when locked
 		bullet.updatePosition();
-		assertEquals(bullet.getPosition(), new Point(1, 0));
-		
-		// Test for unexpected position on update position when locked
-		assertNotEquals(bullet.getPosition(), new Point(0, 0));
+		assertNotEquals(bullet.getPosition(), new Point(2, 0));
 	}
 	
 	@Test

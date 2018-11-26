@@ -1,3 +1,5 @@
+import static org.junit.Assert.assertNotEquals;
+
 import java.awt.Point;
 
 import org.junit.After;
@@ -12,7 +14,7 @@ public class ZombieTest extends TestCase  {
 
 	@Before
 	public void setUp() throws Exception {
-		this.zombie = new RegularZombie(new Point(0, 0));
+		this.zombie = new RegularZombie(new Point(1, 0));
 	}
 
 	@After
@@ -25,16 +27,21 @@ public class ZombieTest extends TestCase  {
 		// Test update position when unlocked
 		zombie.unlock();
 		zombie.updatePosition();
-		assertEquals(zombie.getPosition(), new Point(-1, 0));
+		assertEquals(zombie.getPosition(), new Point(0, 0));
 		
-		// Test update position when locked
+		// Test for broken code
+		// Update position when locked
 		zombie.updatePosition();
-		assertEquals(zombie.getPosition(), new Point(-1, 0));
+		assertNotEquals(zombie.getPosition(), new Point(-1, 0));
 	}
 	
 	@Test
 	public void testNextPosition() {
-		assertEquals(zombie.nextPosition(), new Point(-1, 0));
+		// Test for expected result
+		assertEquals(zombie.nextPosition(), new Point(0, 0));
+		
+		// Test for broken code 
+		assertNotEquals(zombie.nextPosition(), new Point(-1, 0));
 	}
 
 }

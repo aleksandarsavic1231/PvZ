@@ -33,7 +33,7 @@ public class AllTests extends TestCase {
 	public static void main(String[] args) { 
 		junit.textui.TestRunner.run(AllTests.class);
 	} 
-	
+
 	public static Test suite() {
 		TestSuite suite = new TestSuite(); 
 		suite.addTest(new TestSuite(AliveTest.class)); 	

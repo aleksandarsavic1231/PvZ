@@ -1,5 +1,3 @@
-import java.awt.Point;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,8 +6,9 @@ import junit.framework.TestCase;
 
 public class UndoManagerTest extends TestCase {
 
-	private UndoManager undoManager;
 	private Model model;
+	
+	private UndoManager undoManager;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -25,12 +24,10 @@ public class UndoManagerTest extends TestCase {
 	
 	@Test
 	public void testExecute() {
-
 		NextCommand command = new NextCommand(model);
 		undoManager.execute(command);
 		assertTrue(undoManager.isUndoAvailable());
 		assertFalse(undoManager.isRedoAvailable());
-		
 	}
 	
 	@Test
@@ -39,12 +36,7 @@ public class UndoManagerTest extends TestCase {
 		undoManager.execute(command);
 		undoManager.undo();
 		assertFalse(undoManager.isUndoAvailable());
-
-		TileCommand tileAction = new TileCommand(new Model(), new Point(0, 0));
-		undoManager.execute(tileAction);
-		
-		assertTrue(undoManager.isUndoAvailable());
-		assertFalse(undoManager.isRedoAvailable());
+		assertTrue(undoManager.isRedoAvailable());
 
 	}
 	
@@ -61,6 +53,7 @@ public class UndoManagerTest extends TestCase {
 		NextCommand command = new NextCommand(model);
 		undoManager.execute(command);
 		assertTrue(undoManager.isUndoAvailable());
+		assertFalse(undoManager.isRedoAvailable());
 	}
 	
 	@Test
@@ -69,7 +62,7 @@ public class UndoManagerTest extends TestCase {
 		undoManager.execute(command);
 		undoManager.undo();
 		assertTrue(undoManager.isRedoAvailable());
-		
+		assertFalse(undoManager.isUndoAvailable());
 	}
 
 }

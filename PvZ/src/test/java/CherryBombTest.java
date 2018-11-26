@@ -24,9 +24,6 @@ public class CherryBombTest extends TestCase {
 	
 	@Test
 	public void testDeployable() {
-		// Test whether Bomb is deployable when game begins
-		assertTrue(CherryBomb.isDeployable(0));
-		
 		// Test for unexpected result when Bomb is deployed after being spawned
 		CherryBomb.setNextDeployable(0);
 		assertFalse(CherryBomb.isDeployable(0));
