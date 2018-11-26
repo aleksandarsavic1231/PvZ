@@ -74,7 +74,7 @@ public class Model {
 	/**
 	 * The number of Pylon Zombies to spawn.
 	 */
-	public static final int N_PYLON_ZOMBIES = 0;
+	public static final int N_PYLON_ZOMBIES = 1;
 
 	/**
 	 * Constructor.
