@@ -92,4 +92,4 @@
 + The next deliverable is set to include multiple plants with varying purposes, and different zombie types to provide additional challenges. An undo/redo button will be added to allow players to correct any mistakes they make while playing the game.
 
 **UPDATE: MILESTONE 3**
-+The final deliverable will require a save/load function so the user can resume their game at a later time. It will also include a level editor so that users may customize their experience and challenge themselves.  Finally, there is potential of altering the game from turn-based to real-time.
++ The final deliverable will require a save/load function so the user can resume their game at a later time. It will also include a level editor so that users may customize their experience and challenge themselves.  Finally, there is potential of altering the game from turn-based to real-time.
