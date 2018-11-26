@@ -9,7 +9,7 @@ public class Command extends Controller {
 	/**
 	 * The UndoManager of this Command Object.
 	 */
-	private UndoManager undoManager;
+	private final UndoManager undoManager;
 	
 	/**
 	 * Constructor.

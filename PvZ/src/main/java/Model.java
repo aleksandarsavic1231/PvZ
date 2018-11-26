@@ -202,7 +202,7 @@ public class Model {
 			entities.add(new Repeater(location));
 			Repeater.setNextDeployable(gameCounter);
 			hasPurchased = true;
-		} else if(toggledPlant == Plant.BOMB && isCherryBombPurchasable()) {
+		} else if(toggledPlant == Plant.CHERRY_BOMB && isCherryBombPurchasable()) {
 			balance -= CherryBomb.COST;
 			entities.add(new CherryBomb(location));
 			CherryBomb.setNextDeployable(gameCounter);
