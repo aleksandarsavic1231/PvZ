@@ -192,7 +192,7 @@ public class Model {
 			entities.add(new Sunflower(location));
 			Sunflower.setNextDeployable(gameCounter);
 			hasPurchased = true;
-		} else if (toggledPlant == Plant.WALNUT && isWallnutPurchasable()) {
+		} else if (toggledPlant == Plant.WALNUT && isWalnutPurchasable()) {
 			balance -= Walnut.COST;
 			entities.add(new Walnut(location));
 			Walnut.setNextDeployable(gameCounter);
@@ -223,7 +223,7 @@ public class Model {
 	 * @param j The j coordinate.
 	 * @return Entity The Entity at location
 	 */
-	private LinkedList<Entity> getEntity(int i, int j) {
+	private LinkedList<Entity> getEntities(int i, int j) {
 		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
 		for(Entity entity : entities) {
 			Point location = entity.getPosition();
@@ -242,7 +242,7 @@ public class Model {
 		for(int i = location.x - 1; i <= location.x + 1; i++) {
 			for(int j = location.y - 1; j <= location.y+1; j++) {
 				// Get all Entities at this tile
-				LinkedList<Entity> tempEntities = getEntity(i, j);
+				LinkedList<Entity> tempEntities = getEntities(i, j);
 				for(Entity entity: tempEntities) {
 					// If the Entities at this tile are instances of Zombie they take damage
 					if(Board.isValidLocation(j, i) && entity != null && entity instanceof Zombie) 
@@ -348,7 +348,7 @@ public class Model {
 	 * 
 	 * @return boolean True if a Walnut is purchasable.
 	 */
-	public boolean isWallnutPurchasable() {
+	public boolean isWalnutPurchasable() {
 		return Walnut.COST <= balance && Walnut.isDeployable(gameCounter);
 	}
 	
@@ -563,6 +563,13 @@ public class Model {
 	public void addActionListener(Listener listener) {
 		listeners.add(listener);
 		notifyOfBalance(); // Notify listener of initial balance
+	}
+	
+	/**
+	 * Clear Entity list.
+	 */
+	public void clearEntities() {
+		entities.clear();
 	}
 	
 }

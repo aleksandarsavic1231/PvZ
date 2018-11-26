@@ -40,13 +40,19 @@ public class PeaShooter extends Shooter {
 	 */
 	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/customPeaShooter.png");
 	
+	
+	/**
+	 * The initial health of PeaShooter objects.
+	 */
+	public static final int INITIAL_HEALTH = 5;
+	
 	/**
 	 * Constructor.
 	 * 
 	 * @param position The spawn location of this.
 	 */
 	public PeaShooter(Point position) {
-		super(position, 5);
+		super(position, INITIAL_HEALTH);
 	}
 	
 	/**

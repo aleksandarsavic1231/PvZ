@@ -23,6 +23,7 @@ public class EntityEventTest extends TestCase {
 	@After
 	public void tearDown() throws Exception {
 		event = null;
+		peaShooter = null;
 	}
 	
 	@Test 

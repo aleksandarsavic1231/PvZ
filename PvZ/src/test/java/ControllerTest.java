@@ -21,6 +21,7 @@ public class ControllerTest extends TestCase {
 	@After
 	public void tearDown() throws Exception {
 		controller = null;
+		model = null; 
 	}
 	
 	@Test 

@@ -21,6 +21,7 @@ public class CommandTest extends TestCase {
 	@After
 	public void tearDown() throws Exception {
 		command = null;
+		undoManager = null;
 	}
 	
 	@Test 
