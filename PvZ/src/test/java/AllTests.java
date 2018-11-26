@@ -13,11 +13,15 @@ import junit.framework.TestSuite;
 	CherryBomb.class,
 	CommandTest.class,
 	ControllerTest.class,
-	EntityTest.class, 
 	EntityEventTest.class,
+	EntityTest.class,
 	EventTest.class,
+	ModelTest.class,
+	NextCommandTest.class,
 	PeaShooterTest.class, 
 	SunflowerTest.class, 
+	UndoManagerTest.class,
+	WalnutTest.class,
 	ZombieTest.class 
 })
 public class AllTests extends TestCase {
@@ -33,11 +37,15 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(CommandTest.class));
 		suite.addTest(new TestSuite(CherryBomb.class)); 
 		suite.addTest(new TestSuite(Controller.class)); 
-		suite.addTest(new TestSuite(EntityTest.class));
 		suite.addTest(new TestSuite(EntityEventTest.class));
+		suite.addTest(new TestSuite(EntityTest.class));
 		suite.addTest(new TestSuite(EventTest.class));
+		suite.addTest(new TestSuite(ModelTest.class));
+		suite.addTest(new TestSuite(NextCommandTest.class));
 		suite.addTest(new TestSuite(PeaShooterTest.class)); 
 		suite.addTest(new TestSuite(SunflowerTest.class)); 	
+		suite.addTest(new TestSuite(UndoManagerTest.class)); 	
+		suite.addTest(new TestSuite(WalnutTest.class)); 	
 		suite.addTest(new TestSuite(ZombieTest.class)); 
 		return suite;
 	} 
