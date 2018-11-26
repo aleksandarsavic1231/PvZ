@@ -1,3 +1,5 @@
+import static org.junit.Assert.assertNotEquals;
+
 import java.awt.Point;
 
 import org.junit.After;
@@ -22,7 +24,8 @@ public class SunflowerTest extends TestCase {
 
 	@Test
 	public void testDeployable() {
-		// Test whether Sunflower is deployable when game begins
+		// Test reset deployable
+		Sunflower.resetNextDeployable();
 		assertTrue(Sunflower.isDeployable(0));
 		
 		// Test whether Sunflower is deployable after being spawned
@@ -31,10 +34,15 @@ public class SunflowerTest extends TestCase {
 		
 		// Test whether Sunflower is deployable after waiting cooldown period
 		assertTrue(Sunflower.isDeployable(Sunflower.SPAWN_COOLDOWN));
-		
-		// Test reset deployable
-		Sunflower.resetNextDeployable();
-		assertTrue(Sunflower.isDeployable(0));
+				
+		// Test hard set of deployable
+		Sunflower.hardSetNextDeployable(5);
+		assertEquals(Sunflower.getNextDeployable(), 5);
+				
+		// Test for broken code and negative field
+		Sunflower.hardSetNextDeployable(-1);
+		assertNotEquals(Sunflower.getNextDeployable(), 5);
+		assertEquals(Sunflower.getNextDeployable(), -1);
 	}
 	
 	@Test 
@@ -44,7 +52,9 @@ public class SunflowerTest extends TestCase {
 		sunflower.setFireRate(n);
 		for(int i = 0; i < n; i++)  assertFalse(sunflower.canShoot());
 		assertTrue(sunflower.canShoot()); // Can now shoot
-		//assertFalse(peaShooter.canShoot());
+		
+		// Test for broken code (must wait cool down period)
+		assertFalse(sunflower.canShoot()); 
 	}
 	
 	@Test 
@@ -52,8 +62,10 @@ public class SunflowerTest extends TestCase {
 		// Reset fire rate and test can shoot
 		sunflower.resetFireRate();
 		for(int i = 0; i < Sunflower.RECHARGE_TIME; i++) assertFalse(sunflower.canShoot());
-		assertTrue(sunflower.canShoot()); 
-		assertFalse(sunflower.canShoot());
+		assertTrue(sunflower.canShoot());  // Can now shoot
+		
+		// Test for broken code (must wait cool down period)
+		assertFalse(sunflower.canShoot()); 
 	}
 
 }

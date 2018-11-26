@@ -6,22 +6,23 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
-public class WalnutTest extends TestCase {
+public class TileCommandTest extends TestCase {
 	
-	private Walnut walnut;
+	private Sunflower sunflower;
 
 	@Before
 	public void setUp() throws Exception {
-		walnut = new Walnut(new Point(0, 0));
+		sunflower = new Sunflower(new Point(0, 0));
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		walnut = null;
+		sunflower = null;
 	}
 	
 	@Test
 	public void test() {
 		
 	}
+
 }
