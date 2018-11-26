@@ -34,14 +34,12 @@ public class NextCommand extends Controller implements Undoable {
 		// Add automatic welfare if payment period has elapsed 
 		if (model.getGameCounter() % Model.PAYMENT_PERIOD == 0) model.increaseBalance(Model.WELFARE);	
 		// Check if game is still runnable
-		model.updateRunnable();
+		model.updateIsRunning();
 	}
 
 	@Override
 	public void undo() {
 		Model model = getModel();
-		// Only undo if game is running.
-		if (!model.isRunning()) return;
 		// Set Model to last game state.
 		model.setEntities(lastEntities);
 		model.setBalance(lastBalance);

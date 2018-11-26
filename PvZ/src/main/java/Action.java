@@ -18,7 +18,7 @@ public enum Action {
 	
 	TOGGLE_REPEATER,
 	
-	TOGGLE_BOMB,
+	TOGGLE_CHERRY_BOMB,
 	
 	UNDO,
 	

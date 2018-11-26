@@ -266,7 +266,7 @@ public class View extends JFrame implements Listener {
 			else if (entity instanceof Sun) tiles[i][j].setIcon(Sun.IMAGE);
 			else if (entity instanceof Walnut) tiles[i][j].setIcon(Walnut.IMAGE);
 			else if (entity instanceof Repeater) tiles[i][j].setIcon(Repeater.IMAGE);
-			else if (entity instanceof Bomb) tiles[i][j].setIcon(Bomb.IMAGE);
+			else if (entity instanceof CherryBomb) tiles[i][j].setIcon(CherryBomb.IMAGE);
 			break;
 		}
 		case REMOVE_ENTITY: {
@@ -300,8 +300,8 @@ public class View extends JFrame implements Listener {
 			break;
 		case TOGGLE_REPEATER:
 			addRepeaterButton.setEnabled(model.isRepeaterPurchasable());
-		case TOGGLE_BOMB:
-			addBombButton.setEnabled(model.isBombPurchasable());
+		case TOGGLE_CHERRY_BOMB:
+			addBombButton.setEnabled(model.isCherryBombPurchasable());
 			break;
 		case UNDO:
 			undoButton.setEnabled(undoManager.isUndoAvailable());

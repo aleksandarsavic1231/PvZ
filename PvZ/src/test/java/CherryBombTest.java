@@ -8,13 +8,13 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
-public class BombTest extends TestCase {
+public class CherryBombTest extends TestCase {
 	
-	private Bomb cherryBomb;
+	private CherryBomb cherryBomb;
 
 	@Before
 	public void setUp() throws Exception {
-		cherryBomb = new Bomb(new Point(0, 0));
+		cherryBomb = new CherryBomb(new Point(0, 0));
 	}
 
 	@After
@@ -25,27 +25,27 @@ public class BombTest extends TestCase {
 	@Test
 	public void testDeployable() {
 		// Test whether Bomb is deployable when game begins
-		assertTrue(Bomb.isDeployable(0));
+		assertTrue(CherryBomb.isDeployable(0));
 		
 		// Test for unexpected result when Bomb is deployed after being spawned
-		Bomb.setNextDeployable(0);
-		assertFalse(Bomb.isDeployable(0));
+		CherryBomb.setNextDeployable(0);
+		assertFalse(CherryBomb.isDeployable(0));
 		
 		// Test whether Bomb is deployable after waiting cooldown period
-		assertTrue(Bomb.isDeployable(Bomb.SPAWN_COOLDOWN));
+		assertTrue(CherryBomb.isDeployable(CherryBomb.SPAWN_COOLDOWN));
 		
 		// Test reset deployable
-		Bomb.resetNextDeployable();
-		assertTrue(Bomb.isDeployable(0));
+		CherryBomb.resetNextDeployable();
+		assertTrue(CherryBomb.isDeployable(0));
 		
 		// Test hard set of deployable
-		Bomb.hardSetNextDeployable(5);
-		assertEquals(Bomb.getNextDeployable(), 5);
+		CherryBomb.hardSetNextDeployable(5);
+		assertEquals(CherryBomb.getNextDeployable(), 5);
 		
 		// Test for broken code and negative field
-		Bomb.hardSetNextDeployable(-1);
-		assertNotEquals(Bomb.getNextDeployable(), 5);
-		assertEquals(Bomb.getNextDeployable(), -1);
+		CherryBomb.hardSetNextDeployable(-1);
+		assertNotEquals(CherryBomb.getNextDeployable(), 5);
+		assertEquals(CherryBomb.getNextDeployable(), -1);
 	}
 	
 	@Test 
@@ -64,7 +64,7 @@ public class BombTest extends TestCase {
 	public void testResetFireRate() {
 		// Reset fire rate and test can shoot
 		cherryBomb.resetFireRate();
-		for(int i = 0; i < Bomb.DEONATION_TIME; i++) assertFalse(cherryBomb.canShoot());
+		for(int i = 0; i < CherryBomb.DEONATION_TIME; i++) assertFalse(cherryBomb.canShoot());
 		assertTrue(cherryBomb.canShoot());  // Can now shoot
 		
 		// Test for broken code (must wait cool down period)
