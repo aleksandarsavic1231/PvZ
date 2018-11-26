@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
-public class TileCommandTest extends TestCase {
+public class TogglePlantCommandTest extends TestCase {
 
 	@Before
 	public void setUp() throws Exception { }
