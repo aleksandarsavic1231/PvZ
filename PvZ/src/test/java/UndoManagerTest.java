@@ -1,3 +1,5 @@
+import java.awt.Point;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,38 +22,24 @@ public class UndoManagerTest extends TestCase {
 	
 	@Test
 	public void testExecute() {
-		Undoable command = null;
-		undoManager.execute(command);
-		assertTrue(undoManager.isUndoAvailable());
-	}
-	
-	@Test
-	public void testUndo() {
+		TileCommand tileAction = new TileCommand(new Model(), new Point(0, 0));
+		undoManager.execute(tileAction);
 		
+		assertTrue(undoManager.isUndoAvailable());
+		assertFalse(undoManager.isRedoAvailable());
 	}
 	
 	@Test
-	public void testRedo() {
-		Undoable command = null;
-		undoManager.execute(command);
-		undoManager.undo();
-	}
+	public void testUndo() { //TODO }
+	
+	@Test
+	public void testRedo() { //TODO }
 	
 	@Test
 	public void testClear() {
 		undoManager.clearUndoManager();
-		assertFalse(undoManager.isRedoAvailable() && undoManager.isRedoAvailable());
+		assertFalse(undoManager.isUndoAvailable());
+		assertFalse(undoManager.isRedoAvailable());
 	}
-	
-	@Test
-	public void testIsUndoAvailable() {
-		Undoable command = null;
-		undoManager.execute(command);
-		assertTrue(undoManager.isUndoAvailable());
-	}
-	
-	@Test
-	public void testIsRedoAvailable() {
-		
-	}
+
 }
