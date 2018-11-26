@@ -1,3 +1,9 @@
+/**
+ * Collection of actions triggered by interacting with the User Interface
+ * 
+ * @author kylehorne
+ *@version Nov 25, 2018
+ */
 public enum Action {
 
 	SPAWN_ENTITY,
