@@ -261,7 +261,9 @@ public class View extends JFrame implements Listener {
 				else tiles[i][j].setIcon(RegularZombie.HURT_ZOMBIE);
 			} else if (entity instanceof PylonZombie) {
 				if (((PylonZombie) entity).getHealth() == PylonZombie.INITIAL_HEALTH) tiles[i][j].setIcon(PylonZombie.HEALTHY_PYLON);
-				else tiles[i][j].setIcon(PylonZombie.DAMAGED_PYLON);
+				else if (((PylonZombie) entity).getHealth() > 6) tiles[i][j].setIcon(PylonZombie.DAMAGED_PYLON);
+				else if (((PylonZombie) entity).getHealth() > 3) tiles[i][j].setIcon(RegularZombie.HEALTHY_ZOMBIE);
+				else tiles[i][j].setIcon(RegularZombie.HURT_ZOMBIE);
 			}
 			else if (entity instanceof PeaShooter) tiles[i][j].setIcon(PeaShooter.IMAGE);
 			else if (entity instanceof Sunflower) tiles[i][j].setIcon(Sunflower.IMAGE);
