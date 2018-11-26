@@ -4,7 +4,7 @@ import java.util.ListIterator;
 import java.util.Random;
 
 /** 
- * The Model contains the game state and logic.
+ * The Model contains the game state and logic of PvZ.
  * 
  * @author kylehorne
  * @version 24 Nov 18

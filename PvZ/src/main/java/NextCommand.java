@@ -16,7 +16,13 @@ public class NextCommand extends Controller implements Undoable {
 		Model model = getModel();
 		// Save last state of current Model.
 		lastBalance = model.getBalance();
-		for(Entity entity: model.getEntities()) lastEntities.add(Entity.clone(entity)); 
+		for(Entity entity: model.getEntities())
+			try {
+				lastEntities.add(Entity.clone(entity));
+			} catch (UnimplementedEntity e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
 		// Update to next game iteration.
 		model.clearBoard();		
 		model.updateShooters();

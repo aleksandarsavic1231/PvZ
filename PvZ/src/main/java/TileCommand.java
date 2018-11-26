@@ -50,7 +50,13 @@ public class TileCommand extends Controller implements Undoable {
 			executeSpawnPlant(model);
 		} else {
 			model.setTogglePlant(lastToggledPlant);
-			for(Entity entity: getModel().getEntities()) lastEntities.add(Entity.clone(entity)); 
+			for(Entity entity: getModel().getEntities())
+				try {
+					lastEntities.add(Entity.clone(entity));
+				} catch (UnimplementedEntity e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
 		}
 		
 	}
@@ -96,7 +102,13 @@ public class TileCommand extends Controller implements Undoable {
 			lastDeployable = Repeater.getNextDeployable();
 			break;
 		}
-		for(Entity entity: model.getEntities()) lastEntities.add(Entity.clone(entity)); 
+		for(Entity entity: model.getEntities())
+			try {
+				lastEntities.add(Entity.clone(entity));
+			} catch (UnimplementedEntity e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
 		lastBalance = model.getBalance();	
 		model.spawnPlant(tile);
 	}

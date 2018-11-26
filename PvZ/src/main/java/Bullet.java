@@ -3,7 +3,7 @@ import java.awt.Point;
 import javax.swing.ImageIcon;
 
 /**
- * Bullet is a Entity that can move and apply damage on impact with enemy forces.
+ * Bullet is a Entity that can move and apply damage on collision.
  * 
  * @author kylehorne
  * @version 28 Oct 18
@@ -11,7 +11,9 @@ import javax.swing.ImageIcon;
 public class Bullet extends Entity implements Moveable {
 	
 	/**
-	 * The damage of this.
+	 * The damage of this Bullet.
+	 * 
+	 * Damage is dependent on who fired the Bullet (therefore not static).
 	 */
 	private int damage;
 	
@@ -26,15 +28,15 @@ public class Bullet extends Entity implements Moveable {
 	private boolean locked;
 	
 	/**
-	 * Icon image of Bullet objects.
+	 * Icon image of Bullet Objects.
 	 */
 	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/customBullet.png");
 	
 	/**
 	 * Constructor.
 	 * 
-	 * @param position Location of this.
-	 * @param damage Damage of this.
+	 * @param position Location of this Bullet Object.
+	 * @param damage Damage of this Bullet Object.
 	 */
 	public Bullet(Point position, int damage) {
 		super(position);
@@ -43,9 +45,9 @@ public class Bullet extends Entity implements Moveable {
 	}
 
 	/**
-	 * Get the damage of this.
+	 * Get the damage of this Bullet Object.
 	 * 
-	 * @return int The damage of this.
+	 * @return int The damage of this Bullet Object.
 	 */
 	public int getDamage() {
 		return damage;

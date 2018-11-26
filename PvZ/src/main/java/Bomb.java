@@ -16,12 +16,12 @@ public class Bomb extends Shooter {
 	public static final int COST = 150;
 	
 	/**
-	 * Recharge time required by a Bomb objects to explode.
+	 * Time required by Bomb Objects to explode.
 	 */
-	public static final int RECHARGE_TIME = 3;
+	public static final int DEONATION_TIME = 3;
 	
 	/**
-	 * Damaged caused from this.
+	 * Damaged caused from Bomb Objects.
 	 */
 	public static final int DAMAGE = 100;
 
@@ -31,19 +31,19 @@ public class Bomb extends Shooter {
 	public static final int SPAWN_COOLDOWN = 5;
 	
 	/**
-	 * The next game iteration a Bomb can be deployed.
+	 * The next game iteration a Bomb may be deployed.
 	 */
 	private static int nextDeployable;
 	
 	/**
-	 * Icon image of Bomb objects.
+	 * Icon image of Bomb Objects.
 	 */
 	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/cherryBomb.png");
 	
 	/**
 	 * Constructor.
 	 * 
-	 * @param position The spawn location of this.
+	 * @param position The spawn location of this Bomb Object.
 	 */
 	public Bomb(Point position) {
 		super(position, 1);
@@ -70,7 +70,7 @@ public class Bomb extends Shooter {
 	}
 	
 	/**
-	 * Reset next deployable time of a Bomb object.
+	 * Reset the next deployable time of a Bomb object.
 	 */
 	public static void resetNextDeployable() {
 		nextDeployable = 0;
@@ -78,13 +78,23 @@ public class Bomb extends Shooter {
 	
 	@Override
 	public void resetFireRate() {
-		setFireRate(RECHARGE_TIME);
+		setFireRate(DEONATION_TIME);
 	}
 	
+	/**
+	 * Set a specific game iteration that a Bomb Object may be deployed.
+	 * 
+	 * @param newDeployable The specific game iteration a Bomb Object may be deployed.
+	 */
 	public static void hardSetNextDeployable(int newDeployable) {
 		nextDeployable = newDeployable;
 	}
 	
+	/**
+	 * Get the game iteration a new Bomb Object may be deployed.
+	 * 
+	 * @return int The next deployable game iteration a Bomb Object may be deployed.
+	 */
 	public static int getNextDeployable() {
 		return nextDeployable;
 	}

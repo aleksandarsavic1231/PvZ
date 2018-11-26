@@ -1,3 +1,5 @@
+import static org.junit.Assert.assertNotEquals;
+
 import java.awt.Point;
 
 import org.junit.After;
@@ -22,7 +24,11 @@ public class BulletTest extends TestCase {
 
 	@Test
 	public void testGetDamage() {
+		// Test for expected result
 		assertEquals(bullet.getDamage(), 5);
+		
+		// Test for broken code
+		assertNotEquals(bullet.getDamage(), -1);
 	}
 	
 	@Test
@@ -32,14 +38,24 @@ public class BulletTest extends TestCase {
 		bullet.updatePosition();
 		assertEquals(bullet.getPosition(), new Point(1, 0));
 		
+		// Test for unexpected position on update position when unlocked
+		assertNotEquals(bullet.getPosition(), new Point(-1, 0));
+		
 		// Test update position when locked
 		bullet.updatePosition();
 		assertEquals(bullet.getPosition(), new Point(1, 0));
+		
+		// Test for unexpected position on update position when locked
+		assertNotEquals(bullet.getPosition(), new Point(0, 0));
 	}
 	
 	@Test
 	public void testNextPosition() {
+		// Test for expected result
 		assertEquals(bullet.nextPosition(), new Point(1, 0));
+		
+		// Test for broken code 
+		assertNotEquals(bullet.nextPosition(), new Point(0, 0));
 	}
 
 }

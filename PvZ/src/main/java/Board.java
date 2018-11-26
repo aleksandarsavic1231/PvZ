@@ -8,17 +8,17 @@
 public interface Board {
 	
 	/**
-	 * Number of rows on a Board.
+	 * Number of rows on PvZ Board.
 	 */
 	public static final int ROWS = 5;
 	
 	/**
-	 * Number of columns on a Board.
+	 * Number of columns on PvZ Board.
 	 */
 	public static final int COLUMNS = 10;
 	
 	/**
-	 * Apply an update to Board location.
+	 * Apply an update to Board at tile (i, j).
 	 * 
 	 * @param i The i coordinate of the Board.
 	 * @param j The j coordinate of the Board.
@@ -39,10 +39,10 @@ public interface Board {
 	}
 	
 	/**
-	 * Whether a location is valid on the Board.
+	 * Whether a location is within domain and range of Board.
 	 * 
-	 * @param i The i coordinate of the Board.
-	 * @param j The j coordinate of the Board.
+	 * @param i The i coordinate.
+	 * @param j The j coordinate.
 	 * @return boolean True if it is a valid location.
 	 */
 	public static boolean isValidLocation(int i, int j) {
