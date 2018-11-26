@@ -1,5 +1,5 @@
 # PvZ
-# SYSC 3110 - Milestone 2
+# SYSC 3110 - Milestone 3
 # Deliverable Date: 16 Nov 2018
 
 **Project Members:** Kyle Horne, Alexander Savic, Tashfiq Akhand, Kaj Hemmingsen-Beriault
