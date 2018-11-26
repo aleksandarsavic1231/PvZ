@@ -1,30 +1,42 @@
 import java.util.LinkedList;
 import java.util.Stack;
 
-/**Handles incoming commands from game events and places them on a stack so that a user can undo an action, or redo a previously performed action.
+/**
+ * The UndoManager manages the order of commands and provides and interface to perform execution/redo/undo.
  * 
  * @author kylehorne
- *@version Nov 25, 2018
+ * @version 25 Nov 18
  */
 public class UndoManager {
 	
+	/**
+	 * The listeners to this UndoManager Object.
+	 */
 	private LinkedList<Listener> listeners;
 
+	/**
+	 * The undoStack to this UndoManager Object.
+	 */
  	private Stack<Undoable> undoStack;
  	
-	private Stack<Undoable> redoStack;
-
 	/**
-	 * Constructor
+	 * The redoStack to this UndoManager Object.
+	 */
+	private Stack<Undoable> redoStack;
+	
+	/**
+	 * Constructor.
 	 */
 	public UndoManager() {
 		listeners = new LinkedList<Listener>();
 		undoStack = new Stack<Undoable>();
 		redoStack = new Stack<Undoable>();
 	}
+	
 	/**
-	 * Passes a performed action onto a stack so that it may be accessed at a later time
-	 * @param command Action performed by the user
+	 * Execute the command.
+	 * 
+	 * @param command The command to execute.
 	 */
 	public void execute(Undoable command) {
 		command.execute();
@@ -35,8 +47,9 @@ public class UndoManager {
 		redoStack.clear();
 		notifyListeners();
 	}
+	
 	/**
-	 * Pops the latest performed action off of the stack
+	 * Undo the command.
 	 */
  	public void undo() {
 		if (undoStack.isEmpty()) return;
@@ -45,9 +58,10 @@ public class UndoManager {
 		redoStack.push(command);
 		notifyListeners();
 	}
-	/**
-	 * Re-does any amount of previously performed actions, until a user provides a new one
-	 */
+	
+ 	/**
+ 	 * Redo the command.
+ 	 */
 	public void redo() {
 		if (redoStack.isEmpty()) return;		
 		Undoable command = redoStack.pop();
@@ -55,8 +69,9 @@ public class UndoManager {
 		undoStack.push(command);
 		notifyListeners();
 	}
+	
 	/**
-	 * Empties the action stack
+	 * Clear the undo and redo stack.
 	 */
 	public void clearUndoManager() {
 		redoStack.clear();
@@ -65,26 +80,37 @@ public class UndoManager {
 	}
 
 	/**
+	 * Is a undo available.
 	 * 
-	 * @return True when there are actions that can be undone
+	 * @return boolean True if an undo is available.
 	 */
  	public boolean isUndoAvailable() {
 		return !undoStack.isEmpty();
 	}
+ 	
  	/**
+ 	 * Is a redo available.
  	 * 
- 	 * @return True if there are actions in the redo stack
+ 	 * @return boolean True if a redo is available.
  	 */
 	public boolean isRedoAvailable() {
 		return !redoStack.isEmpty();
 	}
 	
+	/**
+	 * Add a action listener to this UndoManager Object.
+	 * 
+	 * @param listener The listener to add.
+	 */
 	public void addActionListener(Listener listener) {
 		listeners.add(listener);
 		// Notify listeners of undo/redo state on subscription
 		notifyListeners();
 	}
 	
+	/**
+	 * Notify all listener of a Event.
+	 */
 	public void notifyListeners() {
 		for(Listener listener : listeners) {
 			listener.handleEvent(new Event(Action.UNDO));
