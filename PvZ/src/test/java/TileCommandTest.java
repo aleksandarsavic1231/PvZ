@@ -13,6 +13,8 @@ public class TileCommandTest extends TestCase {
 	public void tearDown() throws Exception { }
 	
 	@Test
-	public void test() { }
+	public void test() { 
+		// TODO
+	}
 
 }

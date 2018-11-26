@@ -49,16 +49,6 @@ public class UndoManagerTest extends TestCase {
 	}
 	
 	@Test
-	public void testRedo() {
-		NextCommand command = new NextCommand(model);
-		undoManager.execute(command);
-		undoManager.undo();
-		assertTrue(undoManager.isRedoAvailable());
-	}
-
-
-	
-	@Test
 	public void testClear() {
 		undoManager.clearUndoManager();
 		assertFalse(undoManager.isUndoAvailable());
