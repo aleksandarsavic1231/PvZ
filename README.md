@@ -48,14 +48,22 @@
   + Zombie.java - UPDATED - Class - Kyle Horne, Kaj Hemmingsen-Beriault
 
 **TESTS**
-  + AllTests.java - NEW - JUnit - Kyle Horne, Tashfiq Akhand
-  + AliveTest.java - NEW - JUnit - Kyle Horne, Tashfiq Akhand
-  + BulletTest.java - NEW - JUnit - Kyle Horne, Tashfiq Akhand
-  + EntityTest.java - NEW - JUnit - Kyle Horne, Tashfiq Akhand
-  + EventTest.java - NEW - JUnit - Kyle Horne, Tashfiq Akhand
-  + PeaShooterTest.java - NEW - JUnit - Kyle Horne, Tashfiq Akhand
-  + SunflowerTest.java - NEW - JUnit - Kyle Horne, Tasfiq Akhand
-  + ZombieTest.java - NEW - JUnit - Kyle Horne, Tashfiq Akhand
+  + AllTests.java - UPDATED - JUnit - Kyle Horne, Tashfiq Akhand
+  + AliveTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
+  + BulletTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
+  + CherryBombTest.java - NEW - JUnit - Kyle Horne
+  + CommandTest.java - NEW - JUnit - Kyle Horne
+  + ControllerTest.java - NEW -JUnit - Kyle Horne
+  + EntityEventTest.java - NEW - Junit - Kyle Horne
+  + EntityTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
+  + EventTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
+  + ModelTest.java - NEW - JUnit - Kyle Horne
+  + NextCommandTest - NEW - Junit - Kyle Horne
+  + PeaShooterTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
+  + SunflowerTest.java - UNCHANGED - JUnit - Kyle Horne, Tasfiq Akhand
+  + UndoManagerTest.java - NEW - JUnit - Kyle Horne
+  + WalnutTest.java - NEW - JUnit - Kyle Horne
+  + ZombieTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
   
 **ASSETS**
 + Entity Images - UPDATED - Kaj Hemmingsen-Beriault
@@ -73,7 +81,7 @@
 
 
 **MILESTONE 3**
-+
++Command was added to the MVC event pattern so that individual actions could be passed onto a stack so that a player could undo/redo actions if they so desired.  View listens to the UndoManager and Model for event handling and properly displays the desired output from each new Event.  Stacks were used due to their FILO data management style, making it easy to push and pop appropriate actions with minimal complexity.  A new Zombie type was added with more durability to provide the user with a more challenging experience.  The addition of new plants allows for the user to have a choice in how they wish to beat the level at hand.
 
 **FUTURE GOALS**
 
