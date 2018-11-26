@@ -9,15 +9,15 @@ import java.awt.Point;
 public abstract class Shooter extends Alive {
 	
 	/**
-	 * The fire rate of this.
+	 * The fire rate of this Shooter Object.
 	 */
 	private int fireRate;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param position The spawn location of this.
-	 * @param health The initial health of this. 
+	 * @param position The spawn location of this Shooter Object.
+	 * @param health The initial health of this Shooter Object. 
 	 */
 	public Shooter(Point position, int health) {
 		super(position, health);
@@ -25,18 +25,18 @@ public abstract class Shooter extends Alive {
 	}
 	
 	/**
-	 * Set the fire rate of this.
+	 * Set the fire rate of this Shooter Object.
 	 * 
-	 * @param fireRate The new fire rate.
+	 * @param fireRate The new fire rate of this Shooter Object.
 	 */
 	public void setFireRate(int fireRate) {
 		this.fireRate = fireRate;
 	}
 
 	/**
-	 * Whether this can fire.
+	 * Whether this Shooter Object can fire.
 	 * 
-	 * @return boolean True if the Shooter can shoot.
+	 * @return boolean True if this Shooter Object can shoot.
 	 */
 	public boolean canShoot() {
 		if (fireRate-- == 0) {
