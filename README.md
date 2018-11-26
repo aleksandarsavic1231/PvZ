@@ -8,23 +8,43 @@
 + **SEQUENCE DIAGRAM** - UPDATED - Alexander Savic
 + **README** - UPDATED - Kaj Hemmingsen-Beriault
 + **CODE** - (Primary Contributor):
-  + Action.java - NEW - Enum - Kyle Horne
+  + Action.java - UNCHANGED - Enum - Kyle Horne
   + Alive.java - UNCHANGED - Class - Kyle Horne
   + Board.java - UNCHANGED - Interface - Kyle Horne
   + Bullet.java - UNCHANGED - Class - Kyle Horne
+  + CherryBomb.java - NEW - Class - Alexander Savic
+  + Command.java - NEW - Class - Kyle Horne
   + Controller.java - NEW - Class - Kyle Horne, Tashfiq Akhand, Alexander Savic
   + Entity.java - UNCHANGED - Class - Kyle Horne
+  + EntityEvent - NEW - Class - Kyle Horne
   + Event.java - NEW - Class - Kyle Horne
+  + Executablee.java - NEW - Interface - Kyle Horne
   + GameBoard.java - REMOVED - Class - Kyle Horne
   + Listener.java - NEW - Interface - Kyle Horne
   + Moveable.java - UNCHANGED -Interface - Kyle Horne
   + Model.java - UPDATED - Class - Kyle Horne, Kaj Hemmingsen-Beriault, Tashfiq Akhand, Alexander Savic
+  + NextAction - NEW - Class - Kyle Horne
+  + NextCommand.java - NEW - Class - Kyle Horne
   + PeaShooter.java - UNCHANGED - Class - Kyle Horne
+  + Plant.java - NEW - Enum - Kyle Horne
+  + PylonZombie.java - NEW - Class - Kaj Hemmingsen-Beriault
+  + RegularZombie.java - NEW - Class - Kyle Horne
+  + Repeater.java - NEW - Class - Kaj Hemmingsen-Beriault
+  + RestartAction.java - NEW - Class - Kyle Horne
+  + RestartCommand.java - NEW - Class - Kyle Horne
   + Shooter.java - UNCHANGED - Class - Kyle Horne
-  + Sun.java - NEW - Class - Kyle Horne
+  + Sun.java - UNCHANGED - Class - Kyle Horne
   + Sunflower.java - UNCHANGED - Class - Kyle Horne
+  + TileAction.java - NEW - Class - Kyle Horne
+  + TileCommand.java - NEW - Class - Kyle Horne
+  + TogglePlantAction.java - NEW - Class - Kyle Horne
+  + TogglePlantCommand.java - NEW - Class - Kyle Horne
   + Tile.java - REMOVED - Interface - Kyle Horne
+  + Undoable.java - NEW - Interface - Kyle Horne
+  + UndoManager.java - NEW - Class - Kyle Horne
+  + UnimplementedEntity.java - NEW - Class - Klye Horne
   + View.java - NEW - Class - Alexander Savic, Kaj Hemmingsen-Beriault, Tashfiq Akhand, Kyle Horne
+  + Walnut.java - NEW - Class - Kaj Hemmingsen-Beriault
   + Zombie.java - UPDATED - Class - Kyle Horne, Kaj Hemmingsen-Beriault
 
 **TESTS**
@@ -38,7 +58,7 @@
   + ZombieTest.java - NEW - JUnit - Kyle Horne, Tashfiq Akhand
   
 **ASSETS**
-+ Entity Images - NEW - Kaj Hemmingsen-Beriault
++ Entity Images - UPDATED - Kaj Hemmingsen-Beriault
 
 **KNOWN BUGS** 
 + See issues
@@ -51,6 +71,10 @@
 **MILESTONE 2**
 + Main method was transfered to View.java to adhere to MVC code.  Controller was implemented to communicate between View and Model. Sun was chosen as an interactible entity to engage users to collect the resource instead of automatically adding it to their account.  Action Enums got added to make Model more readable and reducing method complexity.  Additional JButtons for adding plants got added to the UI instead of window prompts, providing a smoother user experience and increasing clarity once in the application. A test suite was implemented so that tests can be conducted in a timely fashion and keeping results condensed and easy to view. A menu was implemented to give players the option to restart the game or exit without having to win/lose.
 
+
+**MILESTONE 3**
++
+
 **FUTURE GOALS**
 
 **MILESTONE 1**
@@ -58,3 +82,6 @@
 
 **UPDATE: MILESTONE 2**
 + The next deliverable is set to include multiple plants with varying purposes, and different zombie types to provide additional challenges. An undo/redo button will be added to allow players to correct any mistakes they make while playing the game.
+
+**UPDATE: MILESTONE 3**
++The final deliverable will require a save/load function so the user can resume their game at a later time. It will also include a level editor so that users may customize their experience and challenge themselves.  Finally, there is potential of altering the game from turn-based to real-time.
