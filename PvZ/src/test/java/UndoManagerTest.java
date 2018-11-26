@@ -30,10 +30,14 @@ public class UndoManagerTest extends TestCase {
 	}
 	
 	@Test
-	public void testUndo() { //TODO }
+	public void testUndo() { 
+		//TODO 
+	}
 	
 	@Test
-	public void testRedo() { //TODO }
+	public void testRedo() { 
+		//TODO 
+	}
 	
 	@Test
 	public void testClear() {
