@@ -3,7 +3,7 @@ import java.awt.Point;
 import javax.swing.ImageIcon;
 
 /**
- * A Pylom Zombie is a Zombie with more health relative to a Regular Zombie.
+ * A Pylon Zombie is a Zombie with more health relative to a Regular Zombie.
  * 
  * @author kajhemmingsen
  * @version 20 Nov 18
