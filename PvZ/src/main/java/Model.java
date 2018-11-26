@@ -74,7 +74,7 @@ public class Model {
 	/**
 	 * The number of Pylon Zombies to spawn.
 	 */
-	public static final int N_PYLON_ZOMBIES = 0;
+	public static final int N_PYLON_ZOMBIES = 1;
 
 	/**
 	 * Constructor.
@@ -202,7 +202,7 @@ public class Model {
 			entities.add(new Repeater(location));
 			Repeater.setNextDeployable(gameCounter);
 			hasPurchased = true;
-		} else if(toggledPlant == Plant.BOMB && isCherryBombPurchasable()) {
+		} else if(toggledPlant == Plant.CHERRY_BOMB && isCherryBombPurchasable()) {
 			balance -= CherryBomb.COST;
 			entities.add(new CherryBomb(location));
 			CherryBomb.setNextDeployable(gameCounter);

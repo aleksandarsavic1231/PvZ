@@ -86,7 +86,7 @@ public class TileCommand extends Controller implements Undoable {
 		lastToggledPlant = model.getTogglePlant();
 		if (lastToggledPlant == null) return; // No plant selected 
 		switch(lastToggledPlant) {
-		case BOMB:
+		case CHERRY_BOMB:
 			lastDeployable = CherryBomb.getNextDeployable();
 			break;
 		case PEA_SHOOTER:
@@ -119,7 +119,7 @@ public class TileCommand extends Controller implements Undoable {
 		model.setTogglePlant(lastToggledPlant);
 
 		// Switch on plant was spawned and set next deployable to last deployable state.
-		if (lastToggledPlant == Plant.BOMB) CherryBomb.hardSetNextDeployable(lastDeployable);
+		if (lastToggledPlant == Plant.CHERRY_BOMB) CherryBomb.hardSetNextDeployable(lastDeployable);
 		else if (lastToggledPlant == Plant.PEA_SHOOTER) PeaShooter.hardSetNextDeployable(lastDeployable);
 		else if (lastToggledPlant == Plant.SUNFLOWER) Sunflower.hardSetNextDeployable(lastDeployable);
 		else if (lastToggledPlant == Plant.WALNUT) Walnut.hardSetNextDeployable(lastDeployable);

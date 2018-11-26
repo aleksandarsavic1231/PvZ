@@ -28,7 +28,7 @@ import javax.swing.border.Border;
 public class View extends JFrame implements Listener {
 
 	/**
-	 * Default serial version UID.
+	 * Default serial version for View Object.
 	 */
 	private static final long serialVersionUID = 1L;
 	
@@ -38,12 +38,12 @@ public class View extends JFrame implements Listener {
 	private JButton[][] tiles;
 	
 	/**
-	 * The sun points balance label.
+	 * The Sun point balance JLabel.
 	 */
 	private JLabel sunPointsLabel;
 	
 	/**
-	 * The buttons to add a Plant to PvZ board.
+	 * The JButtons on this View Object.
 	 */
 	private JButton 
 		nextIterationButton,
@@ -77,6 +77,9 @@ public class View extends JFrame implements Listener {
 	public static final Color GREEN = new Color(0,153,0);
 	public static final Color DARK_GREEN = new Color(0,102,0);
 		
+	/**
+	 * The UndoManager to this View Object.
+	 */
 	private UndoManager undoManager;
 	
 	/**
@@ -103,7 +106,7 @@ public class View extends JFrame implements Listener {
 	}
 	
 	/**
-	 * Instantiate the menu bar.
+	 * Instantiate the JMneu bar.
 	 * 
 	 * @return JMenuBar MenuBar containing the PvZ menu.
 	 */
@@ -203,7 +206,7 @@ public class View extends JFrame implements Listener {
 		addBombButton = new JButton(bombLogo);
 		addBombButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addBombButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addBombButton.addActionListener(new TogglePlantAction(model, Plant.BOMB));
+		addBombButton.addActionListener(new TogglePlantAction(model, Plant.CHERRY_BOMB));
 		
 		nextIterationButton = new JButton("Next Iteration");
 		nextIterationButton.setBorder(defaultBorder);
@@ -319,6 +322,9 @@ public class View extends JFrame implements Listener {
 		}  
 	}
 	
+	/**
+	 * Disable all JButtons on this View Object.
+	 */
 	private void disableAllButtons() {
 		addPeaShooterButton.setEnabled(false); 
 		addSunflowerButton.setEnabled(false);

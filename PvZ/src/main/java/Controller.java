@@ -9,7 +9,7 @@ public class Controller {
 	/**
 	 * The Model of this Controller Object.
 	 */
-	private Model model;
+	private final Model model;
 	
 	/**
 	 * Constructor.

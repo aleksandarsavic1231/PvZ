@@ -1,11 +1,28 @@
 import java.util.LinkedList;
 
+/**
+ * Next Command causes PvZ to move to its next state.
+ * 
+ * @author kylehorne
+ * @version 25 Nov 18
+ */
 public class NextCommand extends Controller implements Undoable {
 	
+	/**
+	 * The last state of Model Entities.
+	 */
 	private LinkedList<Entity> lastEntities;
 	
+	/**
+	 * The last state of Model balance.
+	 */
 	private int lastBalance;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param model The Model to this NextCommand Object.
+	 */
 	public NextCommand(Model model) {
 		super(model);	
 		lastEntities = new LinkedList<Entity>();
@@ -14,15 +31,15 @@ public class NextCommand extends Controller implements Undoable {
 	@Override
 	public void execute() {
 		Model model = getModel();
-		// Save last state of current Model.
+		// Save state of Model.
 		lastBalance = model.getBalance();
-		for(Entity entity: model.getEntities())
+		for(Entity entity: model.getEntities()) {
 			try {
 				lastEntities.add(Entity.clone(entity));
 			} catch (UnimplementedEntity e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
+		}
 		// Update to next game iteration.
 		model.clearBoard();		
 		model.updateShooters();

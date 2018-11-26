@@ -1,4 +1,9 @@
-
+/**
+ * All Plants implemented in our implementation of PvZ.
+ * 
+ * @author kylehorne
+ * @version 25 Nov 18
+ */
 public enum Plant {
 	
 	PEA_SHOOTER,
@@ -9,5 +14,5 @@ public enum Plant {
 	
 	REPEATER,
 	
-	BOMB
+	CHERRY_BOMB
 }
