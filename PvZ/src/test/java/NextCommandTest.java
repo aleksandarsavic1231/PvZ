@@ -1,4 +1,5 @@
+import junit.framework.TestCase;
 
-public class NextCommandTest {
+public class NextCommandTest extends TestCase {
 
 }

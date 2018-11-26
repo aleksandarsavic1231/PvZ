@@ -8,7 +8,7 @@
 public interface Executable {
 
 	/**
-	 * The executable function.
+	 * The executable method.
 	 */
 	public void execute();
 
