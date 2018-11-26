@@ -1,3 +1,5 @@
+import static org.junit.Assert.assertNotEquals;
+
 import java.awt.Point;
 
 import org.junit.After;
@@ -22,7 +24,8 @@ public class PeaShooterTest extends TestCase {
 	
 	@Test
 	public void testDeployable() {
-		// Test whether PeaShooter is deployable when game begins
+		// Test reset deployable
+		PeaShooter.resetNextDeployable();
 		assertTrue(PeaShooter.isDeployable(0));
 		
 		// Test whether PeaShooter is deployable after being spawned
@@ -32,9 +35,14 @@ public class PeaShooterTest extends TestCase {
 		// Test whether PeaShooter is deployable after waiting cooldown period
 		assertTrue(PeaShooter.isDeployable(PeaShooter.SPAWN_COOLDOWN));
 		
-		// Test reset deployable
-		PeaShooter.resetNextDeployable();
-		assertTrue(PeaShooter.isDeployable(0));
+		// Test hard set of deployable
+		PeaShooter.hardSetNextDeployable(5);
+		assertEquals(PeaShooter.getNextDeployable(), 5);
+		
+		// Test for broken code and negative field
+		PeaShooter.hardSetNextDeployable(-1);
+		assertNotEquals(PeaShooter.getNextDeployable(), 5);
+		assertEquals(PeaShooter.getNextDeployable(), -1);
 	}
 	
 	@Test 
@@ -44,7 +52,9 @@ public class PeaShooterTest extends TestCase {
 		peaShooter.setFireRate(n);
 		for(int i = 0; i < n; i++)  assertFalse(peaShooter.canShoot());
 		assertTrue(peaShooter.canShoot()); // Can now shoot
-		//assertFalse(peaShooter.canShoot());
+		
+		// Test for broken code (must wait cool down period)
+		assertFalse(peaShooter.canShoot()); 
 	}
 	
 	@Test 
@@ -52,8 +62,10 @@ public class PeaShooterTest extends TestCase {
 		// Reset fire rate and test can shoot
 		peaShooter.resetFireRate();
 		for(int i = 0; i < PeaShooter.RECHARGE_TIME; i++) assertFalse(peaShooter.canShoot());
-		assertTrue(peaShooter.canShoot()); 
-		assertFalse(peaShooter.canShoot());
+		assertTrue(peaShooter.canShoot());  // Can now shoot
+		
+		// Test for broken code (must wait cool down period)
+		assertFalse(peaShooter.canShoot()); 
 	}
 
 }

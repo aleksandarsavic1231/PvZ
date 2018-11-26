@@ -60,8 +60,12 @@
   + ModelTest.java - NEW - JUnit - Kyle Horne
   + NextCommandTest - NEW - Junit - Kyle Horne
   + PeaShooterTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
+  + RepeaterTest.java - NEW - JUnit - Kyle Horne
+  + RestartCommandTest.java - NEW - Junit - Kyle Horne
   + SunflowerTest.java - UNCHANGED - JUnit - Kyle Horne, Tasfiq Akhand
-  + UndoManagerTest.java - NEW - JUnit - Kyle Horne
+  + TileCommandTest.java - NEW -JUnit - Kyle Horne
+  + TogglePlantCommandTest.java - NEW - JUnit - Kyle Horne
+  + UndoManagerTest.java - NEW - JUnit -
   + WalnutTest.java - NEW - JUnit - Kyle Horne
   + ZombieTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
   

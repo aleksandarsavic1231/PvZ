@@ -1,3 +1,5 @@
+import java.awt.Point;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,9 +25,12 @@ public class UndoManagerTest extends TestCase {
 	
 	@Test
 	public void testExecute() {
+
 		NextCommand command = new NextCommand(model);
 		undoManager.execute(command);
 		assertTrue(undoManager.isUndoAvailable());
+		assertFalse(undoManager.isRedoAvailable());
+		
 	}
 	
 	@Test
@@ -34,6 +39,13 @@ public class UndoManagerTest extends TestCase {
 		undoManager.execute(command);
 		undoManager.undo();
 		assertFalse(undoManager.isUndoAvailable());
+
+		TileCommand tileAction = new TileCommand(new Model(), new Point(0, 0));
+		undoManager.execute(tileAction);
+		
+		assertTrue(undoManager.isUndoAvailable());
+		assertFalse(undoManager.isRedoAvailable());
+
 	}
 	
 	@Test
@@ -43,12 +55,16 @@ public class UndoManagerTest extends TestCase {
 		undoManager.undo();
 		assertTrue(undoManager.isRedoAvailable());
 	}
+
+
 	
 	@Test
 	public void testClear() {
 		undoManager.clearUndoManager();
-		assertFalse(undoManager.isRedoAvailable() && undoManager.isRedoAvailable());
+		assertFalse(undoManager.isUndoAvailable());
+		assertFalse(undoManager.isRedoAvailable());
 	}
+
 	
 	@Test
 	public void testIsUndoAvailable() {
@@ -65,4 +81,5 @@ public class UndoManagerTest extends TestCase {
 		assertTrue(undoManager.isRedoAvailable());
 		
 	}
+
 }
