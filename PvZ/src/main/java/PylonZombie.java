@@ -18,8 +18,8 @@ public class PylonZombie extends Zombie {
 	/**
 	 * Custom images of Pylon Zombie objects.
 	 */
-	public static final ImageIcon HEALTHY_PYLON = new ImageIcon("src/resources/healthyZombie.png");
-	public static final ImageIcon DAMAGED_PYLON = new ImageIcon("src/resources/hurtZombie.png");
+	public static final ImageIcon HEALTHY_PYLON = new ImageIcon("src/main/resources/healthyPylon.png");
+	public static final ImageIcon DAMAGED_PYLON = new ImageIcon("src/main/resources/brokenPylon.png");
 	
 	/**
 	 * Constructor.
