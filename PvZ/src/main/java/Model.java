@@ -169,9 +169,7 @@ public class Model {
 				return true;
 			}
 			if((e instanceof Chomper) && m instanceof Zombie && (willCollide)) {
-				if (((Chomper)e).canShoot() == false) {
-					((Zombie) m).takeDamage(Chomper.DAMAGE);
-				}
+				((Zombie) m).takeDamage(Chomper.DAMAGE);
 				return true;
 			}
 		}
@@ -280,8 +278,8 @@ public class Model {
 					((CherryBomb) entity).selfDestruct(); // CherryBomb explodes itself
 				// If Repeater can fire spawn new bullet at Repeater location with Repeater damage
 				} else if (entity instanceof Repeater) tempEntities.add(new Bullet(new Point(entity.getPosition().x, entity.getPosition().y), Repeater.DAMAGE));
+				else if (entity instanceof Chomper) tempEntities.add(new Chomper(new Point(entity.getPosition().x, entity.getPosition().y)));
 			}
-			else if (entity instanceof Chomper) tempEntities.add(new Chomper(new Point(entity.getPosition().x, entity.getPosition().y)));
 		}
 		// Add newly spawned Objects to Entities list
 		entities.addAll(tempEntities);
