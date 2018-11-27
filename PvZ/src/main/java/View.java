@@ -5,6 +5,10 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.File;
+import sun.audio.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -341,7 +345,21 @@ public class View extends JFrame implements Listener {
 	 * 
 	 * @param args Arguments from standard out.
 	 */
+	
+	public static void Music() {
+		
+		InputStream music;
+		
+		try {
+			music = new FileInputStream(new File("Medival.wav"));
+			AudioStream sound = new AudioStream(music);
+			AudioPlayer.player.start(sound);
+		}catch(Exception e) {}
+		
+	}
+	
 	public static void main(String args[]) {
+		Music();
 		new View();
 	}
 
