@@ -59,6 +59,7 @@ public class Entity implements Cloneable {
 			else if (entity instanceof Sun) return new Sun(spawnLocation);
 			else if (entity instanceof CherryBomb) return new CherryBomb(spawnLocation);
 			else if (entity instanceof Repeater) return new Repeater(spawnLocation);
+			else if (entity instanceof Chomper) return new Chomper(spawnLocation);
 			else throw new UnimplementedEntity(entity.getClass() + " not cloneable");
 		} return null;
 	}

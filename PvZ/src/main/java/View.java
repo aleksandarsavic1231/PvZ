@@ -56,6 +56,7 @@ public class View extends JFrame implements Listener {
 		addWallnutButton, 
 		addRepeaterButton,
 		addBombButton, 
+		addChomperButton,
 		undoButton, 
 		redoButton;
 		
@@ -67,7 +68,7 @@ public class View extends JFrame implements Listener {
 	/**
 	 * The View width.
 	 */
-	public static final int WIDTH = 1000;
+	public static final int WIDTH = 1200;
 	
 	/** 
 	 * The View height.
@@ -212,6 +213,12 @@ public class View extends JFrame implements Listener {
 		addBombButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		addBombButton.addActionListener(new TogglePlantAction(model, Plant.CHERRY_BOMB));
 		
+		ImageIcon chomperLogo = new ImageIcon("src/main/resources/chomperIcon.png");
+		addChomperButton = new JButton(chomperLogo);
+		addChomperButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		addChomperButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		addChomperButton.addActionListener(new TogglePlantAction(model, Plant.CHOMPER));
+		
 		nextIterationButton = new JButton("Next Iteration");
 		nextIterationButton.setBorder(defaultBorder);
 		nextIterationButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -234,6 +241,7 @@ public class View extends JFrame implements Listener {
 		buttonPanel.add(addWallnutButton);
 		buttonPanel.add(addRepeaterButton);
 		buttonPanel.add(addBombButton);
+		buttonPanel.add(addChomperButton);
 		buttonPanel.add(nextIterationButton);
 		buttonPanel.add(undoButton);
 		buttonPanel.add(redoButton);
@@ -276,6 +284,12 @@ public class View extends JFrame implements Listener {
 			else if (entity instanceof Walnut) tiles[i][j].setIcon(Walnut.IMAGE);
 			else if (entity instanceof Repeater) tiles[i][j].setIcon(Repeater.IMAGE);
 			else if (entity instanceof CherryBomb) tiles[i][j].setIcon(CherryBomb.IMAGE);
+			else if (entity instanceof Chomper) {
+				if (((Chomper)entity).canShoot() == false) {
+					tiles[i][j].setIcon(Chomper.IMAGE_ready);
+				}
+				else tiles[i][j].setIcon(Chomper.IMAGE_chew);
+			}
 			break;
 		}
 		case REMOVE_ENTITY: {
@@ -312,6 +326,9 @@ public class View extends JFrame implements Listener {
 		case TOGGLE_CHERRY_BOMB:
 			addBombButton.setEnabled(model.isCherryBombPurchasable());
 			break;
+		case TOGGLE_CHOMPER:
+			addChomperButton.setEnabled(model.isChomperPurchasable());
+			break;
 		case UNDO:
 			undoButton.setEnabled(undoManager.isUndoAvailable());
 			break;
@@ -335,6 +352,7 @@ public class View extends JFrame implements Listener {
 		addWallnutButton.setEnabled(false);
 		addRepeaterButton.setEnabled(false);
 		addBombButton.setEnabled(false);
+		addChomperButton.setEnabled(false);
 		undoButton.setEnabled(false);
 		redoButton.setEnabled(false);
 		nextIterationButton.setEnabled(false);

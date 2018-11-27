@@ -1,0 +1,47 @@
+import java.awt.Point;
+
+import javax.swing.ImageIcon;
+
+public class Chomper extends Shooter{
+	
+	public static final int COST = 150;
+	
+	public static final int RECHARGE_TIME = 10;
+	
+	public static final int DAMAGE = 1000;
+	
+	public static final int SPAWN_COOLDOWN = 3;
+
+	private static int nextDeployable;
+	
+	
+	public static final ImageIcon IMAGE_ready = new ImageIcon("src/main/resources/chomperReady.png");
+	public static final ImageIcon IMAGE_chew = new ImageIcon("src/main/resources/chomperChewing.png");
+
+
+	public Chomper(Point position) {
+		super(position, 10);
+		nextDeployable = 0;
+		resetFireRate();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public static void setNextDeployable(int gameCounter) {
+		nextDeployable = gameCounter + SPAWN_COOLDOWN;
+	}
+	
+	public static boolean isDeployable(int gameCounter) {
+		return (nextDeployable <= gameCounter);
+	}
+	
+	public static void resetNextDeployable() {
+		nextDeployable = 0;
+	}
+	
+
+	@Override
+	public void resetFireRate() {
+		this.setFireRate(RECHARGE_TIME);
+	}
+
+}

@@ -168,6 +168,12 @@ public class Model {
 				((Alive) e).takeDamage(Zombie.DAMAGE);		
 				return true;
 			}
+			if((e instanceof Chomper) && m instanceof Zombie && (willCollide)) {
+				if (((Chomper)e).canShoot() == false) {
+					((Zombie) m).takeDamage(Chomper.DAMAGE);
+				}
+				return true;
+			}
 		}
 		return false;
 	}
@@ -206,6 +212,11 @@ public class Model {
 			balance -= CherryBomb.COST;
 			entities.add(new CherryBomb(location));
 			CherryBomb.setNextDeployable(gameCounter);
+			hasPurchased = true;
+		}else if(toggledPlant == Plant.CHOMPER && isChomperPurchasable()) {
+			balance -= Chomper.COST;
+			entities.add(new Chomper(location));
+			Chomper.setNextDeployable(gameCounter);
 			hasPurchased = true;
 		}
 		// If successful purchase spawn plant and update new balance
@@ -270,6 +281,7 @@ public class Model {
 				// If Repeater can fire spawn new bullet at Repeater location with Repeater damage
 				} else if (entity instanceof Repeater) tempEntities.add(new Bullet(new Point(entity.getPosition().x, entity.getPosition().y), Repeater.DAMAGE));
 			}
+			else if (entity instanceof Chomper) tempEntities.add(new Chomper(new Point(entity.getPosition().x, entity.getPosition().y)));
 		}
 		// Add newly spawned Objects to Entities list
 		entities.addAll(tempEntities);
@@ -323,6 +335,7 @@ public class Model {
 		notifyListeners(Action.TOGGLE_WALLNUT);
 		notifyListeners(Action.TOGGLE_REPEATER);
 		notifyListeners(Action.TOGGLE_CHERRY_BOMB);
+		notifyListeners(Action.TOGGLE_CHOMPER);
 	}
 
 	/**
@@ -368,6 +381,10 @@ public class Model {
 	 */
 	public boolean isCherryBombPurchasable() {
 		return CherryBomb.COST <= balance && CherryBomb.isDeployable(gameCounter);
+	}
+	
+	public boolean isChomperPurchasable() {
+		return Chomper.COST <= balance && Chomper.isDeployable(gameCounter);
 	}
 	
 	/**
