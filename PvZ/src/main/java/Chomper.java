@@ -14,6 +14,8 @@ public class Chomper extends Shooter{
 
 	private static int nextDeployable;
 	
+	public static boolean lock;
+		
 	
 	public static final ImageIcon IMAGE_ready = new ImageIcon("src/main/resources/chomperReady.png");
 	public static final ImageIcon IMAGE_chew = new ImageIcon("src/main/resources/chomperChewing.png");

@@ -285,10 +285,9 @@ public class View extends JFrame implements Listener {
 			else if (entity instanceof Repeater) tiles[i][j].setIcon(Repeater.IMAGE);
 			else if (entity instanceof CherryBomb) tiles[i][j].setIcon(CherryBomb.IMAGE);
 			else if (entity instanceof Chomper) {
-				if (((Chomper)entity).canShoot()) {
-					tiles[i][j].setIcon(Chomper.IMAGE_ready);
-				}
-				else tiles[i][j].setIcon(Chomper.IMAGE_chew);
+				tiles[i][j].setIcon(Chomper.IMAGE_ready);
+				if (Chomper.lock == true)tiles[i][j].setIcon(Chomper.IMAGE_chew);
+				if (Chomper.lock == false)tiles[i][j].setIcon(Chomper.IMAGE_ready);
 			}
 			break;
 		}

@@ -163,13 +163,14 @@ public class Model {
 				((Zombie) e).takeDamage(((Bullet) m).getDamage());
 				return true;
 			}
-			// Zombie collided with plant 
-			if ((e instanceof PeaShooter || e instanceof Sunflower || e instanceof Walnut || e instanceof Repeater) && m instanceof Zombie && willCollide) {
-				((Alive) e).takeDamage(Zombie.DAMAGE);		
+			if((e instanceof Chomper) && m instanceof Zombie && (willCollide) && Chomper.lock == false) {
+				((Zombie) m).takeDamage(Chomper.DAMAGE);
+				((Chomper)e).lock = true;
 				return true;
 			}
-			if((e instanceof Chomper) && m instanceof Zombie && (willCollide)) {
-				((Zombie) m).takeDamage(Chomper.DAMAGE);
+			// Zombie collided with plant 
+			if ((e instanceof PeaShooter || e instanceof Sunflower || e instanceof Walnut || e instanceof Repeater || e instanceof Chomper) && m instanceof Zombie && willCollide) {
+				((Alive) e).takeDamage(Zombie.DAMAGE);		
 				return true;
 			}
 		}
@@ -260,6 +261,11 @@ public class Model {
 			}
 		}
 	}
+	
+	public boolean ChomperStatus() {
+		
+		return true;
+	}
 
 	/**
 	 * Update all Shooter Objects.
@@ -278,7 +284,10 @@ public class Model {
 					((CherryBomb) entity).selfDestruct(); // CherryBomb explodes itself
 				// If Repeater can fire spawn new bullet at Repeater location with Repeater damage
 				} else if (entity instanceof Repeater) tempEntities.add(new Bullet(new Point(entity.getPosition().x, entity.getPosition().y), Repeater.DAMAGE));
-				else if (entity instanceof Chomper) tempEntities.add(new Chomper(new Point(entity.getPosition().x, entity.getPosition().y)));
+				else if (entity instanceof Chomper) {
+					tempEntities.add(new Chomper(new Point(entity.getPosition().x, entity.getPosition().y)));
+					if (((Chomper)entity).canShoot()==false) Chomper.lock = true;
+				}
 			}
 		}
 		// Add newly spawned Objects to Entities list
