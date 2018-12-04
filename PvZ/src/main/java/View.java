@@ -117,11 +117,19 @@ public class View extends JFrame implements Listener {
 		JMenuItem restart = new JMenuItem("Restart");
 		restart.addActionListener(new RestartAction(model, undoManager));
 		
-		JMenuItem quit = new JMenuItem("Quit Game");
+		JMenuItem quit = new JMenuItem("Quit");
 		quit.addActionListener(e -> System.exit(0) );
+		
+		JMenuItem save = new JMenuItem("Save");
+		save.addActionListener(e -> System.exit(0) );
+		
+		JMenuItem load = new JMenuItem("Load");
+		load.addActionListener(e -> System.exit(0) );
 		
 		menu.add(restart);
 		menu.add(quit);
+		menu.add(save);
+		menu.add(load);
 		menuBar.add(menu);
 
 		return menuBar;
