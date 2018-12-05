@@ -1,10 +1,4 @@
 import java.awt.Point;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Random;
@@ -15,7 +9,7 @@ import java.util.Random;
  * @author kylehorne
  * @version 24 Nov 18
  */
-public class Model extends XMLEncoderDecoder {
+public class Model implements XMLEncoderDecoder {
 	
 	/**
 	 * The currently toggled plant from View.
@@ -589,15 +583,25 @@ public class Model extends XMLEncoderDecoder {
 	
 	public void setIsRunning(boolean isRunning) { this.isRunning = isRunning; }
 	
-	@Override
-	public void reinitialize(Object object) {
-		Model model = (Model)object;
+	public void reinitialize(Model model) {
 		model.setListeners(model.getListeners());
 		model.setTogglePlant(model.getTogglePlant());
 		model.setGameCounter(model.getGameCounter());
 		model.setIsRunning(model.getIsRunning());
 		model.setBalance(model.getBalance());
 		model.setEntities(model.getEntities());
+	}
+
+	@Override
+	public void save() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
