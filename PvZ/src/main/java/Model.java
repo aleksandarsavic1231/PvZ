@@ -1,4 +1,10 @@
 import java.awt.Point;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Random;
@@ -9,7 +15,7 @@ import java.util.Random;
  * @author kylehorne
  * @version 24 Nov 18
  */
-public class Model implements XMLEncoderDecoder {
+public class Model extends XMLEncoderDecoder {
 	
 	/**
 	 * The currently toggled plant from View.
@@ -74,7 +80,7 @@ public class Model implements XMLEncoderDecoder {
 	/**
 	 * The number of Pylon Zombies to spawn.
 	 */
-	public static final int N_PYLON_ZOMBIES = 1;
+	public static final int N_PYLON_ZOMBIES = 1;	
 
 	/**
 	 * Constructor.
@@ -97,7 +103,7 @@ public class Model implements XMLEncoderDecoder {
 		toggledPlant = null;
 		notifyListeners(Action.RESTART_GAME);
 	}
-
+	
 	/**
 	 * Whether a position is currently occupied by another Entity excluding Bullet objects.
 	 * 
@@ -571,15 +577,27 @@ public class Model implements XMLEncoderDecoder {
 	public void clearEntities() {
 		entities.clear();
 	}
+	
+	/**
+	 * Get listeners.
+	 */
+	public LinkedList<Listener> getListeners() { return listeners; }
+	
+	public void setListeners(LinkedList<Listener> listeners) { this.listeners = listeners; }
 
+	public void setGameCounter(int gameCounter) { this.gameCounter = gameCounter; }
+	
+	public void setIsRunning(boolean isRunning) { this.isRunning = isRunning; }
+	
 	@Override
-	public void save() {
-		System.out.println("SAVE : MODEL");
-	}
-
-	@Override
-	public void load() {
-		System.out.println("LOAD : MODEL");
+	public void reinitialize(Object object) {
+		Model model = (Model)object;
+		model.setListeners(model.getListeners());
+		model.setTogglePlant(model.getTogglePlant());
+		model.setGameCounter(model.getGameCounter());
+		model.setIsRunning(model.getIsRunning());
+		model.setBalance(model.getBalance());
+		model.setEntities(model.getEntities());
 	}
 	
 }

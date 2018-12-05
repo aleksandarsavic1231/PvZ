@@ -46,6 +46,6 @@ public abstract class Shooter extends Alive {
 		return false;
 	}
 	
-	abstract public void resetFireRate();
+	public abstract void resetFireRate();
 
 }

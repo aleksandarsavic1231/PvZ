@@ -7,7 +7,7 @@ import java.util.Stack;
  * @author kylehorne
  * @version 25 Nov 18
  */
-public class UndoManager implements XMLEncoderDecoder {
+public class UndoManager extends XMLEncoderDecoder {
 	
 	/**
 	 * The listeners to this UndoManager Object.
@@ -117,15 +117,25 @@ public class UndoManager implements XMLEncoderDecoder {
 			listener.handleEvent(new Event(Action.REDO));
 		}
 	}
+	
+	public LinkedList<Listener> getListeners() { return listeners; }
+	
+	public Stack<Undoable> getUndoStack() { return undoStack; }
+	
+	public Stack<Undoable> getRedoStack() { return redoStack; }
+	
+	public void setListeners(LinkedList<Listener> listeners) { this.listeners = listeners; }
+	
+	public void setUndoStack(Stack<Undoable> undoStack) { this.undoStack = undoStack; }
+	
+	public void setRedoStack(Stack<Undoable> redoStack) { this.redoStack = redoStack; }
 
 	@Override
-	public void save() {
-		System.out.println("SAVE : UNDOMANAGER");
-	}
-
-	@Override
-	public void load() {
-		System.out.println("LOAD : UNDOMANAGER");
+	public void reinitialize(Object object) {
+		UndoManager undoManager = (UndoManager)object;
+		setListeners(undoManager.getListeners());
+		setUndoStack(undoManager.getUndoStack());
+		setRedoStack(undoManager.getRedoStack());
 	}
 	
  }
