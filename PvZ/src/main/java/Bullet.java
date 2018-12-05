@@ -52,6 +52,15 @@ public class Bullet extends Entity implements Moveable {
 	public int getDamage() {
 		return damage;
 	}
+	
+	/**
+	 * Set the state of this locked field.
+	 * 
+	 * @param locked Whether this is locked.
+	 */
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+	}
 
 	@Override
 	public void updatePosition() {
@@ -67,6 +76,18 @@ public class Bullet extends Entity implements Moveable {
 	@Override
 	public void unlock() {
 		this.locked = false;
+	}
+
+	@Override
+	public String toXMLString() {
+		return "<Bullet>" + 
+					"<Point>" + 
+						"<x>" + getPosition().x + "</x>" + 
+						"<y>" + getPosition().y + "</y>" + 
+					"</Point>" + 
+					"<damage>" + damage + "</damage>" +
+					"<locked>" + locked + "</locked>" +
+				"</Bullet>";
 	}
 
 }

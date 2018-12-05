@@ -1,5 +1,5 @@
 /**
- * UnimplementedEntity is a Exception thrown if a PvZ Plant is not properly implemented.
+ * UnimplementedEntity is a Exception thrown if a PvZ Entity is not properly implemented.
  * 
  * @author kylehorne
  * @version 25 Nov 18

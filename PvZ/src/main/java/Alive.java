@@ -6,7 +6,7 @@ import java.awt.Point;
  * @author kylehorne
  * @version 25 Nov 18
  */
-public class Alive extends Entity {
+public abstract class Alive extends Entity {
 
 	/**
 	 * The health of this Alive Object.
@@ -47,6 +47,15 @@ public class Alive extends Entity {
 	 */
 	public void selfDestruct() {
 		health = 0;
+	}
+	
+	/**
+	 * Set the health of this.
+	 * 
+	 * @param health The new health.
+	 */
+	public void setHealth(int health) {
+		this.health = health;
 	}
 	
 }

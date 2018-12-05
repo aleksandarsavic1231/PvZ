@@ -46,6 +46,15 @@ public abstract class Shooter extends Alive {
 		return false;
 	}
 	
+	/**
+	 * Get the fire rate of this.
+	 * 
+	 * @return int The fire rate of this.
+	 */
+	public int getFireRate() {
+		return fireRate;
+	}
+	
 	public abstract void resetFireRate();
 
 }

@@ -5,7 +5,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 /**
- * ...
+ * Instances of XMLEncoderDecoder have a save and load implementation.
  * 
  * @author kylehorne
  * @version 5 Dec 18

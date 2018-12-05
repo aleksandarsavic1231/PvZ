@@ -28,5 +28,15 @@ public class Sun extends Entity {
 	public Sun(Point position) {
 		super(position);
 	}
+
+	@Override
+	public String toXMLString() {
+		return "<Sun>" + 
+					"<Point>" + 
+						"<x>" + getPosition().x + "</x>" + 
+						"<y>" + getPosition().y + "</y>" + 
+					"</Point>" + 
+				"</Sun>";
+	}
 	
 }

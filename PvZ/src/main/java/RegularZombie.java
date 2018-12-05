@@ -30,4 +30,15 @@ public class RegularZombie extends Zombie {
 		super(position, INITIAL_HEALTH);
 	}
 
+	@Override
+	public String toXMLString() {
+		return "<RegularZombie>" + 
+					"<Point>" + 
+						"<x>" + getPosition().x + "</x>" + 
+						"<y>" + getPosition().y + "</y>" + 
+					"</Point>" + 
+					"<health>" + getHealth() + "</health>" +
+				"</RegularZombie>";
+	}
+
 }

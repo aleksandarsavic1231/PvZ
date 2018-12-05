@@ -11,7 +11,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -498,14 +497,14 @@ public class Model implements XMLEncoderDecoder {
 	 * 
 	 * @param plant The toggled Plant to be set.
 	 */
-	public void setTogglePlant(Plant plant) { toggledPlant = plant; }
+	public void setToggledPlant(Plant plant) { toggledPlant = plant; }
 	
 	/**
 	 * Get currently toggled Plant.
 	 * 
 	 * @return Plant The currently toggled Plant.
 	 */
-	public Plant getTogglePlant() { return toggledPlant; }
+	public Plant getToggledPlant() { return toggledPlant; }
 
 	/**
 	 * Get balance of player.
@@ -583,48 +582,53 @@ public class Model implements XMLEncoderDecoder {
 	public void clearEntities() {
 		entities.clear();
 	}
-	
-	/**
-	 * Get listeners.
-	 */
-	public LinkedList<Listener> getListeners() { return listeners; }
-	
-	public void setListeners(LinkedList<Listener> listeners) { this.listeners = listeners; }
 
 	public void setGameCounter(int gameCounter) { this.gameCounter = gameCounter; }
 	
 	public void setIsRunning(boolean isRunning) { this.isRunning = isRunning; }
 	
-	public void reinitialize(Model model) {
-		model.setListeners(model.getListeners());
-		model.setTogglePlant(model.getTogglePlant());
-		model.setGameCounter(model.getGameCounter());
-		model.setIsRunning(model.getIsRunning());
-		model.setBalance(model.getBalance());
-		model.setEntities(model.getEntities());
-	}
-
 	@Override
 	public void save() 
 	throws IOException {
-		StringBuffer buffer = new StringBuffer("<model>");
+		StringBuffer buffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Model>");
 		buffer.append("<balance>" + getBalance() + "</balance>");
-		buffer.append("</model>");
-		BufferedWriter stream = new BufferedWriter(new FileWriter("./Model.xml"));
+		buffer.append("<toggledPlant>" + getToggledPlant() + "</toggledPlant>");
+		buffer.append("<gameCounter>" + getGameCounter() + "</gameCounter>");
+		buffer.append("<isRunning>" + getIsRunning() + "</isRunning>");
+		buffer.append("<Entities>");
+		for(Entity entity : entities) buffer.append(entity.toXMLString());
+		buffer.append("</Entities>");
+		buffer.append("</Model>");
+		BufferedWriter stream = new BufferedWriter(new FileWriter("./" + getClass().getName() + ".xml"));
 		stream.write(buffer.toString());
 		stream.close();	
 	}
-
+	
+	public String getTextContent(Document document, String tag) {
+		return document.getElementsByTagName(tag).item(0).getTextContent();
+	} 
+	
 	@Override
 	public void load() 
 	throws IOException, SAXException, ParserConfigurationException {
-		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream("./Model.xml"));
-		NodeList nodeList = document.getElementsByTagName("model");
-		for(int i = 0; i < nodeList.getLength(); i++) {
-			Element node = (Element) nodeList.item(i);
-			System.out.println(node.getElementsByTagName("balance").item(0).getTextContent());
-			setBalance(Integer.parseInt((node.getElementsByTagName("balance").item(0).getTextContent())));
+		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream("./" + getClass().getName() + ".xml"));
+		setGameCounter(Integer.parseInt(getTextContent(document, "gameCounter")));
+		setIsRunning(Boolean.parseBoolean(getTextContent(document, "isRunning")));
+		try {
+			setToggledPlant(PlantFactory.create(document.getElementsByTagName("toggledPlant").item(0)));
+		} catch (UnimplementedPlant e1) {
+			e1.printStackTrace();
 		}
+		NodeList entityList = document.getElementsByTagName("Entities").item(0).getChildNodes();
+		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
+		for(int i = 0; i < entityList.getLength(); i++)
+			try {
+				tempEntities.add(EntityFactory.create(entityList.item(i)));
+			} catch (UnimplementedEntity e) {
+				e.printStackTrace();
+			}
+		setEntities(tempEntities);
+		setBalance(Integer.parseInt(getTextContent(document, "balance")));
 	}
 	
 }

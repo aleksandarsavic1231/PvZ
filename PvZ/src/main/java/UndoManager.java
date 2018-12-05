@@ -123,20 +123,15 @@ public class UndoManager implements XMLEncoderDecoder {
 		}
 	}
 	
-	public LinkedList<Listener> getListeners() { return listeners; }
-	
 	public Stack<Undoable> getUndoStack() { return undoStack; }
 	
 	public Stack<Undoable> getRedoStack() { return redoStack; }
-	
-	public void setListeners(LinkedList<Listener> listeners) { this.listeners = listeners; }
 	
 	public void setUndoStack(Stack<Undoable> undoStack) { this.undoStack = undoStack; }
 	
 	public void setRedoStack(Stack<Undoable> redoStack) { this.redoStack = redoStack; }
 
 	public void reinitialize(UndoManager undoManager) {
-		setListeners(undoManager.getListeners());
 		setUndoStack(undoManager.getUndoStack());
 		setRedoStack(undoManager.getRedoStack());
 	}

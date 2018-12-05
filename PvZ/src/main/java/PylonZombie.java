@@ -29,5 +29,16 @@ public class PylonZombie extends Zombie {
 	public PylonZombie(Point position) {
 		super(position, INITIAL_HEALTH);
 	}
+
+	@Override
+	public String toXMLString() {
+		return "<PylonZombie>" + 
+					"<Point>" + 
+						"<x>" + getPosition().x + "</x>" + 
+						"<y>" + getPosition().y + "</y>" + 
+					"</Point>" + 
+					"<health>" + getHealth() + "</health>" +
+				"</PylonZombie>";
+	}
 	
 }

@@ -67,7 +67,7 @@ public class TileCommand extends Controller implements Undoable {
 			Point position = entity.getPosition();
 			if (entity instanceof Sun && position.x == tile.x && position.y == tile.y) {
 				foundSun = true;
-				lastToggledPlant = model.getTogglePlant();
+				lastToggledPlant = model.getToggledPlant();
 				lastBalance = model.getBalance();
 				model.removeEntity(entity);
 				model.increaseBalance(Sun.REWARD);
@@ -76,10 +76,10 @@ public class TileCommand extends Controller implements Undoable {
 		if (!foundSun) {
 			executeSpawnPlant(model);
 		} else {
-			model.setTogglePlant(lastToggledPlant);
+			model.setToggledPlant(lastToggledPlant);
 			for(Entity entity: getModel().getEntities())
 				try {
-					lastEntities.add(Entity.clone(entity));
+					lastEntities.add(EntityFactory.clone(entity));
 				} catch (UnimplementedEntity e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -95,7 +95,7 @@ public class TileCommand extends Controller implements Undoable {
 			lastEntities.add(new Sun(tile));
 			model.setBalance(lastBalance);
 			model.setEntities(lastEntities);
-			model.setTogglePlant(lastToggledPlant);
+			model.setToggledPlant(lastToggledPlant);
 
 		} else {
 			undoSpawnPlant(model);	
@@ -110,7 +110,7 @@ public class TileCommand extends Controller implements Undoable {
 	
 	private void executeSpawnPlant(Model model) {
 		// Set last balance and game counter
-		lastToggledPlant = model.getTogglePlant();
+		lastToggledPlant = model.getToggledPlant();
 		if (lastToggledPlant == null) return; // No plant selected 
 		switch(lastToggledPlant) {
 		case CHERRY_BOMB:
@@ -131,7 +131,7 @@ public class TileCommand extends Controller implements Undoable {
 		}
 		for(Entity entity: model.getEntities())
 			try {
-				lastEntities.add(Entity.clone(entity));
+				lastEntities.add(EntityFactory.clone(entity));
 			} catch (UnimplementedEntity e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -143,7 +143,7 @@ public class TileCommand extends Controller implements Undoable {
 	private void undoSpawnPlant(Model model) {
 		model.setEntities(lastEntities);
 		model.setBalance(lastBalance);
-		model.setTogglePlant(lastToggledPlant);
+		model.setToggledPlant(lastToggledPlant);
 
 		// Switch on plant was spawned and set next deployable to last deployable state.
 		if (lastToggledPlant == Plant.CHERRY_BOMB) CherryBomb.hardSetNextDeployable(lastDeployable);

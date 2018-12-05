@@ -35,7 +35,7 @@ public class NextCommand extends Controller implements Undoable {
 		lastBalance = model.getBalance();
 		for(Entity entity: model.getEntities()) {
 			try {
-				lastEntities.add(Entity.clone(entity));
+				lastEntities.add(EntityFactory.clone(entity));
 			} catch (UnimplementedEntity e) {
 				e.printStackTrace();
 			} 

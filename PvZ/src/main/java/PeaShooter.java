@@ -92,6 +92,19 @@ public class PeaShooter extends Shooter {
 	@Override
 	public void resetFireRate() {
 		this.setFireRate(RECHARGE_TIME);
+	}
+
+	@Override
+	public String toXMLString() {
+		return "<PeaShooter>" + 
+					"<Point>" + 
+						"<x>" + getPosition().x + "</x>" + 
+						"<y>" + getPosition().y + "</y>" + 
+					"</Point>" + 
+					"<health>" + getHealth() + "</health>" +
+					"<nextDeployable>" + getNextDeployable() + "</nextDeployable>" +
+					"<fireRate>" + getFireRate() + "</fireRate>" +
+				"</PeaShooter>";
 	}	
 
 }

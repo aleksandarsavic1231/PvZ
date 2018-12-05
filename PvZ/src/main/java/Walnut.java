@@ -87,5 +87,17 @@ public class Walnut extends Alive {
 	public static void hardSetNextDeployable(int newDeployable) {
 		nextDeployable = newDeployable;
 	}
+
+	@Override
+	public String toXMLString() {
+		return "<Walnut>" + 
+					"<Point>" + 
+						"<x>" + getPosition().x + "</x>" + 
+						"<y>" + getPosition().y + "</y>" + 
+					"</Point>" + 
+					"<health>" + getHealth() + "</health>" +
+					"<nextDeployable>" + getNextDeployable() + "</nextDeployable>" +
+				"</Walnut>";
+	}
 	
 }

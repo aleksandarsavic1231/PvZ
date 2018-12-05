@@ -6,7 +6,7 @@ import java.awt.Point;
  * @author kylehorne
  * @version 28 Oct 18
  */
-public class Zombie extends Alive implements Moveable {
+public abstract class Zombie extends Alive implements Moveable {
 	
 	/**
 	 * Velocity of Zombie objects.

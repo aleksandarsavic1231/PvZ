@@ -89,4 +89,17 @@ public class Repeater extends Shooter {
 
 	}
 
+	@Override
+	public String toXMLString() {
+		return "<Repeater>" + 
+					"<Point>" + 
+						"<x>" + getPosition().x + "</x>" + 
+						"<y>" + getPosition().y + "</y>" + 
+					"</Point>" + 
+					"<health>" + getHealth() + "</health>" +
+					"<nextDeployable>" + getNextDeployable() + "</nextDeployable>" +
+					"<fireRate>" + getFireRate() + "</fireRate>" +
+				"</Repeater>";
+	}
+
 }

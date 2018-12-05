@@ -83,4 +83,17 @@ public class Sunflower extends Shooter {
 		return nextDeployable;
 	}
 
+	@Override
+	public String toXMLString() {
+		return "<Sunflower>" + 
+					"<Point>" + 
+						"<x>" + getPosition().x + "</x>" + 
+						"<y>" + getPosition().y + "</y>" + 
+					"</Point>" + 
+					"<health>" + getHealth() + "</health>" +
+					"<nextDeployable>" + getNextDeployable() + "</nextDeployable>" +
+					"<fireRate>" + getFireRate() + "</fireRate>" +
+				"</Sunflower>";
+	}
+
 }

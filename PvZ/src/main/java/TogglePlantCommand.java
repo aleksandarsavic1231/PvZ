@@ -23,7 +23,7 @@ public class TogglePlantCommand extends Controller implements Executable {
 
 	@Override
 	public void execute() {
-		getModel().setTogglePlant(plant);
+		getModel().setToggledPlant(plant);
 	}
 
 }

@@ -99,4 +99,17 @@ public class CherryBomb extends Shooter {
 		return nextDeployable;
 	}
 
+	@Override
+	public String toXMLString() {
+		return "<CherryBomb>" + 
+					"<Point>" + 
+						"<x>" + getPosition().x + "</x>" + 
+						"<y>" + getPosition().y + "</y>" + 
+					"</Point>" + 
+					"<health>" + getHealth() + "</health>" +
+					"<nextDeployable>" + getNextDeployable() + "</nextDeployable>" +
+					"<fireRate>" + getFireRate() + "</fireRate>" +
+				"</CherryBomb>";
+	}
+
 }
