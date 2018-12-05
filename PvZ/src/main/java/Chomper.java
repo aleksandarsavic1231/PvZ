@@ -32,6 +32,15 @@ public class Chomper extends Shooter{
 		nextDeployable = gameCounter + SPAWN_COOLDOWN;
 	}
 	
+	public static void hardSetNextDeployable(int newDeployable) {
+		nextDeployable = newDeployable;
+	}
+	
+	public static int getNextDeployable() {
+		return nextDeployable;
+	}
+	
+	
 	public static boolean isDeployable(int gameCounter) {
 		return (nextDeployable <= gameCounter);
 	}
