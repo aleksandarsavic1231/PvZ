@@ -625,7 +625,6 @@ public class Model implements XMLEncoderDecoder {
 			System.out.println(node.getElementsByTagName("balance").item(0).getTextContent());
 			setBalance(Integer.parseInt((node.getElementsByTagName("balance").item(0).getTextContent())));
 		}
-
 	}
 	
 }
