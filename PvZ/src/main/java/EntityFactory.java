@@ -9,7 +9,7 @@ import org.w3c.dom.Node;
  * @author kylehorne
  * @version 5 Dec 18
  */
-public class EntityFactory {
+public class EntityFactory implements Cloneable {
 	
 	/**
 	 * Instantiate an Entity from a XML encoding.

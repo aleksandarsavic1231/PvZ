@@ -6,7 +6,7 @@ import java.awt.Point;
  * @author kylehorne
  * @version 28 Oct 18
  */
-public abstract class Entity implements Cloneable {
+public abstract class Entity implements Encodable {
 	
 	/**
 	 * The position of this.
@@ -39,12 +39,5 @@ public abstract class Entity implements Cloneable {
 	public void setPosition(Point position) {
 		this.position = position;
 	}
-	
-	/**
-	 * Get the XML encoded representation of this.
-	 * 
-	 * @return String The Object encoded in XML.
-	 */
-	public abstract String toXMLString();
 
 }

@@ -1,3 +1,5 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -139,8 +141,17 @@ public class UndoManager implements XMLEncoderDecoder {
 	@Override
 	public void save() 
 	throws IOException {
-		// TODO Auto-generated method stub
-		
+		StringBuffer buffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?><UndoManager>");
+		buffer.append("<UndoStack>");
+		for(Undoable undoItem : undoStack) buffer.append(undoItem.toXMLString());
+		buffer.append("</UndoStack>");
+		buffer.append("<RedoStack>");
+		for(Undoable redoItem : redoStack) buffer.append(redoItem.toXMLString());
+		buffer.append("</RedoStack>");
+		buffer.append("</UndoManager>");
+		BufferedWriter stream = new BufferedWriter(new FileWriter("./" + getClass().getName() + ".xml"));
+		stream.write(buffer.toString());
+		stream.close();
 	}
 
 	@Override

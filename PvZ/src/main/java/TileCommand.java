@@ -144,7 +144,6 @@ public class TileCommand extends Controller implements Undoable {
 		model.setEntities(lastEntities);
 		model.setBalance(lastBalance);
 		model.setToggledPlant(lastToggledPlant);
-
 		// Switch on plant was spawned and set next deployable to last deployable state.
 		if (lastToggledPlant == Plant.CHERRY_BOMB) CherryBomb.hardSetNextDeployable(lastDeployable);
 		else if (lastToggledPlant == Plant.PEA_SHOOTER) PeaShooter.hardSetNextDeployable(lastDeployable);
@@ -153,6 +152,15 @@ public class TileCommand extends Controller implements Undoable {
 		else if (lastToggledPlant == Plant.REPEATER) Repeater.hardSetNextDeployable(lastDeployable);
 		// Update purchasable plants because next deployable has changed
 		model.updatePurchasablePlants();
+	}
+
+	@Override
+	public String toXMLString() {
+		String XMLEncoding = "<TileCommand><Point><x>" + tile.x + "</x>" + "<y>" + tile.y + "</y></Point><lastBalance>" 
+				+ lastBalance + "</lastBalance><lastToggledPlant>" + lastToggledPlant + "</lastToggledPlant><lastDeployable>" 
+				+ lastDeployable + "<foundSun>" + foundSun + "</foundSun></lastDeployable><lastEntities>";
+		for(Entity entity: lastEntities) XMLEncoding += entity.toXMLString();
+		return XMLEncoding += "</lastEntities></TileCommand>";
 	}
 
 }
