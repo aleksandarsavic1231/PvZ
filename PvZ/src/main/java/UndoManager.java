@@ -1,5 +1,10 @@
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Stack;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 /**
  * The UndoManager manages the order of commands and provides and interface to perform execution/redo/undo.
@@ -137,13 +142,15 @@ public class UndoManager implements XMLEncoderDecoder {
 	}
 
 	@Override
-	public void save() {
+	public void save() 
+	throws IOException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void load() {
+	public void load() 
+	throws IOException, SAXException, ParserConfigurationException {
 		// TODO Auto-generated method stub
 		
 	}

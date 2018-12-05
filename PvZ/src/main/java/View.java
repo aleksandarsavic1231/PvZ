@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
@@ -19,6 +20,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 /**
  * The View of the PvZ game.
@@ -132,12 +136,26 @@ public class View extends JFrame implements Listener {
 		
 		JMenuItem save = new JMenuItem("Save");
 		save.addActionListener(e -> {
-			for(XMLEncoderDecoder endcoderDecoder: saveable) endcoderDecoder.save();
+			for(XMLEncoderDecoder endcoderDecoder: saveable)
+				try {
+					endcoderDecoder.save();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 		});
 		
 		JMenuItem load = new JMenuItem("Load");
 		load.addActionListener(e -> {
-			for(XMLEncoderDecoder endcoderDecoder: saveable) endcoderDecoder.load();
+			for(XMLEncoderDecoder endcoderDecoder: saveable)
+				try {
+					endcoderDecoder.load();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (SAXException e1) {
+					e1.printStackTrace();
+				} catch (ParserConfigurationException e1) {
+					e1.printStackTrace();
+				}
 		});
 		
 		menu.add(restart);

@@ -1,7 +1,19 @@
 import java.awt.Point;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Random;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /** 
  * The Model contains the game state and logic of PvZ.
@@ -593,15 +605,27 @@ public class Model implements XMLEncoderDecoder {
 	}
 
 	@Override
-	public void save() {
-		// TODO Auto-generated method stub
-		
+	public void save() 
+	throws IOException {
+		StringBuffer buffer = new StringBuffer("<model>");
+		buffer.append("<balance>" + getBalance() + "</balance>");
+		buffer.append("</model>");
+		BufferedWriter stream = new BufferedWriter(new FileWriter("./Model.xml"));
+		stream.write(buffer.toString());
+		stream.close();	
 	}
 
 	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-		
+	public void load() 
+	throws IOException, SAXException, ParserConfigurationException {
+		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream("./Model.xml"));
+		NodeList nodeList = document.getElementsByTagName("model");
+		for(int i = 0; i < nodeList.getLength(); i++) {
+			Element node = (Element) nodeList.item(i);
+			System.out.println(node.getElementsByTagName("balance").item(0).getTextContent());
+			setBalance(Integer.parseInt((node.getElementsByTagName("balance").item(0).getTextContent())));
+		}
+
 	}
 	
 }
