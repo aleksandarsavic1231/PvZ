@@ -9,7 +9,7 @@ import java.util.Random;
  * @author kylehorne
  * @version 24 Nov 18
  */
-public class Model {
+public class Model implements XMLEncoderDecoder {
 	
 	/**
 	 * The currently toggled plant from View.
@@ -570,6 +570,16 @@ public class Model {
 	 */
 	public void clearEntities() {
 		entities.clear();
+	}
+
+	@Override
+	public void save() {
+		System.out.println("SAVE : MODEL");
+	}
+
+	@Override
+	public void load() {
+		System.out.println("LOAD : MODEL");
 	}
 	
 }

@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -61,6 +62,11 @@ public class View extends JFrame implements Listener {
 	private Model model;
 	
 	/**
+	 * States contains the a list of saveable and loadable states.
+	 */
+	private LinkedList<XMLEncoderDecoder> saveable;
+	
+	/**
 	 * The View width.
 	 */
 	public static final int WIDTH = 1000;
@@ -87,10 +93,14 @@ public class View extends JFrame implements Listener {
 	 */
 	public View() {
 		super("Plant vs. Zombies");
+		// Initialize XMLEncoderDecoder
+		saveable = new LinkedList<XMLEncoderDecoder>();
 		// Initialize model
 		model = new Model();
+		saveable.add(model);
 		// Initialize undo manager
 		undoManager = new UndoManager();
+		saveable.add(undoManager);
 		// Initialize content
 		getContentPane().add(addBoard(), BorderLayout.CENTER);
 		getContentPane().add(addFooter(), BorderLayout.PAGE_END);
@@ -121,10 +131,14 @@ public class View extends JFrame implements Listener {
 		quit.addActionListener(e -> System.exit(0) );
 		
 		JMenuItem save = new JMenuItem("Save");
-		save.addActionListener(e -> System.exit(0) );
+		save.addActionListener(e -> {
+			for(XMLEncoderDecoder endcoderDecoder: saveable) endcoderDecoder.save();
+		});
 		
 		JMenuItem load = new JMenuItem("Load");
-		load.addActionListener(e -> System.exit(0) );
+		load.addActionListener(e -> {
+			for(XMLEncoderDecoder endcoderDecoder: saveable) endcoderDecoder.load();
+		});
 		
 		menu.add(restart);
 		menu.add(quit);

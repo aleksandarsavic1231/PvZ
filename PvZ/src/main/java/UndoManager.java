@@ -7,7 +7,7 @@ import java.util.Stack;
  * @author kylehorne
  * @version 25 Nov 18
  */
-public class UndoManager {
+public class UndoManager implements XMLEncoderDecoder {
 	
 	/**
 	 * The listeners to this UndoManager Object.
@@ -116,6 +116,16 @@ public class UndoManager {
 			listener.handleEvent(new Event(Action.UNDO));
 			listener.handleEvent(new Event(Action.REDO));
 		}
+	}
+
+	@Override
+	public void save() {
+		System.out.println("SAVE : UNDOMANAGER");
+	}
+
+	@Override
+	public void load() {
+		System.out.println("LOAD : UNDOMANAGER");
 	}
 	
  }
