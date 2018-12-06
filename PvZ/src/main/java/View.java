@@ -96,7 +96,7 @@ public class View extends JFrame implements Listener {
 	 * Constructor.
 	 */
 	public View() {
-		super("Plant vs. Zombies");
+		super("Plants vs. Zombies");
 		// Initialize XMLEncoderDecoder
 		saveable = new LinkedList<XMLEncoderDecoder>();
 		// Initialize model
