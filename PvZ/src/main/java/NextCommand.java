@@ -6,7 +6,7 @@ import java.util.LinkedList;
  * @author kylehorne
  * @version 25 Nov 18
  */
-public class NextCommand extends Controller implements Undoable {
+public class NextCommand implements Undoable {
 	
 	/**
 	 * The last state of Model Entities.
@@ -17,20 +17,21 @@ public class NextCommand extends Controller implements Undoable {
 	 * The last state of Model balance.
 	 */
 	private int lastBalance;
+	
+	private Model model;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param model The Model to this NextCommand Object.
 	 */
-	public NextCommand(Model model) {
-		super(model);	
+	public NextCommand() {	
+		model = Controller.getInstance().getModel();
 		lastEntities = new LinkedList<Entity>();
 	}
 
 	@Override
 	public void execute() {
-		Model model = getModel();
 		// Save state of Model.
 		lastBalance = model.getBalance();
 		for(Entity entity: model.getEntities()) {
@@ -56,7 +57,6 @@ public class NextCommand extends Controller implements Undoable {
 
 	@Override
 	public void undo() {
-		Model model = getModel();
 		// Set Model to last game state.
 		model.setEntities(lastEntities);
 		model.setBalance(lastBalance);

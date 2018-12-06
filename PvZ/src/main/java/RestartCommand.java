@@ -1,13 +1,13 @@
 
 public class RestartCommand extends Command implements Executable {
 	
-	public RestartCommand(Model model, UndoManager undoManager) {
-		super(model, undoManager);
+	public RestartCommand(UndoManager undoManager) {
+		super(undoManager);
 	}
 	
 	@Override
 	public void execute() {
-		Model model = getModel();
+		Model model = Controller.getInstance().getModel();
 		// Reset undo/redo on restart
 		getUndoManager().clearUndoManager();
 		model.clearBoard();

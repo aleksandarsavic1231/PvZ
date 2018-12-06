@@ -4,7 +4,7 @@
  * @author kylehorne
  * @version 25 Nov 18
  */
-public class Command extends Controller {
+public class Command {
 	
 	/**
 	 * The UndoManager of this Command Object.
@@ -17,8 +17,7 @@ public class Command extends Controller {
 	 * @param model The Model of this Command Object.
 	 * @param undoManager The UndoManager of this Command Object.
 	 */
-	public Command(Model model, UndoManager undoManager) {
-		super(model);
+	public Command(UndoManager undoManager) {
 		this.undoManager = undoManager;
 	}
 

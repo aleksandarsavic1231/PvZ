@@ -12,8 +12,8 @@ import org.w3c.dom.NodeList;
  * @version 5 Dec 18
  */
 public class UndoableFactory {
-	
-	public static Undoable create(Model model, Node node) throws UnimplementedUndoable, UnimplementedPlant {
+		
+	public static Undoable create(Node node) throws UnimplementedUndoable, UnimplementedPlant {
 		Undoable undoable;
 		String type = node.getNodeName();
 		Element element = (Element) node; 
@@ -31,7 +31,7 @@ public class UndoableFactory {
 		// Instantiate command based on type
 		if (type.equalsIgnoreCase("NextCommand")) {
 			// Set lastBalance, lastEntities for nextCommand
-			NextCommand nextCommand = new NextCommand(model);
+			NextCommand nextCommand = new NextCommand();
 			nextCommand.setLastBalance(lastBalance);
 			nextCommand.setLastEntities(tempEntities);
 			undoable = nextCommand;
@@ -39,7 +39,7 @@ public class UndoableFactory {
 			// Get location of tile clicked from XML encoding
 			int x = Integer.parseInt(element.getElementsByTagName("x").item(0).getTextContent());
 			int y = Integer.parseInt(element.getElementsByTagName("y").item(0).getTextContent());
-			TileCommand tileCommand = new TileCommand(model, new Point(x, y));
+			TileCommand tileCommand = new TileCommand(new Point(x, y));
 			// Set lastBalance of tileCommand
 			tileCommand.setLastBalance(lastBalance);
 			// Get and set lastToggledPlant, lastDeployable, foundSun from XML encoding for tileCommand

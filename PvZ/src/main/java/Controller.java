@@ -1,32 +1,27 @@
 /**
- * Command is a Object that has a Model.
+ * Controller is a Object that has a Model.
  * 
  * @author kylehorne
  * @version 25 Nov 18
  */
 public class Controller {
 
-	/**
-	 * The Model of this Controller Object.
-	 */
-	private final Model model;
+	private static Controller singleton;
 	
-	/**
-	 * Constructor.
-	 * 
-	 * @param model The Model of this Controller Object.
-	 */
-	public Controller(Model model) {
-		this.model = model;
+	private Model model;
+	
+	private Controller() {
+		model = new Model();
+	}
+
+	public static Controller getInstance() {
+		if (singleton == null) singleton = new Controller();
+		return singleton;
 	}
 	
-	/**
-	 * Get the Model of this Controller Object.
-	 * 
-	 * @return Model The Model of this Controller Object.
-	 */
 	public Model getModel() {
 		return model;
 	}
 	
 }
+

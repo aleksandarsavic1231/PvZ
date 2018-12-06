@@ -41,6 +41,7 @@ public class UndoManager implements XMLEncoderDecoder {
 	 * Constructor.
 	 */
 	public UndoManager() {
+		model = Controller.getInstance().getModel();
 		listeners = new LinkedList<Listener>();
 		undoStack = new Stack<Undoable>();
 		redoStack = new Stack<Undoable>();
@@ -169,7 +170,7 @@ public class UndoManager implements XMLEncoderDecoder {
 		Stack<Undoable> tempUndoStack = new Stack<Undoable>();
 		for(int i = 0; i < undoList.getLength(); i++)
 			try {
-				tempUndoStack.add(UndoableFactory.create(model, undoList.item(i)));
+				tempUndoStack.add(UndoableFactory.create(undoList.item(i)));
 			} catch (UnimplementedUndoable | UnimplementedPlant e) {
 				e.printStackTrace();
 			}
@@ -178,7 +179,7 @@ public class UndoManager implements XMLEncoderDecoder {
 		Stack<Undoable> tempRedoStack = new Stack<Undoable>();
 		for(int i = 0; i < redoList.getLength(); i++)
 			try {
-				tempRedoStack.add(UndoableFactory.create(model, redoList.item(i)));
+				tempRedoStack.add(UndoableFactory.create(redoList.item(i)));
 			} catch (UnimplementedUndoable | UnimplementedPlant e) {
 				e.printStackTrace();
 			}

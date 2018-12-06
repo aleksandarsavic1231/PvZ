@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
  * @author kylehorne
  * @version 25 Nov 18
  */
-public class TogglePlantAction extends Controller implements ActionListener {
+public class TogglePlantAction implements ActionListener {
 
 	/**
 	 * The toggled plant.
@@ -20,16 +20,13 @@ public class TogglePlantAction extends Controller implements ActionListener {
 	 * @param model The Model to this RestartAction Object.
 	 * @param plantToggled The toggled plant.
 	 */
-	public TogglePlantAction(Model model, Plant plantToggled) {
-		super(model);
+	public TogglePlantAction(Plant plantToggled) {
 		this.plantToggled = plantToggled;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// Only execute if game is running.
-		if (!getModel().getIsRunning()) return; 
-		new TogglePlantCommand(getModel(), plantToggled).execute();
+		new TogglePlantCommand(plantToggled).execute();
 	}
 
 }

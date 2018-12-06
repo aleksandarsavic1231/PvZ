@@ -15,15 +15,13 @@ public class NextAction extends Command implements ActionListener {
 	 * @param model The Model to this NextAction Object.
 	 * @param undoManager The UndoManager to this NextAction Object.
 	 */
-	public NextAction(Model model, UndoManager undoManager) {
-		super(model, undoManager);
+	public NextAction(UndoManager undoManager) {
+		super(undoManager);
 	} 
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// Only execute if game is running.
-		if (!getModel().getIsRunning()) return; 
-		getUndoManager().execute(new NextCommand(getModel()));
+		getUndoManager().execute(new NextCommand());
 	}
 	
 }

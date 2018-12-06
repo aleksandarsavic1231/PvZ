@@ -22,16 +22,14 @@ public class TileAction extends Command implements ActionListener {
 	 * @param undoManager The UndoManager to this TileAction Object.
 	 * @param tileClicked The location of the tile clicked.
 	 */
-	public TileAction(Model model, UndoManager undoManager, Point tileClicked) {
-		super(model, undoManager);
+	public TileAction(UndoManager undoManager, Point tileClicked) {
+		super(undoManager);
 		this.tileClicked = tileClicked;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// Only execute if game is running.
-		if (!getModel().getIsRunning()) return; 
-		getUndoManager().execute(new TileCommand(getModel(), tileClicked));
+		getUndoManager().execute(new TileCommand(tileClicked));
 	}
 
 }

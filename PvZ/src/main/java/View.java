@@ -100,7 +100,7 @@ public class View extends JFrame implements Listener {
 		// Initialize XMLEncoderDecoder
 		saveable = new LinkedList<XMLEncoderDecoder>();
 		// Initialize model
-		model = new Model();
+		model = Controller.getInstance().getModel();
 		saveable.add(model);
 		// Initialize undo manager
 		undoManager = new UndoManager();
@@ -129,7 +129,7 @@ public class View extends JFrame implements Listener {
 		JMenu menu = new JMenu("Menu");
  
 		JMenuItem restart = new JMenuItem("Restart");
-		restart.addActionListener(new RestartAction(model, undoManager));
+		restart.addActionListener(new RestartAction(undoManager));
 		
 		JMenuItem quit = new JMenuItem("Quit");
 		quit.addActionListener(e -> System.exit(0) );
@@ -180,7 +180,7 @@ public class View extends JFrame implements Listener {
 		// Initialize tiles	
 		Board.iterate((i, j) -> {
 			tiles[i][j] = new JButton();
-			tiles[i][j].addActionListener(new TileAction(model, undoManager, new Point(j, i)));
+			tiles[i][j].addActionListener(new TileAction(undoManager, new Point(j, i)));
 			tiles[i][j].setOpaque(true); // Required for OSX
 			tiles[i][j].setBorderPainted(false);
 			// Set tile color
@@ -222,36 +222,36 @@ public class View extends JFrame implements Listener {
 		addPeaShooterButton = new JButton(peashooterLogo);
 		addPeaShooterButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addPeaShooterButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addPeaShooterButton.addActionListener(new TogglePlantAction(model, Plant.PEA_SHOOTER));
+		addPeaShooterButton.addActionListener(new TogglePlantAction(Plant.PEA_SHOOTER));
 		
 		ImageIcon sunflowerLogo = new ImageIcon("src/main/resources/sunFlowerIcon.png");
 		addSunflowerButton = new JButton(sunflowerLogo);
 		addSunflowerButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addSunflowerButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addSunflowerButton.addActionListener(new TogglePlantAction(model, Plant.SUNFLOWER));
+		addSunflowerButton.addActionListener(new TogglePlantAction(Plant.SUNFLOWER));
 		
 		ImageIcon wallnutLogo = new ImageIcon("src/main/resources/wallnutIcon.png");
 		addWallnutButton = new JButton(wallnutLogo);
 		addWallnutButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addWallnutButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addWallnutButton.addActionListener(new TogglePlantAction(model, Plant.WALNUT));
+		addWallnutButton.addActionListener(new TogglePlantAction(Plant.WALNUT));
 		
 		ImageIcon repeaterLogo = new ImageIcon("src/main/resources/repeaterIcon.png");
 		addRepeaterButton = new JButton(repeaterLogo);
 		addRepeaterButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addRepeaterButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addRepeaterButton.addActionListener(new TogglePlantAction(model, Plant.REPEATER));
+		addRepeaterButton.addActionListener(new TogglePlantAction(Plant.REPEATER));
 		
 		ImageIcon bombLogo = new ImageIcon("src/main/resources/cherryBombIcon.png");
 		addBombButton = new JButton(bombLogo);
 		addBombButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addBombButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		addBombButton.addActionListener(new TogglePlantAction(model, Plant.CHERRY_BOMB));
+		addBombButton.addActionListener(new TogglePlantAction(Plant.CHERRY_BOMB));
 		
 		nextIterationButton = new JButton("Next Iteration");
 		nextIterationButton.setBorder(defaultBorder);
 		nextIterationButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		nextIterationButton.addActionListener(new NextAction(model, undoManager));
+		nextIterationButton.addActionListener(new NextAction(undoManager));
 		
 		undoButton = new JButton("Undo");
 		undoButton.setBorder(defaultBorder);

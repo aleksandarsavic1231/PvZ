@@ -3,13 +3,13 @@ import java.awt.event.ActionListener;
 
 public class RestartAction extends Command implements ActionListener {
 
-	public RestartAction(Model model, UndoManager undoManager) {
-		super(model, undoManager);
+	public RestartAction(UndoManager undoManager) {
+		super(undoManager);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		new RestartCommand(getModel(), getUndoManager()).execute();
+		new RestartCommand(getUndoManager()).execute();
 	}
 
 }

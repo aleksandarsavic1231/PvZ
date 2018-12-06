@@ -7,7 +7,7 @@ import java.util.LinkedList;
  * @author kylehorne
  * @version 25 Nov 18
  */
-public class TileCommand extends Controller implements Undoable {
+public class TileCommand implements Undoable {
 	
 	/**
 	 * The location of the tile selected.
@@ -46,24 +46,25 @@ public class TileCommand extends Controller implements Undoable {
 	 */
 	private LinkedList<Entity> lastEntities;
 	
+	private Model model;
+	
 	/**
 	 * Constructor.
 	 * 
 	 * @param model The Model to this NextCommand Object.
 	 * @param tile The location of the tile selected.
 	 */
-	public TileCommand(Model model, Point tile) {
-		super(model);
+	public TileCommand(Point tile) {
+		model = Controller.getInstance().getModel();
 		this.tile = tile;
 		lastEntities = new LinkedList<Entity>();
 	}
 
 	@Override
 	public void execute() {	
-		Model model = getModel();
 		// Only spawn plant if tile contains no sun.
 		foundSun = false;
-		for(Entity entity: getModel().getEntities()) {
+		for(Entity entity: model.getEntities()) {
 			Point position = entity.getPosition();
 			if (entity instanceof Sun && position.x == tile.x && position.y == tile.y) {
 				foundSun = true;
@@ -77,7 +78,7 @@ public class TileCommand extends Controller implements Undoable {
 			executeSpawnPlant(model);
 		} else {
 			model.setToggledPlant(lastToggledPlant);
-			for(Entity entity: getModel().getEntities())
+			for(Entity entity: model.getEntities())
 				try {
 					lastEntities.add(EntityFactory.clone(entity));
 				} catch (UnimplementedEntity e) {
@@ -90,7 +91,6 @@ public class TileCommand extends Controller implements Undoable {
 
 	@Override
 	public void undo() {
-		Model model = getModel();
 		if (foundSun) {
 			lastEntities.add(new Sun(tile));
 			model.setBalance(lastBalance);
