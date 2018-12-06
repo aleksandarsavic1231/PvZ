@@ -1,11 +1,15 @@
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Stack;
 
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -31,6 +35,8 @@ public class UndoManager implements XMLEncoderDecoder {
 	 */
 	private Stack<Undoable> redoStack;
 	
+	private Model model;
+	
 	/**
 	 * Constructor.
 	 */
@@ -49,7 +55,7 @@ public class UndoManager implements XMLEncoderDecoder {
 		command.execute();
 		undoStack.push(command);
 		// Reset undo stack if execution causes game to end
-		if(command instanceof NextCommand && !((NextCommand)command).getModel().getIsRunning()) undoStack.clear();
+		if(command instanceof NextCommand && !(model.getIsRunning())) undoStack.clear();
 		// Reset redo stack on execution of new command
 		redoStack.clear();
 		notifyListeners();
@@ -109,8 +115,9 @@ public class UndoManager implements XMLEncoderDecoder {
 	 * 
 	 * @param listener The listener to add.
 	 */
-	public void addActionListener(Listener listener) {
+	public void addActionListener(Model model, Listener listener) {
 		listeners.add(listener);
+		this.model = model;
 		// Notify listeners of undo/redo state on subscription
 		notifyListeners();
 	}
@@ -157,8 +164,26 @@ public class UndoManager implements XMLEncoderDecoder {
 	@Override
 	public void load() 
 	throws IOException, SAXException, ParserConfigurationException {
-		// TODO Auto-generated method stub
-		
+		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream("./" + getClass().getName() + ".xml"));
+		NodeList undoList = document.getElementsByTagName("UndoStack").item(0).getChildNodes();
+		Stack<Undoable> tempUndoStack = new Stack<Undoable>();
+		for(int i = 0; i < undoList.getLength(); i++)
+			try {
+				tempUndoStack.add(UndoableFactory.create(model, undoList.item(i)));
+			} catch (UnimplementedUndoable | UnimplementedPlant e) {
+				e.printStackTrace();
+			}
+		setUndoStack(tempUndoStack);
+		NodeList redoList = document.getElementsByTagName("RedoStack").item(0).getChildNodes();
+		Stack<Undoable> tempRedoStack = new Stack<Undoable>();
+		for(int i = 0; i < redoList.getLength(); i++)
+			try {
+				tempRedoStack.add(UndoableFactory.create(model, redoList.item(i)));
+			} catch (UnimplementedUndoable | UnimplementedPlant e) {
+				e.printStackTrace();
+			}
+		setRedoStack(tempRedoStack);
+		notifyListeners();
 	}
 	
  }

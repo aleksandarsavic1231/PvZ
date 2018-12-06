@@ -4,7 +4,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * Entity factory can instantiate an Entity type from a XML encoding or instantiate a deep clone of a Entity.
+ * EntityFactory can instantiate an Entity type from a XML encoding or instantiate a deep clone of a Entity.
  * 
  * @author kylehorne
  * @version 5 Dec 18

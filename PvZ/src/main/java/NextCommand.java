@@ -72,9 +72,16 @@ public class NextCommand extends Controller implements Undoable {
 
 	@Override
 	public String toXMLString() {
-		String XMLEncoding = "<NextCommand><lastBalance>" + lastBalance + "</lastBalance><lastEntities>";
+		String XMLEncoding = 
+				"<NextCommand>"
+						+ "<lastBalance>" + lastBalance + "</lastBalance>"
+						+ "<lastEntities>";
 		for(Entity entity: lastEntities) XMLEncoding += entity.toXMLString();
 		return XMLEncoding += "</lastEntities></NextCommand>";
 	}
+	
+	public void setLastBalance(int lastBalance) { this.lastBalance = lastBalance; } 
+	
+	public void setLastEntities(LinkedList<Entity> lastEntities) { this.lastEntities = lastEntities; }
 
 }

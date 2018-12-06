@@ -1,7 +1,7 @@
 import org.w3c.dom.Node;
 
 /**
- * Plant factory instantiates a Plant type from a XML encoding.
+ * PlantFactory instantiates a Plant type from a XML encoding.
  * 
  * @author kylehorne
  * @version 5 Dec 18

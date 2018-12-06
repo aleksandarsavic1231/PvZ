@@ -156,11 +156,29 @@ public class TileCommand extends Controller implements Undoable {
 
 	@Override
 	public String toXMLString() {
-		String XMLEncoding = "<TileCommand><Point><x>" + tile.x + "</x>" + "<y>" + tile.y + "</y></Point><lastBalance>" 
-				+ lastBalance + "</lastBalance><lastToggledPlant>" + lastToggledPlant + "</lastToggledPlant><lastDeployable>" 
-				+ lastDeployable + "<foundSun>" + foundSun + "</foundSun></lastDeployable><lastEntities>";
+		String XMLEncoding = 
+				"<TileCommand>"
+					+ "<Point>"
+						+ "<x>" + tile.x + "</x>" 
+						+ "<y>" + tile.y + "</y>"
+					+ "</Point>" 
+					+ "<lastBalance>" + lastBalance + "</lastBalance>"
+					+ "<lastToggledPlant>" + lastToggledPlant + "</lastToggledPlant>"
+					+ "<lastDeployable>" + lastDeployable + "</lastDeployable>"
+					+ "<foundSun>" + foundSun + "</foundSun>"
+					+ "<lastEntities>";
 		for(Entity entity: lastEntities) XMLEncoding += entity.toXMLString();
 		return XMLEncoding += "</lastEntities></TileCommand>";
 	}
+	
+	public void setLastBalance(int lastBalance) { this.lastBalance = lastBalance; } 
+	
+	public void setFoundSun(boolean foundSun) { this.foundSun = foundSun; }
+	
+	public void setLastDeployable(int lastDeployable) { this.lastDeployable = lastDeployable; }
+	
+	public void setLastToggledPlant(Plant lastToggledPlant) { this.lastToggledPlant = lastToggledPlant; }
+	
+	public void setLastEntities(LinkedList<Entity> lastEntities) { this.lastEntities = lastEntities; }
 
 }
