@@ -17,8 +17,6 @@ public class NextCommand implements Undoable {
 	 * The last state of Model balance.
 	 */
 	private int lastBalance;
-	
-	private Model model;
 
 	/**
 	 * Constructor.
@@ -26,12 +24,13 @@ public class NextCommand implements Undoable {
 	 * @param model The Model to this NextCommand Object.
 	 */
 	public NextCommand() {	
-		model = Controller.getInstance().getModel();
+		
 		lastEntities = new LinkedList<Entity>();
 	}
 
 	@Override
 	public void execute() {
+		Model model = Controller.getInstance().getModel();
 		// Save state of Model.
 		lastBalance = model.getBalance();
 		for(Entity entity: model.getEntities()) {
@@ -57,6 +56,7 @@ public class NextCommand implements Undoable {
 
 	@Override
 	public void undo() {
+		Model model = Controller.getInstance().getModel();
 		// Set Model to last game state.
 		model.setEntities(lastEntities);
 		model.setBalance(lastBalance);

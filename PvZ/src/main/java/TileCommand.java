@@ -46,8 +46,6 @@ public class TileCommand implements Undoable {
 	 */
 	private LinkedList<Entity> lastEntities;
 	
-	private Model model;
-	
 	/**
 	 * Constructor.
 	 * 
@@ -55,13 +53,13 @@ public class TileCommand implements Undoable {
 	 * @param tile The location of the tile selected.
 	 */
 	public TileCommand(Point tile) {
-		model = Controller.getInstance().getModel();
 		this.tile = tile;
 		lastEntities = new LinkedList<Entity>();
 	}
 
 	@Override
 	public void execute() {	
+		Model model = Controller.getInstance().getModel();
 		// Only spawn plant if tile contains no sun.
 		foundSun = false;
 		for(Entity entity: model.getEntities()) {
@@ -75,7 +73,7 @@ public class TileCommand implements Undoable {
 			}
 		}
 		if (!foundSun) {
-			executeSpawnPlant(model);
+			executeSpawnPlant();
 		} else {
 			model.setToggledPlant(lastToggledPlant);
 			for(Entity entity: model.getEntities())
@@ -91,6 +89,7 @@ public class TileCommand implements Undoable {
 
 	@Override
 	public void undo() {
+		Model model = Controller.getInstance().getModel();
 		if (foundSun) {
 			lastEntities.add(new Sun(tile));
 			model.setBalance(lastBalance);
@@ -98,7 +97,7 @@ public class TileCommand implements Undoable {
 			model.setToggledPlant(lastToggledPlant);
 
 		} else {
-			undoSpawnPlant(model);	
+			undoSpawnPlant();	
 		}
 	}
 
@@ -108,7 +107,8 @@ public class TileCommand implements Undoable {
 		execute();
 	}
 	
-	private void executeSpawnPlant(Model model) {
+	private void executeSpawnPlant() {
+		Model model = Controller.getInstance().getModel();
 		// Set last balance and game counter
 		lastToggledPlant = model.getToggledPlant();
 		if (lastToggledPlant == null) return; // No plant selected 
@@ -140,7 +140,8 @@ public class TileCommand implements Undoable {
 		model.spawnPlant(tile);
 	}
 	
-	private void undoSpawnPlant(Model model) {
+	private void undoSpawnPlant() {
+		Model model = Controller.getInstance().getModel();
 		model.setEntities(lastEntities);
 		model.setBalance(lastBalance);
 		model.setToggledPlant(lastToggledPlant);

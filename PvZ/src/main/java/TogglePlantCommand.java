@@ -11,20 +11,18 @@ public class TogglePlantCommand implements Executable {
 	 */
 	private Plant plant;
 	
-	private Model model;
-	
 	/**
 	 * 
 	 * @param model The Model to this TogglePlantCommand Object.
 	 * @param plant The currently toggled plant.
 	 */
 	public TogglePlantCommand(Plant plant) {
-		model = Controller.getInstance().getModel();
 		this.plant = plant;
 	}
 
 	@Override
 	public void execute() {
+		Model model = Controller.getInstance().getModel();
 		model.setToggledPlant(plant);
 	}
 

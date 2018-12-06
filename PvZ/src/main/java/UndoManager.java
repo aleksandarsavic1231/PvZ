@@ -35,13 +35,10 @@ public class UndoManager implements XMLEncoderDecoder {
 	 */
 	private Stack<Undoable> redoStack;
 	
-	private Model model;
-	
 	/**
 	 * Constructor.
 	 */
 	public UndoManager() {
-		model = Controller.getInstance().getModel();
 		listeners = new LinkedList<Listener>();
 		undoStack = new Stack<Undoable>();
 		redoStack = new Stack<Undoable>();
@@ -56,7 +53,7 @@ public class UndoManager implements XMLEncoderDecoder {
 		command.execute();
 		undoStack.push(command);
 		// Reset undo stack if execution causes game to end
-		if(command instanceof NextCommand && !(model.getIsRunning())) undoStack.clear();
+		if(command instanceof NextCommand && !(Controller.getInstance().getModel().getIsRunning())) undoStack.clear();
 		// Reset redo stack on execution of new command
 		redoStack.clear();
 		notifyListeners();
@@ -116,9 +113,8 @@ public class UndoManager implements XMLEncoderDecoder {
 	 * 
 	 * @param listener The listener to add.
 	 */
-	public void addActionListener(Model model, Listener listener) {
+	public void addActionListener(Listener listener) {
 		listeners.add(listener);
-		this.model = model;
 		// Notify listeners of undo/redo state on subscription
 		notifyListeners();
 	}
@@ -140,11 +136,6 @@ public class UndoManager implements XMLEncoderDecoder {
 	public void setUndoStack(Stack<Undoable> undoStack) { this.undoStack = undoStack; }
 	
 	public void setRedoStack(Stack<Undoable> redoStack) { this.redoStack = redoStack; }
-
-	public void reinitialize(UndoManager undoManager) {
-		setUndoStack(undoManager.getUndoStack());
-		setRedoStack(undoManager.getRedoStack());
-	}
 
 	@Override
 	public void save() 

@@ -111,7 +111,7 @@ public class View extends JFrame implements Listener {
 		setJMenuBar(addMenuBar());
 		// Subscribe to Events
 		model.addActionListener(this);
-		undoManager.addActionListener(model, this);
+		undoManager.addActionListener(this);
 		// Customize frame
 		setSize(WIDTH, HEIGHT);
 		setResizable(false);
