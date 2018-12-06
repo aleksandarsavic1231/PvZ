@@ -30,8 +30,14 @@ public enum Action {
 	
 	REDO,
 	
+<<<<<<< HEAD
 	RESTART_GAME,
 	
 	GAME_WON
+=======
+	RESTART_GAME, 
+	
+	TOGGLE_CHOMPER
+>>>>>>> refs/remotes/origin/master
 
 }

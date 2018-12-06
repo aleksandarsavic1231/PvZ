@@ -6,7 +6,7 @@ import java.awt.Point;
  * @author kylehorne
  * @version 25 Nov 18
  */
-public abstract class Alive extends Entity {
+public class Alive extends Entity {
 
 	/**
 	 * The health of this Alive Object.
@@ -56,6 +56,12 @@ public abstract class Alive extends Entity {
 	 */
 	public void setHealth(int health) {
 		this.health = health;
+	}
+
+	@Override
+	public String toXMLString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

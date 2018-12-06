@@ -26,7 +26,8 @@ import junit.framework.TestSuite;
 	TogglePlantCommandTest.class, 
 	UndoManagerTest.class,
 	WalnutTest.class,
-	ZombieTest.class 
+	ZombieTest.class,
+	ChomperTest.class
 })
 public class AllTests extends TestCase {
 	
@@ -55,6 +56,7 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(TogglePlantCommandTest.class)); 	
 		suite.addTest(new TestSuite(WalnutTest.class)); 	
 		suite.addTest(new TestSuite(ZombieTest.class)); 
+		suite.addTest(new TestSuite(ChomperTest.class)); 
 		return suite;
 	} 
 
