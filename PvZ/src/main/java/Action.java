@@ -32,6 +32,8 @@ public enum Action {
 	
 	RESTART_GAME,
 	
-	GAME_WON
+	GAME_WON,
+	
+	TOGGLE_CHOMPER
 
 }

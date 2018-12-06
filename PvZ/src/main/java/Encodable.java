@@ -11,6 +11,6 @@ public interface Encodable {
 	 * 
 	 * @return String The Object encoded in XML.
 	 */
-	public  String toXMLString();
+	public String toXMLString();
 	
 }

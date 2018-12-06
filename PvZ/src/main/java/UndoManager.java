@@ -166,11 +166,11 @@ public class UndoManager implements XMLEncoderDecoder {
 		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream("./" + getClass().getName() + ".xml"));
 		NodeList undoList = document.getElementsByTagName("UndoStack").item(0).getChildNodes();
 		Stack<Undoable> tempUndoStack = new Stack<Undoable>();
-		for(int i = 0; i < undoList.getLength(); i++) tempUndoStack.add(UndoableFactory.create(undoList.item(i)));
+		for(int i = 0; i < undoList.getLength(); i++) tempUndoStack.add(CommandFactory.create(undoList.item(i)));
 		setUndoStack(tempUndoStack);
 		NodeList redoList = document.getElementsByTagName("RedoStack").item(0).getChildNodes();
 		Stack<Undoable> tempRedoStack = new Stack<Undoable>();
-		for(int i = 0; i < redoList.getLength(); i++) tempRedoStack.add(UndoableFactory.create(redoList.item(i)));
+		for(int i = 0; i < redoList.getLength(); i++) tempRedoStack.add(CommandFactory.create(redoList.item(i)));
 		setRedoStack(tempRedoStack);
 		notifyListeners();
 	}

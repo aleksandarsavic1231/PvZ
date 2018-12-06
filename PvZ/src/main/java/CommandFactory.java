@@ -6,12 +6,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * UndoableFactory can instantiate an Undoable Objects from a XML encoding.
+ * CommandFactory can instantiate an Undoable Objects from a XML encoding.
  * 
  * @author kylehorne
  * @version 5 Dec 18
  */
-public class UndoableFactory {
+public class CommandFactory {
 		
 	public static Undoable create(Node node) throws UnimplementedCommand, UnimplementedPlant {
 		Undoable undoable;

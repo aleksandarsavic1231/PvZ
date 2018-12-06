@@ -167,6 +167,10 @@ public class Model implements XMLEncoderDecoder {
 			if ((e instanceof PeaShooter || e instanceof Sunflower || e instanceof Walnut || e instanceof Repeater) && m instanceof Zombie && willCollide) {
 				((Alive) e).takeDamage(Zombie.DAMAGE);		
 				return true;
+			} if((e instanceof Chomper) && m instanceof Zombie && (willCollide)) {
+				((Zombie) m).takeDamage(Chomper.DAMAGE);
+				((Chomper) e).lock = true;
+				return true;
 			}
 		}
 		return false;
@@ -207,6 +211,11 @@ public class Model implements XMLEncoderDecoder {
 			entities.add(new CherryBomb(location));
 			CherryBomb.setNextDeployable(gameCounter);
 			hasPurchased = true;
+		} else if(toggledPlant == Plant.CHOMPER && isChomperPurchasable()) {
+			balance -= Chomper.COST;
+			entities.add(new Chomper(location));
+			Chomper.setNextDeployable(gameCounter);
+			hasPurchased = true;
 		}
 		// If successful purchase spawn plant and update new balance
 		if (hasPurchased) {
@@ -214,6 +223,10 @@ public class Model implements XMLEncoderDecoder {
 			notifyOfBalance();
 			toggledPlant = null;
 		}
+	}
+	
+	public boolean isChomperPurchasable() {
+		return Chomper.COST <= balance && Chomper.isDeployable(gameCounter);
 	}
 	
 	/**
@@ -269,7 +282,11 @@ public class Model implements XMLEncoderDecoder {
 					((CherryBomb) entity).selfDestruct(); // CherryBomb explodes itself
 				// If Repeater can fire spawn new bullet at Repeater location with Repeater damage
 				} else if (entity instanceof Repeater) tempEntities.add(new Bullet(new Point(entity.getPosition().x, entity.getPosition().y), Repeater.DAMAGE));
-			}
+				else if (entity instanceof Chomper) {
+					tempEntities.add(new Chomper(new Point(entity.getPosition().x, entity.getPosition().y)));
+					if (((Chomper)entity).canShoot()==false) Chomper.lock = true;
+				}
+			} 
 		}
 		// Add newly spawned Objects to Entities list
 		entities.addAll(tempEntities);
@@ -323,6 +340,7 @@ public class Model implements XMLEncoderDecoder {
 		notifyListeners(Action.TOGGLE_WALLNUT);
 		notifyListeners(Action.TOGGLE_REPEATER);
 		notifyListeners(Action.TOGGLE_CHERRY_BOMB);
+		notifyListeners(Action.TOGGLE_CHOMPER);
 	}
 
 	/**
