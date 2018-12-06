@@ -53,7 +53,7 @@ public class UndoManager implements XMLEncoderDecoder {
 		command.execute();
 		undoStack.push(command);
 		// Reset undo stack if execution causes game to end
-		if(command instanceof NextCommand && !(Controller.getInstance().getModel().getIsRunning())) undoStack.clear();
+		if(!(Controller.getInstance().getModel().getIsRunning())) undoStack.clear();
 		// Reset redo stack on execution of new command
 		redoStack.clear();
 		notifyListeners();
@@ -155,25 +155,21 @@ public class UndoManager implements XMLEncoderDecoder {
 
 	@Override
 	public void load() 
-	throws IOException, SAXException, ParserConfigurationException {
+	throws
+	IOException, 
+	SAXException, 
+	ParserConfigurationException, 
+	UnimplementedPlant, 
+	UnimplementedEntity,
+	UnimplementedCommand {
 		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream("./" + getClass().getName() + ".xml"));
 		NodeList undoList = document.getElementsByTagName("UndoStack").item(0).getChildNodes();
 		Stack<Undoable> tempUndoStack = new Stack<Undoable>();
-		for(int i = 0; i < undoList.getLength(); i++)
-			try {
-				tempUndoStack.add(UndoableFactory.create(undoList.item(i)));
-			} catch (UnimplementedUndoable | UnimplementedPlant e) {
-				e.printStackTrace();
-			}
+		for(int i = 0; i < undoList.getLength(); i++) tempUndoStack.add(UndoableFactory.create(undoList.item(i)));
 		setUndoStack(tempUndoStack);
 		NodeList redoList = document.getElementsByTagName("RedoStack").item(0).getChildNodes();
 		Stack<Undoable> tempRedoStack = new Stack<Undoable>();
-		for(int i = 0; i < redoList.getLength(); i++)
-			try {
-				tempRedoStack.add(UndoableFactory.create(redoList.item(i)));
-			} catch (UnimplementedUndoable | UnimplementedPlant e) {
-				e.printStackTrace();
-			}
+		for(int i = 0; i < redoList.getLength(); i++) tempRedoStack.add(UndoableFactory.create(redoList.item(i)));
 		setRedoStack(tempRedoStack);
 		notifyListeners();
 	}

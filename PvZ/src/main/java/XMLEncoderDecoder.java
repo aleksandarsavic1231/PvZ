@@ -21,7 +21,13 @@ public interface XMLEncoderDecoder {
 	/**
 	 * Load this from local storage.
 	 */
-	public void load()  
-	throws IOException, SAXException, ParserConfigurationException ;
+	public void load() 
+	throws 
+	IOException, 
+	SAXException, 
+	ParserConfigurationException, 
+	UnimplementedPlant, 
+	UnimplementedEntity,
+	UnimplementedCommand;
 	
 }

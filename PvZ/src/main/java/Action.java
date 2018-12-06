@@ -30,6 +30,8 @@ public enum Action {
 	
 	REDO,
 	
-	RESTART_GAME
+	RESTART_GAME,
+	
+	GAME_WON
 
 }

@@ -8,7 +8,7 @@ public class RestartCommand extends Command implements Executable {
 	@Override
 	public void execute() {
 		Model model = Controller.getInstance().getModel();
-		// Reset undo/redo on restart
+		// Set UndoManager and Model to initial state
 		getUndoManager().clearUndoManager();
 		model.clearBoard();
 		PeaShooter.resetNextDeployable();
@@ -17,7 +17,7 @@ public class RestartCommand extends Command implements Executable {
 		Repeater.resetNextDeployable();
 		CherryBomb.resetNextDeployable();
 		Repeater.resetNextDeployable();
-		model.init();
+		model.restartGame();
 		model.notifyOfBalance();
 	}
 

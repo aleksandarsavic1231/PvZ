@@ -51,7 +51,8 @@ public class NextCommand implements Undoable {
 		// Add automatic welfare if payment period has elapsed 
 		if (model.getGameCounter() % Model.PAYMENT_PERIOD == 0) model.increaseBalance(Model.WELFARE);	
 		// Check if game is still runnable
-		model.updateIsRunning();
+		model.checkGameOver();
+		model.checkRoundOver();
 	}
 
 	@Override

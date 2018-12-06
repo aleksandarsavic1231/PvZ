@@ -13,7 +13,7 @@ import org.w3c.dom.NodeList;
  */
 public class UndoableFactory {
 		
-	public static Undoable create(Node node) throws UnimplementedUndoable, UnimplementedPlant {
+	public static Undoable create(Node node) throws UnimplementedCommand, UnimplementedPlant {
 		Undoable undoable;
 		String type = node.getNodeName();
 		Element element = (Element) node; 
@@ -49,7 +49,7 @@ public class UndoableFactory {
 			// Set lastEntities for tileCommand
 			tileCommand.setLastEntities(tempEntities);
 			undoable = tileCommand;
-		} else throw new UnimplementedUndoable(type + " cannot be created");
+		} else throw new UnimplementedCommand(type + " cannot be created");
 		return undoable;
 	}
 

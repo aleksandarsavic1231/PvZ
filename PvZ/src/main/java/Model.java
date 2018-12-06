@@ -67,46 +67,35 @@ public class Model implements XMLEncoderDecoder {
 	 */
 	public static final int INITIAL_BALANCE = 400;
 	
-	/**
-	 * The lower bound a Zombie can spawn.
-	 */
-	public static final int LOWER_BOUND = 5 + Board.COLUMNS;
 	
-	/**
-	 * The randomness between Zombie separation. 
-	 */
-	public static final int NOICE = 8;
+	private Level level;
 	
-	/**
-	 * The number of Regular Zombies to spawn.
-	 */
-	public static final int N_REGULAR_ZOMBIES = 3;
-	
-	/**
-	 * The number of Pylon Zombies to spawn.
-	 */
-	public static final int N_PYLON_ZOMBIES = 1;	
-
 	/**
 	 * Constructor.
 	 */
 	public Model() {
 		listeners = new LinkedList<Listener>();
+		level = Level.ONE;
 		init();
+	}	
+	
+	public void restartGame() {
+		level = Level.ONE;
+		init();
+		notifyListeners(Action.RESTART_GAME);
 	}	
 	
 	/**
 	 * Initialize fields to default game state.
 	 */
-	public void init() {
+	private void init() {	
 		isRunning = true;
 		entities = new LinkedList<Entity>();
 		balance = INITIAL_BALANCE; 
 		gameCounter = 0;
-		spawnRegularZombies(N_REGULAR_ZOMBIES);
-		spawnPylonZombies(N_PYLON_ZOMBIES);
+		spawnRegularZombies(level.getNRegularZombies());
+		spawnPylonZombies(level.getNPylonZombies());
 		toggledPlant = null;
-		notifyListeners(Action.RESTART_GAME);
 	}
 	
 	/**
@@ -135,7 +124,7 @@ public class Model implements XMLEncoderDecoder {
 		// TODO: Make lambda function
 		for (int i = 0; i < n; i ++) {
 			// Spawn further than columns so player has time to increase balance
-			Entity zombie = new RegularZombie(new Point(new Random().nextInt(NOICE) + LOWER_BOUND , new Random().nextInt(Board.ROWS)));
+			Entity zombie = new RegularZombie(new Point(new Random().nextInt(level.getRandomness()) + level.getLowerBound() , new Random().nextInt(Board.ROWS)));
 			entities.add(zombie);
 			notifyOfSpawn(zombie);
 		}
@@ -151,7 +140,7 @@ public class Model implements XMLEncoderDecoder {
 		// TODO: Make lambda function
 		for (int i = 0; i < n; i ++) {
 			// Spawn further than columns so player has time to increase balance
-			Entity zombie = new PylonZombie(new Point(new Random().nextInt(NOICE) + LOWER_BOUND , new Random().nextInt(Board.ROWS)));
+			Entity zombie = new PylonZombie(new Point(new Random().nextInt(level.getRandomness()) + level.getLowerBound(), new Random().nextInt(Board.ROWS)));
 			entities.add(zombie);
 			notifyOfSpawn(zombie);
 		}
@@ -383,34 +372,38 @@ public class Model implements XMLEncoderDecoder {
 	
 	/**
 	 * Check if the game is over.
-	 * 
-	 * @return boolean True if the game is over.
 	 */
-	private boolean isGameOver() {
+	public void checkGameOver() {
 		for(Entity e : entities) {
 			if (e instanceof Zombie && e.getPosition().x == 0) {
+				isRunning = false;
 				notifyListeners(Action.GAME_OVER);
-				return true;
+				return;
 			}
 		}
-		return false;
 	}
 
 	/**
 	 * Check if the round is over.
-	 * 
-	 * @return boolean True if the round  is over.
 	 */
-	private boolean isRoundOver() {
-		for(Entity e : entities) if (e instanceof Zombie) return false;
-		notifyListeners(Action.ROUND_OVER);
-		return true;
+	public void checkRoundOver() {
+		for(Entity e : entities) if (e instanceof Zombie) return;
+		isRunning = false; 
+		level = level.next();
+		if (level == null) notifyListeners(Action.GAME_WON);
+		else {
+			notifyListeners(Action.ROUND_OVER);
+			clearBoard();
+			init();
+			PeaShooter.resetNextDeployable();
+			Sunflower.resetNextDeployable();
+			Walnut.resetNextDeployable();
+			Repeater.resetNextDeployable();
+			CherryBomb.resetNextDeployable();
+			Repeater.resetNextDeployable();
+			notifyOfBalance();
+		}
 	}
-	
-	/**
-	 * Update isRunning field.
-	 */
-	public void updateIsRunning() { if (isGameOver() || isRoundOver()) isRunning = false; }
 	
 	/**
 	 * Check if the game is still running.
@@ -610,23 +603,19 @@ public class Model implements XMLEncoderDecoder {
 	
 	@Override
 	public void load() 
-	throws IOException, SAXException, ParserConfigurationException {
+	throws 
+	IOException, 
+	SAXException, 
+	ParserConfigurationException, 
+	UnimplementedPlant, 
+	UnimplementedEntity {
 		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream("./" + getClass().getName() + ".xml"));
 		setGameCounter(Integer.parseInt(getTextContent(document, "gameCounter")));
 		setIsRunning(Boolean.parseBoolean(getTextContent(document, "isRunning")));
-		try {
-			setToggledPlant(PlantFactory.create(document.getElementsByTagName("toggledPlant").item(0)));
-		} catch (UnimplementedPlant e1) {
-			e1.printStackTrace();
-		}
+		setToggledPlant(PlantFactory.create(document.getElementsByTagName("toggledPlant").item(0)));
 		NodeList entityList = document.getElementsByTagName("Entities").item(0).getChildNodes();
 		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
-		for(int i = 0; i < entityList.getLength(); i++)
-			try {
-				tempEntities.add(EntityFactory.create(entityList.item(i)));
-			} catch (UnimplementedEntity e) {
-				e.printStackTrace();
-			}
+		for(int i = 0; i < entityList.getLength(); i++) tempEntities.add(EntityFactory.create(entityList.item(i)));
 		setEntities(tempEntities);
 		setBalance(Integer.parseInt(getTextContent(document, "balance")));
 	}

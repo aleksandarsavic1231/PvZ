@@ -149,11 +149,12 @@ public class View extends JFrame implements Listener {
 			for(XMLEncoderDecoder endcoderDecoder: saveable)
 				try {
 					endcoderDecoder.load();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (SAXException e1) {
-					e1.printStackTrace();
-				} catch (ParserConfigurationException e1) {
+				} catch (UnimplementedPlant | 
+						UnimplementedEntity | 
+						UnimplementedCommand | 
+						IOException | 
+						SAXException | 
+						ParserConfigurationException e1) {
 					e1.printStackTrace();
 				}
 		});
@@ -327,12 +328,11 @@ public class View extends JFrame implements Listener {
 			sunPointsLabel.setText("Sun Points: " + model.getBalance());
 			break;
 		case ROUND_OVER:
-			disableAllButtons();
-			JOptionPane.showMessageDialog(null, "Congratulations, you beat the round!");
+			JOptionPane.showMessageDialog(null, "You beat the round, next wave is about to begin!");
 			break;
 		case GAME_OVER:
 			disableAllButtons();
-			JOptionPane.showMessageDialog(null, "You lost the round!");
+			JOptionPane.showMessageDialog(null, "You lost the game!");
 			break;
 		case TOGGLE_SUNFLOWER:
 			addSunflowerButton.setEnabled(model.isSunflowerPurchasable());
@@ -356,6 +356,10 @@ public class View extends JFrame implements Listener {
 			break;
 		case RESTART_GAME:
 			nextIterationButton.setEnabled(true);
+			break;
+		case GAME_WON:
+			disableAllButtons();
+			JOptionPane.showMessageDialog(null, "Congratulations, you beat the game!");
 			break;
 		default:
 			break;
