@@ -585,6 +585,7 @@ public class Model implements XMLEncoderDecoder {
 	throws IOException {
 		StringBuffer buffer = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Model>");
 		buffer.append("<balance>" + getBalance() + "</balance>");
+		buffer.append("<Level>" + level + "</Level>");
 		buffer.append("<toggledPlant>" + getToggledPlant() + "</toggledPlant>");
 		buffer.append("<gameCounter>" + getGameCounter() + "</gameCounter>");
 		buffer.append("<isRunning>" + getIsRunning() + "</isRunning>");
@@ -595,6 +596,10 @@ public class Model implements XMLEncoderDecoder {
 		BufferedWriter stream = new BufferedWriter(new FileWriter("./" + getClass().getName() + ".xml"));
 		stream.write(buffer.toString());
 		stream.close();	
+	}
+	
+	public void setLevel(Level level) {
+		this.level = level;
 	}
 	
 	public String getTextContent(Document document, String tag) {
@@ -608,11 +613,13 @@ public class Model implements XMLEncoderDecoder {
 	SAXException, 
 	ParserConfigurationException, 
 	UnimplementedPlant, 
-	UnimplementedEntity {
+	UnimplementedEntity, 
+	UnimplementedLevel {
 		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream("./" + getClass().getName() + ".xml"));
 		setGameCounter(Integer.parseInt(getTextContent(document, "gameCounter")));
 		setIsRunning(Boolean.parseBoolean(getTextContent(document, "isRunning")));
 		setToggledPlant(PlantFactory.create(document.getElementsByTagName("toggledPlant").item(0)));
+		setLevel(LevelFactory.create(document.getElementsByTagName("Level").item(0)));
 		NodeList entityList = document.getElementsByTagName("Entities").item(0).getChildNodes();
 		LinkedList<Entity> tempEntities = new LinkedList<Entity>();
 		for(int i = 0; i < entityList.getLength(); i++) tempEntities.add(EntityFactory.create(entityList.item(i)));

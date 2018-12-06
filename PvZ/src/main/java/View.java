@@ -154,7 +154,8 @@ public class View extends JFrame implements Listener {
 						UnimplementedCommand | 
 						IOException | 
 						SAXException | 
-						ParserConfigurationException e1) {
+						ParserConfigurationException | 
+						UnimplementedLevel e1) {
 					e1.printStackTrace();
 				}
 		});

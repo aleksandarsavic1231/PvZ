@@ -27,7 +27,8 @@ public interface XMLEncoderDecoder {
 	SAXException, 
 	ParserConfigurationException, 
 	UnimplementedPlant, 
-	UnimplementedEntity,
+	UnimplementedEntity, 
+	UnimplementedLevel, 
 	UnimplementedCommand;
 	
 }

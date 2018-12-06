@@ -155,12 +155,13 @@ public class UndoManager implements XMLEncoderDecoder {
 
 	@Override
 	public void load() 
-	throws
+	throws 
 	IOException, 
 	SAXException, 
 	ParserConfigurationException, 
 	UnimplementedPlant, 
-	UnimplementedEntity,
+	UnimplementedEntity, 
+	UnimplementedLevel, 
 	UnimplementedCommand {
 		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream("./" + getClass().getName() + ".xml"));
 		NodeList undoList = document.getElementsByTagName("UndoStack").item(0).getChildNodes();
