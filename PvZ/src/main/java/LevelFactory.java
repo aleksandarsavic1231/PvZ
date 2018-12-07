@@ -8,6 +8,7 @@ public class LevelFactory {
 		String type = node.getTextContent();
 		if (type.equalsIgnoreCase("ONE")) level = Level.ONE;
 		else if (type.equalsIgnoreCase("TWO")) level = Level.TWO;
+		else if (type.equalsIgnoreCase("THREE")) level = Level.THREE;
 		else throw new UnimplementedLevel(type + " cannot be created");
 		return level;		
 	}
