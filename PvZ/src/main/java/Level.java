@@ -8,7 +8,8 @@ public enum Level {
 	
 	// nRegularZombies, nPylonZombies, randomness, lowerBound
 	ONE (1, 0, 1, 10),
-	TWO (2, 1, 5, 12) {
+	TWO (2, 1, 5, 12),
+	THREE (2, 2, 8, 12){
         @Override
         public Level next() { return null; };
     };

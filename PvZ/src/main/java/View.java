@@ -283,7 +283,7 @@ public class View extends JFrame implements Listener {
 		buttonPanel.add(nextIterationButton);
 		buttonPanel.add(undoButton);
 		buttonPanel.add(redoButton);
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 220, 10, 0));
+		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 180, 10, 0));
 		buttonPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 				
 		JPanel footerPanel = new JPanel();
