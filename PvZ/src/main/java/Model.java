@@ -1,5 +1,6 @@
 import java.awt.Point;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -634,6 +635,8 @@ public class Model implements XMLEncoderDecoder {
 	UnimplementedPlant, 
 	UnimplementedEntity, 
 	UnimplementedLevel {
+		File file = new File("./" + getClass().getName() + ".xml");
+		if (!file.exists()) return;
 		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream("./" + getClass().getName() + ".xml"));
 		setGameCounter(Integer.parseInt(getTextContent(document, "gameCounter")));
 		setIsRunning(Boolean.parseBoolean(getTextContent(document, "isRunning")));

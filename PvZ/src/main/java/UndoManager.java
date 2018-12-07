@@ -1,4 +1,5 @@
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -163,6 +164,8 @@ public class UndoManager implements XMLEncoderDecoder {
 	UnimplementedEntity, 
 	UnimplementedLevel, 
 	UnimplementedCommand {
+		File file = new File("./" + getClass().getName() + ".xml");
+		if (!file.exists()) return;
 		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream("./" + getClass().getName() + ".xml"));
 		NodeList undoList = document.getElementsByTagName("UndoStack").item(0).getChildNodes();
 		Stack<Undoable> tempUndoStack = new Stack<Undoable>();
