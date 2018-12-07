@@ -8,17 +8,17 @@
 public interface Board {
 	
 	/**
-	 * Number of rows on PvZ Board.
+	 * Number of rows on the PvZ Board.
 	 */
 	public static final int ROWS = 5;
 	
 	/**
-	 * Number of columns on PvZ Board.
+	 * Number of columns on the PvZ Board.
 	 */
 	public static final int COLUMNS = 10;
 	
 	/**
-	 * Apply an update to Board at tile (i, j).
+	 * Apply an update to the PvZ Board at tile (i, j).
 	 * 
 	 * @param i The i coordinate of the Board.
 	 * @param j The j coordinate of the Board.
@@ -26,7 +26,7 @@ public interface Board {
 	public void update(int i, int j);
 	
 	/**
-	 * Iterate over Board and apply update.
+	 * Iterate over the PvZ Board and apply an update.
 	 * 
 	 * @param board Implementation of lambda.
 	 */
@@ -39,7 +39,7 @@ public interface Board {
 	}
 	
 	/**
-	 * Whether a location is within domain and range of Board.
+	 * Whether a location is within the domain and range of the PvZ Board.
 	 * 
 	 * @param i The i coordinate.
 	 * @param j The j coordinate.

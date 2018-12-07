@@ -1,7 +1,7 @@
 import java.awt.Point;
 
 /**
- * Moveable interface.
+ * Interface to Moveable Objects.
  * 
  * @author kylehorne
  * @version 28 Oct 18
@@ -9,7 +9,7 @@ import java.awt.Point;
 public interface Moveable {
 	
 	/**
-	 * Update current position.
+	 * Update the current position of this.
 	 */
 	public void updatePosition();
 	
@@ -21,7 +21,10 @@ public interface Moveable {
 	public Point nextPosition();
 	
 	/**
-	 * Unlock this to allow call on update position.
+	 * Unlock this to allow call on update position
+	 * 
+	 * Locking the Object after moving will prevent the Object 
+	 * from updating position twice on one game iteration.
 	 */
 	public void unlock();
 

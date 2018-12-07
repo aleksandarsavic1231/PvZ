@@ -1,5 +1,5 @@
 /**
- * EntityEvent is a Event that has a Entity attached.
+ * EntityEvent is a Event that has a Entity attached as payload.
  * 
  * @author kylehorne
  * @version 25 Nov 18

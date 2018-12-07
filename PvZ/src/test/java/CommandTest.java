@@ -15,7 +15,7 @@ public class CommandTest extends TestCase {
 	@Before
 	public void setUp() throws Exception {
 		undoManager = new UndoManager();
-		command = new Command(new Model(), undoManager);
+		command = new Command(undoManager);
 	}
 
 	@After

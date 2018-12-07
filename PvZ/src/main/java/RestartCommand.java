@@ -1,6 +1,16 @@
-
+/**
+ * Restart Command will reset the Model to its initial state.
+ * 
+ * @author kylehorne
+ *
+ */
 public class RestartCommand extends Command implements Executable {
 	
+	/**
+	 * Constructor.
+	 * 
+	 * @param undoManager The undoManager to this.
+	 */
 	public RestartCommand(UndoManager undoManager) {
 		super(undoManager);
 	}

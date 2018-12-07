@@ -61,7 +61,7 @@ public class CherryBombTest extends TestCase {
 	public void testResetFireRate() {
 		// Reset fire rate and test can shoot
 		cherryBomb.resetFireRate();
-		for(int i = 0; i < CherryBomb.DEONATION_TIME; i++) assertFalse(cherryBomb.canShoot());
+		for(int i = 0; i < CherryBomb.DETONATION_TIME; i++) assertFalse(cherryBomb.canShoot());
 		assertTrue(cherryBomb.canShoot());  // Can now shoot
 		
 		// Test for broken code (must wait cool down period)

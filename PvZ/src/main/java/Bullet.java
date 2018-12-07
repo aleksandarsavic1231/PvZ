@@ -3,7 +3,7 @@ import java.awt.Point;
 import javax.swing.ImageIcon;
 
 /**
- * Bullet is a Entity that can move and apply damage on collision.
+ * Bullet is a Entity that can move and apply damage on collisions with Zombies.
  * 
  * @author kylehorne
  * @version 28 Oct 18
@@ -11,24 +11,24 @@ import javax.swing.ImageIcon;
 public class Bullet extends Entity implements Moveable {
 	
 	/**
-	 * The damage of this Bullet.
+	 * The damage of this Bullet Object.
 	 * 
-	 * Damage is dependent on who fired the Bullet (therefore not static).
+	 * Damage is dependent on who fired the Bullet Object (therefore not static).
 	 */
 	private int damage;
 	
 	/**
-	 * The velocity Bullet objects.
+	 * The velocity of Bullet Objects.
 	 */
 	public static final int VELOCITY = 1;
 	
 	/**
-	 * Whether this is locked from moving.
+	 * Whether this Bullet Object is locked from moving.
 	 */
 	private boolean locked;
 	
 	/**
-	 * Icon image of Bullet Objects.
+	 * Image icon of Bullet Objects.
 	 */
 	public static final ImageIcon IMAGE = new ImageIcon("src/main/resources/customBullet.png");
 	
@@ -54,7 +54,7 @@ public class Bullet extends Entity implements Moveable {
 	}
 	
 	/**
-	 * Set the state of this locked field.
+	 * Lock this Bullet Object from moving.
 	 * 
 	 * @param locked Whether this is locked.
 	 */

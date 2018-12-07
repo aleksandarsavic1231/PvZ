@@ -6,13 +6,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * CommandFactory can instantiate an Undoable Objects from a XML encoding.
+ * CommandFactory can instantiate a Undoable Command from a XML encoding.
  * 
  * @author kylehorne
  * @version 5 Dec 18
  */
 public class CommandFactory {
 		
+	/**
+	 * Instantiate a Command from XML encoding.
+	 * 
+	 * @param node The XML encoding of the Entity.
+	 * @return undoable The instantiated Undoable Command.
+	 * @throws UnimplementedCommand
+	 * @throws UnimplementedPlant
+	 */
 	public static Undoable create(Node node) throws UnimplementedCommand, UnimplementedPlant {
 		Undoable undoable;
 		String type = node.getNodeName();

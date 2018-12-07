@@ -1,5 +1,5 @@
 /**
- * A functional interface to a Listener Object.
+ * A functional interface to Listener Objects.
  * 
  * @author kylehorne
  * @version 25 Nov 18

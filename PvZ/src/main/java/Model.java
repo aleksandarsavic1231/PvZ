@@ -43,7 +43,7 @@ public class Model implements XMLEncoderDecoder {
 	private boolean isRunning;
 	
 	/**
-	 * The player sun point balance.
+	 * The Sun point balance.
 	 */
 	private int balance;
 	
@@ -58,16 +58,18 @@ public class Model implements XMLEncoderDecoder {
 	public static final int PAYMENT_PERIOD = 4;
 	
 	/**
-	 * The sun points automatically deposited every payment period.
+	 * The Sun points automatically deposited every payment period.
 	 */
 	public static final int WELFARE = 25;
 	
 	/**
-	 * The initial sun point balance.
+	 * The initial Sun point balance.
 	 */
 	public static final int INITIAL_BALANCE = 400;
 	
-	
+	/**
+	 * The current level.
+	 */
 	private Level level;
 	
 	/**
@@ -113,15 +115,12 @@ public class Model implements XMLEncoderDecoder {
 		return false;
 	}
 
-	
 	/**
 	 * Spawn n Regular Zombies.
 	 * 
 	 * @param n The number of Regular Zombies to spawn.
 	 */
-	
 	private void spawnRegularZombies(int n) {
-		// TODO: Make lambda function
 		for (int i = 0; i < n; i ++) {
 			// Spawn further than columns so player has time to increase balance
 			Entity zombie = new RegularZombie(new Point(new Random().nextInt(level.getRandomness()) + level.getLowerBound() , new Random().nextInt(Board.ROWS)));
@@ -130,14 +129,12 @@ public class Model implements XMLEncoderDecoder {
 		}
 	}
 	
-	
 	/**
 	 * Spawn n Pylon Zombies.
 	 * 
 	 * @param n The number of Regular Zombies to spawn.
 	 */
 	private void spawnPylonZombies(int n) {
-		// TODO: Make lambda function
 		for (int i = 0; i < n; i ++) {
 			// Spawn further than columns so player has time to increase balance
 			Entity zombie = new PylonZombie(new Point(new Random().nextInt(level.getRandomness()) + level.getLowerBound(), new Random().nextInt(Board.ROWS)));
@@ -166,10 +163,6 @@ public class Model implements XMLEncoderDecoder {
 			// Zombie collided with plant 
 			if ((e instanceof PeaShooter || e instanceof Sunflower || e instanceof Walnut || e instanceof Repeater) && m instanceof Zombie && willCollide) {
 				((Alive) e).takeDamage(Zombie.DAMAGE);		
-				return true;
-			} if((e instanceof Chomper) && m instanceof Zombie && (willCollide)) {
-				((Zombie) m).takeDamage(Chomper.DAMAGE);
-				((Chomper) e).lock = true;
 				return true;
 			}
 		}
@@ -211,11 +204,6 @@ public class Model implements XMLEncoderDecoder {
 			entities.add(new CherryBomb(location));
 			CherryBomb.setNextDeployable(gameCounter);
 			hasPurchased = true;
-		} else if(toggledPlant == Plant.CHOMPER && isChomperPurchasable()) {
-			balance -= Chomper.COST;
-			entities.add(new Chomper(location));
-			Chomper.setNextDeployable(gameCounter);
-			hasPurchased = true;
 		}
 		// If successful purchase spawn plant and update new balance
 		if (hasPurchased) {
@@ -223,10 +211,6 @@ public class Model implements XMLEncoderDecoder {
 			notifyOfBalance();
 			toggledPlant = null;
 		}
-	}
-	
-	public boolean isChomperPurchasable() {
-		return Chomper.COST <= balance && Chomper.isDeployable(gameCounter);
 	}
 	
 	/**
@@ -282,10 +266,6 @@ public class Model implements XMLEncoderDecoder {
 					((CherryBomb) entity).selfDestruct(); // CherryBomb explodes itself
 				// If Repeater can fire spawn new bullet at Repeater location with Repeater damage
 				} else if (entity instanceof Repeater) tempEntities.add(new Bullet(new Point(entity.getPosition().x, entity.getPosition().y), Repeater.DAMAGE));
-				else if (entity instanceof Chomper) {
-					tempEntities.add(new Chomper(new Point(entity.getPosition().x, entity.getPosition().y)));
-					if (((Chomper)entity).canShoot()==false) Chomper.lock = true;
-				}
 			} 
 		}
 		// Add newly spawned Objects to Entities list
@@ -340,7 +320,6 @@ public class Model implements XMLEncoderDecoder {
 		notifyListeners(Action.TOGGLE_WALLNUT);
 		notifyListeners(Action.TOGGLE_REPEATER);
 		notifyListeners(Action.TOGGLE_CHERRY_BOMB);
-		notifyListeners(Action.TOGGLE_CHOMPER);
 	}
 
 	/**
@@ -594,8 +573,18 @@ public class Model implements XMLEncoderDecoder {
 		entities.clear();
 	}
 
+	/**
+	 * Set the current game counter.
+	 * 
+	 * @param gameCounter The new game counter.
+	 */
 	public void setGameCounter(int gameCounter) { this.gameCounter = gameCounter; }
 	
+	/**
+	 * Set whether the game is running.
+	 * 
+	 * @param isRunning True if the game is running.
+	 */
 	public void setIsRunning(boolean isRunning) { this.isRunning = isRunning; }
 	
 	@Override
@@ -616,10 +605,22 @@ public class Model implements XMLEncoderDecoder {
 		stream.close();	
 	}
 	
+	/**
+	 * Set the current Level.
+	 * 
+	 * @param level The Level to be set.
+	 */
 	public void setLevel(Level level) {
 		this.level = level;
 	}
 	
+	/**
+	 * Get the text content of a tag from a document.
+	 * 
+	 * @param document The document to search.
+	 * @param tag The tag to search in the document.
+	 * @return The text content of the tag in a document.
+	 */
 	public String getTextContent(Document document, String tag) {
 		return document.getElementsByTagName(tag).item(0).getTextContent();
 	} 

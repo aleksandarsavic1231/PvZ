@@ -86,15 +86,6 @@ public class EntityFactory implements Cloneable {
 			int fireRate = Integer.parseInt(element.getElementsByTagName("fireRate").item(0).getTextContent());
 			repeater.setFireRate(fireRate);
 			entity = repeater;
-		}  else if (type.equalsIgnoreCase("Chomper")) {
-			Chomper chomper = new Chomper(location);
-			int health = Integer.parseInt(element.getElementsByTagName("health").item(0).getTextContent());
-			chomper.setHealth(health);
-			int nextDeployable = Integer.parseInt(element.getElementsByTagName("nextDeployable").item(0).getTextContent());
-			Chomper.hardSetNextDeployable(nextDeployable);
-			int fireRate = Integer.parseInt(element.getElementsByTagName("fireRate").item(0).getTextContent());
-			chomper.setFireRate(fireRate);
-			entity = chomper;
 		} else throw new UnimplementedEntity(type + " cannot be created");
 		return entity;
 	}
@@ -104,7 +95,7 @@ public class EntityFactory implements Cloneable {
 	 * 
 	 * @param entity The Entity to be cloned.
 	 * @return Entity The cloned Entity.
-	 * @throws UnimplementedEntity.
+	 * @throws UnimplementedEntity
 	 */
 	public static Entity clone(Entity entity) throws UnimplementedEntity {
 		if (entity != null) {
@@ -118,7 +109,6 @@ public class EntityFactory implements Cloneable {
 			else if (entity instanceof Sun) return new Sun(spawnLocation);
 			else if (entity instanceof CherryBomb) return new CherryBomb(spawnLocation);
 			else if (entity instanceof Repeater) return new Repeater(spawnLocation);
-			else if (entity instanceof Chomper) return new Chomper(spawnLocation);
 			else throw new UnimplementedEntity(entity.getClass() + " not cloneable");
 		} return null;
 	}

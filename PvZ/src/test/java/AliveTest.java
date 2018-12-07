@@ -14,7 +14,7 @@ public class AliveTest extends TestCase {
 
 	@Before
 	public void setUp() throws Exception {
-		alive = new Alive(new Point(0, 0), 100);
+		alive = new PeaShooter(new Point(0, 0));
 	}
 
 	@After
@@ -25,7 +25,7 @@ public class AliveTest extends TestCase {
 	@Test
 	public void testGetHealth() {
 		// Test for expected result
-		assertEquals(alive.getHealth(), 100);
+		assertEquals(alive.getHealth(), PeaShooter.INITIAL_HEALTH);
 		
 		// Test for broken code
 		assertNotEquals(alive.getHealth(), -1);
@@ -35,14 +35,14 @@ public class AliveTest extends TestCase {
 	public void testTakeDamage() {
 		alive.takeDamage(20);
 		// Test for expected result
-		assertEquals(alive.getHealth(), 80);
+		assertEquals(alive.getHealth(), PeaShooter.INITIAL_HEALTH - 20);
 		
 		// Test for broken code
 		assertNotEquals(alive.getHealth(), 20);
 		
 		// Test for negative damage
 		alive.takeDamage(-5);
-		assertEquals(alive.getHealth(), 85);
+		assertEquals(alive.getHealth(), PeaShooter.INITIAL_HEALTH - 15);
 	}
 	
 	@Test

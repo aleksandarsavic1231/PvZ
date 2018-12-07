@@ -10,28 +10,24 @@ public class RestartCommandTest extends TestCase {
 	
 	private RestartCommand restartCommand;
 	
-	private Model model;
-
 	@Before
 	public void setUp() throws Exception {
-		model = new Model();
-		restartCommand = new RestartCommand(model, new UndoManager());
+		restartCommand = new RestartCommand(new UndoManager());
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		restartCommand = null;
-		model = null;
 	}
 	
 	@Test
 	public void testRestartCommand() {
+		Model model = Controller.getInstance().getModel();
 		// Modify state of Model
 		model.addEntity(new RegularZombie(new Point(0, 0)));
-		model.updateIsRunning();
 		model.setBalance(Model.INITIAL_BALANCE * 10);
 		model.incrementGameCounter();
-		model.setTogglePlant(Plant.PEA_SHOOTER);
+		model.setToggledPlant(Plant.PEA_SHOOTER);
 		PeaShooter.setNextDeployable(10);
 		// Execute restart
 		// Model should reset to default state
@@ -41,7 +37,7 @@ public class RestartCommandTest extends TestCase {
 		assertEquals(model.getGameCounter(), 0);
 		assertEquals(model.getBalance(), Model.INITIAL_BALANCE);
 		assertTrue(model.getIsRunning());
-		assertNull(model.getTogglePlant());
+		assertNull(model.getToggledPlant());
 		
 		// Check for successfully spawned Zombies
 		int nRegularZombies = 0;
@@ -50,7 +46,7 @@ public class RestartCommandTest extends TestCase {
 			if (entity instanceof RegularZombie) nRegularZombies++;
 			else if (entity instanceof PylonZombie) nPylonZombies++;
 		}
-		assertEquals(Model.N_REGULAR_ZOMBIES, nRegularZombies);
-		assertEquals(Model.N_PYLON_ZOMBIES, nPylonZombies);
+		assertEquals(Level.ONE.getNRegularZombies(), nRegularZombies);
+		assertEquals(Level.ONE.getNPylonZombies(), nPylonZombies);
 	}
 }

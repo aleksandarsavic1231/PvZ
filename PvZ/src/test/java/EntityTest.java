@@ -14,7 +14,7 @@ public class EntityTest extends TestCase {
 
 	@Before
 	public void setUp() throws Exception {
-		entity = new Entity(new Point(0, 0));
+		entity = new PeaShooter(new Point(0, 0));
 	}
 
 	@After
@@ -46,10 +46,10 @@ public class EntityTest extends TestCase {
 	public void testClone() throws UnimplementedEntity {
 		// Test for expected result
 		entity = new PeaShooter(new Point(0, 0));
-		assertNotEquals(Entity.clone(entity), entity);
+		assertNotEquals(EntityFactory.clone(entity), entity);
 		
 		// Test for null
-		assertEquals(Entity.clone(null), null);
+		assertEquals(EntityFactory.clone(null), null);
 	}
 
 }

@@ -1,8 +1,8 @@
 /**
- * Collection of actions triggered by interacting with the User Interface
+ * Collection of actions triggered by interacting with the User Interface.
  * 
  * @author kylehorne
- *@version Nov 25, 2018
+ * @version Nov 25, 2018
  */
 public enum Action {
 
@@ -34,6 +34,4 @@ public enum Action {
 	
 	GAME_WON,
 	
-	TOGGLE_CHOMPER
-
 }

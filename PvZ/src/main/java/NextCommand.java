@@ -81,8 +81,18 @@ public class NextCommand implements Undoable {
 		return XMLEncoding += "</lastEntities></NextCommand>";
 	}
 	
+	/**
+	 * Set the last balance of this.
+	 * 
+	 * @param lastBalance The last balance of this.
+	 */
 	public void setLastBalance(int lastBalance) { this.lastBalance = lastBalance; } 
 	
+	/**
+	 * Set the last Entities of this.
+	 * 
+	 * @param lastEntities The last Entities of this.
+	 */
 	public void setLastEntities(LinkedList<Entity> lastEntities) { this.lastEntities = lastEntities; }
 
 }

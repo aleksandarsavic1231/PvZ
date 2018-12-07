@@ -1,5 +1,5 @@
 /**
- * Event is a Object that has a Action.
+ * Event is a Object that is triggered by an Action.
  * 
  * @author kylehorne
  * @version 25 Nov 18

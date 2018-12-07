@@ -9,23 +9,20 @@ import junit.framework.TestCase;
 public class NextCommandTest extends TestCase {
 	
 	private NextCommand nextCommand;
-	
-	private Model model;
 
 	@Before
 	public void setUp() throws Exception {
-		model = new Model();
-		nextCommand = new NextCommand(model);
+		nextCommand = new NextCommand();
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		nextCommand = null;
-		model = null;
 	}
 	
 	@Test
 	public void testNextCommand() {
+		Model model = Controller.getInstance().getModel();
 		Zombie zombie = new RegularZombie(new Point(5, 0));
 		PeaShooter peaShooter = new PeaShooter(new Point(0, 0));
 		model.addEntity(zombie);

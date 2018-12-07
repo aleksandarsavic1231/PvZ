@@ -1,5 +1,5 @@
 /**
- * Command is a Object that has a Model and UndoManager.
+ * Command is a Object that has a UndoManager.
  * 
  * @author kylehorne
  * @version 25 Nov 18
@@ -14,7 +14,6 @@ public class Command {
 	/**
 	 * Constructor.
 	 * 
-	 * @param model The Model of this Command Object.
 	 * @param undoManager The UndoManager of this Command Object.
 	 */
 	public Command(UndoManager undoManager) {

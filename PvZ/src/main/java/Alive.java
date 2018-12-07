@@ -25,7 +25,7 @@ public abstract class Alive extends Entity {
 	}
 	
 	/**
-	 * Get health of this Alive Object.
+	 * Get the health of this Alive Object.
 	 * 
 	 * @return int Health of this Alive Object.
 	 */
@@ -34,7 +34,7 @@ public abstract class Alive extends Entity {
 	}
 	
 	/**
-	 * Set health of this Alive Object.
+	 * Update the health of this Alive Object based on damaged received.
 	 * 
 	 * @param damage The damage received.
 	 */
@@ -50,9 +50,9 @@ public abstract class Alive extends Entity {
 	}
 	
 	/**
-	 * Set the health of this.
+	 * Set the health of this Alive Object.
 	 * 
-	 * @param health The new health.
+	 * @param health The new health of this Alive Object.
 	 */
 	public void setHealth(int health) {
 		this.health = health;

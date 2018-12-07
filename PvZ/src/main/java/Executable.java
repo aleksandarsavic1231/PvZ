@@ -1,5 +1,5 @@
 /**
- * A functional interface to Executable Object.
+ * A functional interface to Executable Commands.
  * 
  * @author kylehorne
  * @version 25 Nov 18

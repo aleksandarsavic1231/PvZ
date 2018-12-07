@@ -72,9 +72,9 @@ public class ModelTest extends TestCase {
 	public void testSpawnPlant() {
 		// Test successful spawn
 		Walnut.resetNextDeployable();
-		model.setTogglePlant(Plant.WALNUT);
+		model.setToggledPlant(Plant.WALNUT);
 		model.spawnPlant(new Point(0, 0));
-		assertNull(model.getTogglePlant());
+		assertNull(model.getToggledPlant());
 		assertEquals(model.getEntities().size(), 1);
 		
 		// Test balance on successful spawn
@@ -126,7 +126,7 @@ public class ModelTest extends TestCase {
 		
 		// Test fire of Cherry Bomb 
 		CherryBomb cherryBomb = new CherryBomb(new Point(0, 0));
-		for(int i = 0; i < CherryBomb.DEONATION_TIME - 1; i++) assertFalse(cherryBomb.canShoot());
+		for(int i = 0; i < CherryBomb.DETONATION_TIME - 1; i++) assertFalse(cherryBomb.canShoot());
 		assertTrue(cherryBomb.canShoot());
 		model.addEntity(cherryBomb);
 		model.updateShooters();
@@ -296,13 +296,14 @@ public class ModelTest extends TestCase {
 		// Test when game is over
 		Entity entity = new RegularZombie(new Point(0, 0));
 		model.addEntity(entity);
-		model.updateIsRunning();
+		model.checkGameOver();
+		model.checkRoundOver();
 		assertFalse(model.getIsRunning());
 		
 		// Test when round is over
 		model.clearEntities();
-		model.updateIsRunning();
-		assertFalse(model.getIsRunning());
+		model.checkRoundOver();
+		assertTrue(model.getIsRunning());
 	}
 	
 	@Test 
@@ -318,7 +319,7 @@ public class ModelTest extends TestCase {
 		assertTrue(model.getEntities().isEmpty());
 		
 		// Test when Entity list contains items
-		Entity entity = new Entity(new Point(0, 0));
+		Entity entity = new PeaShooter(new Point(0, 0));
 		model.addEntity(entity);
 		entities.add(entity);
 		assertEquals(model.getEntities(), entities);
@@ -336,19 +337,19 @@ public class ModelTest extends TestCase {
 		assertEquals(model.getEntities(), entities);
 		
 		// Test set Entity list that contains items
-		entities.add(new Entity(new Point(0, 0)));
+		entities.add(new PeaShooter(new Point(0, 0)));
 		model.setEntities(entities);
 		assertEquals(model.getEntities(), entities);
 		
 		// Test broken code
-		assertNotEquals(model.getEntities(), new Entity(new Point(0, 0)));
+		assertNotEquals(model.getEntities(), new PeaShooter(new Point(0, 0)));
 	}
 	
 	
 	@Test 
 	public void testAddEntity() {
 		// Test successful add
-		Entity entity = new Entity(new Point(0, 0));
+		Entity entity = new PeaShooter(new Point(0, 0));
 		model.addEntity(entity);
 		LinkedList<Entity> entities = new LinkedList<Entity>();
 		entities.add(entity);
@@ -358,7 +359,7 @@ public class ModelTest extends TestCase {
 	@Test 
 	public void testRemoveEntity() {
 		// Test successful remove
-		Entity entity = new Entity(new Point(0, 0));
+		Entity entity = new PeaShooter(new Point(0, 0));
 		model.addEntity(entity);
 		model.removeEntity(entity);
 		LinkedList<Entity> entities = new LinkedList<Entity>();
@@ -367,7 +368,7 @@ public class ModelTest extends TestCase {
 	
 	@Test 
 	public void testRemoveEntities() {
-		Entity entity = new Entity(new Point(0, 0));
+		Entity entity = new PeaShooter(new Point(0, 0));
 		model.addEntity(entity);
 		LinkedList<Entity> entities = new LinkedList<Entity>();
 		entities.add(entity);
@@ -381,11 +382,11 @@ public class ModelTest extends TestCase {
 	
 	@Test
 	public void testToggledPlant() {
-		model.setTogglePlant(Plant.PEA_SHOOTER);
-		assertEquals(model.getTogglePlant(), Plant.PEA_SHOOTER);
+		model.setToggledPlant(Plant.PEA_SHOOTER);
+		assertEquals(model.getToggledPlant(), Plant.PEA_SHOOTER);
 		
 		// Test broken code
-		assertNotEquals(model.getTogglePlant(), Plant.CHERRY_BOMB);
+		assertNotEquals(model.getToggledPlant(), Plant.CHERRY_BOMB);
 	}
 	
 	@Test
@@ -423,7 +424,7 @@ public class ModelTest extends TestCase {
 	
 	@Test 
 	public void testClearEntities() {
-		Entity entity = new Entity(new Point(0, 0));
+		Entity entity = new PeaShooter(new Point(0, 0));
 		model.addEntity(entity);
 		model.clearEntities();
 		assertTrue(model.getEntities().isEmpty());

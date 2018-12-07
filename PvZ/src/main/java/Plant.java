@@ -16,6 +16,4 @@ public enum Plant {
 	
 	CHERRY_BOMB,
 	
-	CHOMPER
-	
 }

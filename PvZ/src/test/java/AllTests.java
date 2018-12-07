@@ -12,7 +12,6 @@ import junit.framework.TestSuite;
 	BulletTest.class, 
 	CherryBombTest.class,
 	CommandTest.class,
-	ControllerTest.class,
 	EntityEventTest.class,
 	EntityTest.class,
 	EventTest.class,
@@ -40,7 +39,6 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(BulletTest.class)); 
 		suite.addTest(new TestSuite(CommandTest.class));
 		suite.addTest(new TestSuite(CherryBombTest.class)); 
-		suite.addTest(new TestSuite(ControllerTest.class)); 
 		suite.addTest(new TestSuite(EntityEventTest.class));
 		suite.addTest(new TestSuite(EntityTest.class));
 		suite.addTest(new TestSuite(EventTest.class));
