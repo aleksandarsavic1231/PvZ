@@ -176,11 +176,6 @@ public class Model implements XMLEncoderDecoder {
 		return false;
 	}
 	
-	public boolean ChomperStatus() {
-		
-		return true;
-	}
-	
 	/**
 	 * Spawn a Plant Object at location.
 	 * 
