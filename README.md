@@ -12,61 +12,63 @@
   + Alive.java - UNCHANGED - Class - Kyle Horne
   + Board.java - UNCHANGED - Interface - Kyle Horne
   + Bullet.java - UNCHANGED - Class - Kyle Horne
-  + CherryBomb.java - NEW - Class - Alexander Savic
-  + Command.java - NEW - Class - Kyle Horne
-  + Controller.java - NEW - Class - Kyle Horne, Tashfiq Akhand, Alexander Savic
+  + CherryBomb.java - UNCHAGED - Class - Alexander Savic
+  + Chomper.java - NEW - Class - Tashfiq Akhand
+  + Command.java - UNCHANGED - Class - Kyle Horne
+  + Controller.java - UNCHANGED - Class - Kyle Horne, Tashfiq Akhand, Alexander Savic
   + Entity.java - UNCHANGED - Class - Kyle Horne
   + EntityEvent - NEW - Class - Kyle Horne
   + Event.java - NEW - Class - Kyle Horne
-  + Executablee.java - NEW - Interface - Kyle Horne
+  + Executable.java - NEW - Interface - Kyle Horne
   + GameBoard.java - REMOVED - Class - Kyle Horne
   + Listener.java - NEW - Interface - Kyle Horne
   + Moveable.java - UNCHANGED -Interface - Kyle Horne
   + Model.java - UPDATED - Class - Kyle Horne, Kaj Hemmingsen-Beriault, Tashfiq Akhand, Alexander Savic
-  + NextAction - NEW - Class - Kyle Horne
+  + NextAction - UNCHANGED - Class - Kyle Horne
   + NextCommand.java - NEW - Class - Kyle Horne
   + PeaShooter.java - UNCHANGED - Class - Kyle Horne
-  + Plant.java - NEW - Enum - Kyle Horne
-  + PylonZombie.java - NEW - Class - Kaj Hemmingsen-Beriault
+  + Plant.java - UPDATED - Enum - Kyle Horne
+  + PylonZombie.java - UNCHANGED - Class - Kaj Hemmingsen-Beriault
   + RegularZombie.java - NEW - Class - Kyle Horne
-  + Repeater.java - NEW - Class - Kaj Hemmingsen-Beriault
+  + Repeater.java - UNCAHNGED - Class - Kaj Hemmingsen-Beriault
   + RestartAction.java - NEW - Class - Kyle Horne
   + RestartCommand.java - NEW - Class - Kyle Horne
   + Shooter.java - UNCHANGED - Class - Kyle Horne
   + Sun.java - UNCHANGED - Class - Kyle Horne
   + Sunflower.java - UNCHANGED - Class - Kyle Horne
-  + TileAction.java - NEW - Class - Kyle Horne
-  + TileCommand.java - NEW - Class - Kyle Horne
+  + TileAction.java - UNCHANGED - Class - Kyle Horne
+  + TileCommand.java - UNCHANGED- Class - Kyle Horne
   + TogglePlantAction.java - NEW - Class - Kyle Horne
   + TogglePlantCommand.java - NEW - Class - Kyle Horne
   + Tile.java - REMOVED - Interface - Kyle Horne
   + Undoable.java - NEW - Interface - Kyle Horne
   + UndoManager.java - NEW - Class - Kyle Horne
   + UnimplementedEntity.java - NEW - Class - Klye Horne
-  + View.java - NEW - Class - Alexander Savic, Kaj Hemmingsen-Beriault, Tashfiq Akhand, Kyle Horne
-  + Walnut.java - NEW - Class - Kaj Hemmingsen-Beriault
+  + View.java - UPDATED - Class - Alexander Savic, Kaj Hemmingsen-Beriault, Tashfiq Akhand, Kyle Horne
+  + Walnut.java - UNCHANGED - Class - Kaj Hemmingsen-Beriault
   + Zombie.java - UPDATED - Class - Kyle Horne, Kaj Hemmingsen-Beriault
 
 **TESTS**
   + AllTests.java - UPDATED - JUnit - Kyle Horne, Tashfiq Akhand
   + AliveTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
   + BulletTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
-  + CherryBombTest.java - NEW - JUnit - Kyle Horne
-  + CommandTest.java - NEW - JUnit - Kyle Horne
-  + ControllerTest.java - NEW -JUnit - Kyle Horne
-  + EntityEventTest.java - NEW - Junit - Kyle Horne
+  + CherryBombTest.java - UNCHANGED - JUnit - Kyle Horne
+  + ChomperTest.java - NEW - JUnit - Tashfiq Akhand
+  + CommandTest.java - UNCHANGED - JUnit - Kyle Horne
+  + ControllerTest.java - UNCHANGED -JUnit - Kyle Horne
+  + EntityEventTest.java - UNCHANGED - Junit - Kyle Horne
   + EntityTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
   + EventTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
-  + ModelTest.java - NEW - JUnit - Kyle Horne
+  + ModelTest.java - UPDATED - JUnit - Kyle Horne
   + NextCommandTest - NEW - Junit - Kyle Horne
   + PeaShooterTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
-  + RepeaterTest.java - NEW - JUnit - Kyle Horne
+  + RepeaterTest.java - UNCHANGED - JUnit - Kyle Horne
   + RestartCommandTest.java - NEW - Junit - Kyle Horne
   + SunflowerTest.java - UNCHANGED - JUnit - Kyle Horne, Tasfiq Akhand
   + TileCommandTest.java - NEW -JUnit - Kyle Horne
   + TogglePlantCommandTest.java - NEW - JUnit - Kyle Horne
-  + UndoManagerTest.java - NEW - JUnit -
-  + WalnutTest.java - NEW - JUnit - Kyle Horne
+  + UndoManagerTest.java - UNCHANGED - JUnit - Kyle Horne
+  + WalnutTest.java - UNCHANGED - JUnit - Kyle Horne
   + ZombieTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
   
 **ASSETS**
