@@ -430,5 +430,4 @@ public class ModelTest extends TestCase {
 		assertTrue(model.getEntities().isEmpty());
 		
 	}
-	
 }

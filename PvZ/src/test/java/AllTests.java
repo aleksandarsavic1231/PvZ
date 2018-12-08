@@ -40,6 +40,7 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(BulletTest.class)); 
 		suite.addTest(new TestSuite(CommandTest.class));
 		suite.addTest(new TestSuite(CherryBombTest.class)); 
+		suite.addTest(new TestSuite(ChomperTest.class));
 		suite.addTest(new TestSuite(EntityEventTest.class));
 		suite.addTest(new TestSuite(EntityTest.class));
 		suite.addTest(new TestSuite(EventTest.class));
