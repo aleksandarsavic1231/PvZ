@@ -1,6 +1,6 @@
 # PvZ
-# SYSC 3110 - Milestone 3
-# Deliverable Date: 25 Nov 2018
+# SYSC 3110 - Milestone 4
+# Deliverable Date: 07 Dec 2018
 
 **Project Members:** Kyle Horne, Alexander Savic, Tashfiq Akhand, Kaj Hemmingsen-Beriault
 
@@ -70,7 +70,7 @@
   + ZombieTest.java - UNCHANGED - JUnit - Kyle Horne, Tashfiq Akhand
   
 **ASSETS**
-+ Entity Images - UPDATED - Kaj Hemmingsen-Beriault
++ Entity Images - UNCHANGED - Kaj Hemmingsen-Beriault
 
 **KNOWN BUGS** 
 + See issues
