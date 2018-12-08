@@ -27,6 +27,7 @@ public class RestartCommand extends Command implements Executable {
 		Repeater.resetNextDeployable();
 		CherryBomb.resetNextDeployable();
 		Repeater.resetNextDeployable();
+		Chomper.resetNextDeployable();
 		model.restartGame();
 		model.notifyOfBalance();
 	}

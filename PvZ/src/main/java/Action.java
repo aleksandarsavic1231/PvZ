@@ -34,4 +34,6 @@ public enum Action {
 	
 	GAME_WON,
 	
+	TOGGLE_CHOMPER
+	
 }

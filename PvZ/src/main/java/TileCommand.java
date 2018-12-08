@@ -128,7 +128,11 @@ public class TileCommand implements Undoable {
 		case REPEATER:
 			lastDeployable = Repeater.getNextDeployable();
 			break;
+		case CHOMPER:
+			lastDeployable = Chomper.getNextDeployable();
+			break;
 		}
+		
 		for(Entity entity: model.getEntities())
 			try {
 				lastEntities.add(EntityFactory.clone(entity));
@@ -151,6 +155,7 @@ public class TileCommand implements Undoable {
 		else if (lastToggledPlant == Plant.SUNFLOWER) Sunflower.hardSetNextDeployable(lastDeployable);
 		else if (lastToggledPlant == Plant.WALNUT) Walnut.hardSetNextDeployable(lastDeployable);
 		else if (lastToggledPlant == Plant.REPEATER) Repeater.hardSetNextDeployable(lastDeployable);
+		else if (lastToggledPlant == Plant.CHOMPER) Chomper.hardSetNextDeployable(lastDeployable);
 		// Update purchasable plants because next deployable has changed
 		model.updatePurchasablePlants();
 	}

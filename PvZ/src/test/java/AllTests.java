@@ -19,6 +19,7 @@ import junit.framework.TestSuite;
 	NextCommandTest.class,
 	PeaShooterTest.class, 
 	RepeaterTest.class, 
+	ChomperTest.class,
 	RestartCommandTest.class, 
 	SunflowerTest.class, 
 	TileCommandTest.class, 
@@ -46,6 +47,7 @@ public class AllTests extends TestCase {
 		suite.addTest(new TestSuite(NextCommandTest.class));
 		suite.addTest(new TestSuite(PeaShooterTest.class)); 
 		suite.addTest(new TestSuite(RepeaterTest.class)); 
+		suite.addTest(new TestSuite(ChomperTest.class));
 		suite.addTest(new TestSuite(RestartCommandTest.class)); 
 		suite.addTest(new TestSuite(SunflowerTest.class)); 
 		suite.addTest(new TestSuite(UndoManagerTest.class)); 	

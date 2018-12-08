@@ -23,6 +23,7 @@ public class PlantFactory {
 		else if (type.equalsIgnoreCase("WALNUT")) plant = Plant.WALNUT;
 		else if (type.equalsIgnoreCase("REPEATER")) plant = Plant.REPEATER;
 		else if (type.equalsIgnoreCase("CHERRY_BOMB")) plant = Plant.CHERRY_BOMB;
+		else if (type.equalsIgnoreCase("CHOMPER")) plant = Plant.CHOMPER;
 		else if (type.equalsIgnoreCase("NULL")) plant = null;
 		else throw new UnimplementedPlant(type + " cannot be created");
 		return plant;
